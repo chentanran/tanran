@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+	.delete { display: none;}
+	li{
+		/*position: absolute;*/
+		height: 200px;
+		width: 200px;
+		background-color: red;
+	}
+	</style>
+
+</head>
+<body>
+
+<ul id="items">
+  <li>List item 1 <span class="delete">DELETE</span></li>
+  <li>List item 2 <span class="delete">DELETE</span></li>
+</ul>
+
+<script src="zepto-master/src/zepto.min.js"></script>
+<script src="zepto-master/src/touch.js"></script>
+<script>
+// show delete buttons on swipe
+$('#items li').on("swipeRight",function(e){
+	// console.log(this.swipeLeft)
+		 $('.delete').hide()
+  $('.delete', this).show()
+	
+ e.preventDefault();
+})
+
+// delete row on tapping delete button
+$('.delete').tap(function(){
+
+  $(this).parent('li').remove()
+})
+</script>
+</body>
+</html>

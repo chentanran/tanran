@@ -1,0 +1,242 @@
+.jd{
+    max-width: 630px;
+    min-width: 200px;
+    margin: auto;
+    /*background-color: red;*/
+    height: 1000px;
+}
+/*//顶部开始*/
+.top{
+    height: 30px;
+    width: 100%;
+    display:flex;
+    position: fixed;
+    background-color:rgba(255,0,0,0);
+    max-width: 630px;
+    z-index: 10;
+}
+.top_logo{
+    width: 58px;
+    height: 22px;
+    margin: 4px 5px;
+    /*background-color: skyblue;*/
+    background: url(../images/jd-sprites.png);
+    background-size: 200px 200px;
+    background-position: 0 -108px;
+}
+.top_search{
+    height: 100%;
+    /*background-color: pink;*/
+    flex: 1;
+    position: relative;
+}
+.top_search form{
+    width: 100%;
+    margin: 4px 0;
+    /*background-color: red;*/
+    padding: 0 10px;
+}
+.top_search input{
+    height: 23px;
+    width: 100%;
+    border-radius: 25px;
+    padding-left: 25px;
+    color: #ccc;
+    font-size: 12px;
+}
+.top_search::before{
+    content:"";
+    display: block;
+    height:22px;
+    width: 25px;
+    background: url(../images/jd-sprites.png);
+    background-size: 200px 200px;
+    background-position: -57px -108px;
+    position: absolute;
+    left: 10px;
+    top: 4px;
+}
+.top_login{
+    height: 100%;
+    width: 50px;
+    /*background-color: skyblue;*/
+}
+.top_login a{
+    display:block;
+    margin: 5px 11px;
+    color: white;
+}
+/*轮播图开始*/
+.banner{
+    width:100%;
+    position: relative;
+    overflow: hidden;
+}
+.banner ul{
+    width: 1000%;
+    position: relative;
+    left: 0;
+    top: 0;
+}
+.banner ul li{
+    width: 12.5%;
+    float: left;
+}
+.banner ul li a{
+    display: block;
+    width: 100%;
+}
+.banner ul li a img{
+    display: block;
+    width:100%;
+}
+.banner ol{
+    width: 200px;
+    height: 30px;
+    position: absolute;
+    bottom: 0px;
+    border-radius: 30px;
+    left: 50%;
+   transform:translateX(-50%);
+    /*background-color: red;*/
+    z-index: 100;
+}
+.banner ol li{
+    height: 10px;
+    width: 10px;
+    border: 1px solid white;
+    float: left;
+    border-radius: 50%;
+    margin-top: 10px;
+    margin-left:13px;
+}
+/*导航栏*/
+.nav{
+    padding: 10px 0;
+}
+.nav ul{
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+.nav li{
+    text-align: center;
+    display: inline-block;
+    width: 25%;
+}
+.nav a{
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+.nav img{
+    width: 50%;
+}
+.nav p{
+    margin: 5px 0;
+}
+/*购物开始*/
+.product_sup{}
+.product_sup .product_head,
+.product_sup .product_head1{
+    position: relative;
+    height: 30px;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    font-size: 13px;
+    line-height: 30px;
+    padding-left: 30px;
+}
+.product_head::before{
+    content:"";
+    display: block;
+    height: 12px;
+    width: 3px;
+    background-color: red;
+    position: absolute;
+    left: 22px;
+    top: 9px;
+}
+.product_body{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    /*flex-direction: column;*/
+    margin-bottom: 10px;
+    /*border-bottom: 1px solid #ccc;*/
+    box-shadow: 1px 1px 1px #ccc;
+}
+.product_body img{
+    width: 100%;
+    display: block;
+}
+.product_body_div1{
+    flex: 1;
+}
+.product_body_div2{
+    flex: 1;
+    border-left: 1px solid #ccc;
+
+}
+.product_body_div2 a{
+    width: 100%;
+}
+.product_body_div2 a:nth-child(1) img {
+    border-bottom: 1px solid #ccc;
+    /*box-sizing: border-box;*/
+}
+.product_body_div3{
+    border-left: none;
+    border-right: 1px solid #ccc;
+}
+.product_body_div3 a:nth-child(1) img{
+    border-bottom: none;
+}
+/*时间*/
+.product_sup .product_head1{
+    padding-right:10px;
+    display: flex;
+    justify-content: space-between;
+    color: red;
+}
+.product_head_left .time span{
+    padding: 2px;
+    background-color: #000;
+    color:white;
+}
+.product_head_left .time span:nth-of-type(3),
+.product_head_left .time span:nth-of-type(6){
+    background-color: #fff;
+    color:black;
+}
+.product_head_left::before{
+    content:"";
+    display: inline-block;
+    height: 20px;
+    width: 25px;
+    background: url(../images/seckill-icon.png) no-repeat;
+    background-size: 50%;
+    background-position: 9px 4px;
+    position: absolute;
+    left: 4px;
+    top: 2px;
+}
+
+.product_body1{
+
+}
+.product_body1 .product_body_box{
+    width: 33.3%;
+    /*text-align: center;*/
+    padding: 10px 0;
+}
+.product_body1 .product_body_box a{
+    display: block;
+    text-align: center;
+    width: 100%;
+}
+.product_body1 .product_body_box a img{
+    width: 60%;
+    /*display: block;*/
+    margin: auto;
+}
