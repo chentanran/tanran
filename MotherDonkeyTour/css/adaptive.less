@@ -1,0 +1,19 @@
+// 基础编码
+@charset "utf-8";
+//基础长度
+@baseWidth: 640px;
+// 基础字体大小
+@fontSize: 20px;
+// 适配屏幕列表
+@baseWidthList: 320px,360px,375px,411px,414px,768px;
+
+.adaptive(@index) when (@index <= length(@baseWidthList)){
+    @media (min-width: extract(@baseWidthList,@index)){
+        html{
+            font-size: extract(@baseWidthList,@index)/@baseWidth*@fontSize;
+        }
+    }
+    .adaptive(@index+1);
+}
+
+.adaptive(1);
