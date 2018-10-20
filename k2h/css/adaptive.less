@@ -1,0 +1,21 @@
+@charset "utf-8";
+// 设置屏幕当前宽度
+@screenWidth:640;
+// 设置字体大小
+@fontSize:20;
+// 设置所有适配的屏幕
+@screenWidthList:320px,360px,375px,411px,414px,640px,768px;
+// 
+.adaptive(@index) when (@index <= length(@screenWidthList)){
+    @media (min-width: extract(@screenWidthList,@index)){
+        html{
+            font-size: extract(@screenWidthList,@index)/@screenWidth*@fontSize;
+        }
+    }
+    .adaptive(@index+1);
+}
+
+.adaptive(1);
+
+
+

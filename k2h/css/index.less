@@ -1,0 +1,84 @@
+@import "adaptive.less";
+
+// 基础样式
+@import "base.less";
+
+// 容器设置
+.k2h_layout{
+    width: 100%;
+    min-width: 320px;
+    max-width: 768px;
+    margin:0 auto;
+
+    // 头部开始
+    .head{
+        width: 100%;
+        height: 128/20rem;
+        background: url(../images/topnav.png) no-repeat center center;
+        background-size: 640/20rem 128/20rem;
+        margin:0 auto;
+    }
+    // 优惠区
+    .discounts{
+        padding: 25/20rem;
+        .discounts_t{
+            height: 310/20rem;
+            width: 100%;
+            .discounts_t_head{
+                height: 60/20rem;
+                display:flex;
+            justify-content:space-between;
+                div{
+                    color: #ccc;
+                }
+            }
+            .discounts_t_body{
+                height: 220/20rem;
+                border: 1px dashed #ccc;
+                .discounts_t_body_top{
+                    width: 123/20rem;
+
+                    margin:30/20rem auto;
+                    a{
+                        height: 100/20rem;
+                        width: 100/20rem;
+                        border-radius: 50%;
+                        border: 1px solid #ccc;
+                        position: relative;
+                        &::before,&::after{
+                            content:"";
+                            display: block;
+                            background-color: #ccc;
+                            position: absolute;
+                        }
+                        &::before{
+                            height: 80/20rem;
+                            width: 2/20rem;
+                            top: 10/20rem;
+                            left: 50%;
+                            transform:translate(-50%);
+                        }
+                        &::after{
+                            height: 2/20rem;
+                            width: 80/20rem;
+                            top: 50%;
+                            left: 10/20rem;
+                            transform:translateY(-50%);
+                        }
+                    }
+                    p{
+                        padding: 10/20rem;
+                        color: #ccc;
+                    }
+                }
+            }
+        }
+    }
+
+    // 底部
+    .hide{
+        padding: 68/20rem 15/20rem 0;
+        color: #ccc;
+    }
+}
+

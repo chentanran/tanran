@@ -1,0 +1,133 @@
+@charset "utf-8";
+@media (min-width: 320px) {
+  html {
+    font-size: 10px;
+  }
+}
+@media (min-width: 360px) {
+  html {
+    font-size: 11.25px;
+  }
+}
+@media (min-width: 375px) {
+  html {
+    font-size: 11.71875px;
+  }
+}
+@media (min-width: 411px) {
+  html {
+    font-size: 12.84375px;
+  }
+}
+@media (min-width: 640px) {
+  html {
+    font-size: 20px;
+  }
+}
+@media (min-width: 768px) {
+  html {
+    font-size: 24px;
+  }
+}
+html,
+body,
+div,
+p,
+a,
+h1,
+h3,
+img,
+ul,
+ol,
+li,
+header,
+footer {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+a {
+  color: #ccc;
+  display: block;
+}
+a:hover {
+  text-decoration: none;
+}
+li {
+  list-style: none;
+}
+img {
+  display: block;
+}
+.k2h_layout {
+  width: 100%;
+  min-width: 320px;
+  max-width: 768px;
+  margin: 0 auto;
+}
+.k2h_layout .head {
+  width: 100%;
+  height: 6.4rem;
+  background: url(../images/topnav.png) no-repeat center center;
+  background-size: 32rem 6.4rem;
+  margin: 0 auto;
+}
+.k2h_layout .discounts {
+  padding: 1.25rem;
+}
+.k2h_layout .discounts .discounts_t {
+  height: 15.5rem;
+  width: 100%;
+}
+.k2h_layout .discounts .discounts_t .discounts_t_head {
+  height: 3rem;
+  display: flex;
+  justify-content: space-between;
+}
+.k2h_layout .discounts .discounts_t .discounts_t_head div {
+  color: #ccc;
+}
+.k2h_layout .discounts .discounts_t .discounts_t_body {
+  height: 11rem;
+  border: 1px dashed #ccc;
+}
+.k2h_layout .discounts .discounts_t .discounts_t_body .discounts_t_body_top {
+  width: 6.15rem;
+  margin: 1.5rem auto;
+}
+.k2h_layout .discounts .discounts_t .discounts_t_body .discounts_t_body_top a {
+  height: 5rem;
+  width: 5rem;
+  border-radius: 50%;
+  border: 1px solid #ccc;
+  position: relative;
+}
+.k2h_layout .discounts .discounts_t .discounts_t_body .discounts_t_body_top a::before,
+.k2h_layout .discounts .discounts_t .discounts_t_body .discounts_t_body_top a::after {
+  content: "";
+  display: block;
+  background-color: #ccc;
+  position: absolute;
+}
+.k2h_layout .discounts .discounts_t .discounts_t_body .discounts_t_body_top a::before {
+  height: 4rem;
+  width: 0.1rem;
+  top: 0.5rem;
+  left: 50%;
+  transform: translate(-50%);
+}
+.k2h_layout .discounts .discounts_t .discounts_t_body .discounts_t_body_top a::after {
+  height: 0.1rem;
+  width: 4rem;
+  top: 50%;
+  left: 0.5rem;
+  transform: translateY(-50%);
+}
+.k2h_layout .discounts .discounts_t .discounts_t_body .discounts_t_body_top p {
+  padding: 0.5rem;
+  color: #ccc;
+}
+.k2h_layout .hide {
+  padding: 3.4rem 0.75rem 0;
+  color: #ccc;
+}
