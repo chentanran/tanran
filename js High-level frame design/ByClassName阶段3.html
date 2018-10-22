@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		div{
+			height: 100px;
+			width: 100px;
+			margin: 10px;
+		}
+		.ab{
+			border: 1px solid red;
+		}
+		.abc {
+			border: 1px solid skyblue;
+		}
+		.abcdef{
+			border: 1px solid #ccc;
+		}
+	</style>
+</head>
+<body>
+	<div class="ab"></div>
+	<div class=" abc abcd"></div>
+	<div class="abcdef"></div>
+	<div class="ab"></div>
+
+	<script>
+		var getClass = function(className,result){
+			result = result || [];
+
+			if(document.getElementsByClassName){
+				 result.push.apply(result,document.getElementsByClassName(className));
+				 return result;
+			}else{
+				var tempArr;
+				tempArr = document.getElementsByTagName("*");
+
+				for (var i = 0; i < tempArr.length; i++) {
+					if((" " + tempArr[i].className + " ").indexOf(" " + className + " ") != -1){
+						result.push(className);
+					} 
+				}
+				return result;
+			}	
+			
+		}
+
+		var ab = getClass("ab");
+		console.log(ab)
+		for(var i = 0; i < ab.length; i++){
+			ab[i].style.backgroundColor = "red";
+		}
+		
+
+	</script>
+</body>
+</html>

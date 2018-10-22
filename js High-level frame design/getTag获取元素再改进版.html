@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		div,p{
+			height: 30px;
+			width: 100px;
+			border: 1px solid red;
+			margin-bottom: 10px;
+		}
+	</style>
+</head>
+<body>
+	<div ></div>
+	<div class="abc"></div>
+	<p class="qwe"></p>
+	<p id="pp"></p>
+
+	<script>
+		
+
+		//获取任意元素
+		var get = function(tag,result){
+			result = result || [];
+
+			var quickScreen = /^(?:\.([\w-]+)|#([\w-]+)|([\w+]+)|([\*]))$/;
+			var  m = quickScreen.exec(tag);
+			if(m[1]){
+			 	result = getClass(m[1],result);
+				return result;
+			}else if(m[2]){
+				reuslt = getId(m[2],result);
+				return result;
+			}else if(m[3] || m[4]){
+				result = getTag(m[3] || "*",result);
+				return result;
+			}
+			
+		}
+
+		
+
+		
+		//获取标签元素
+		var getTag = function(tag,result){
+			result = result || [];
+			result.push.apply(result,document.getElementsByTagName(tag));
+			return result;
+		}
+
+		//获取类元素
+		var getClass = function(classs,result){
+			result = result || [];
+			result.push.apply(result, document.getElementsByClassName(classs));
+			return result;
+		}
+
+		//获取id元素
+		var getId = function(id,result){
+			result = result || [];
+			result.push(document.getElementById(id));
+			return result;
+		}
+		//each循环
+		var each = function(arr,fn){
+			for(var i = 0; i < arr.length; i++){
+				if(fn.call(arr[i],i, arr[i]) == false){
+					break;
+				}
+			}
+		}
+
+		
+		each(get("div"),function(i,v){
+			this.style.backgroundColor = "red";
+		})
+	</script>
+</body>
+</html>

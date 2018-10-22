@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<script>
+		var push = function(target,ele){
+			// 获取目标长度
+			var j = target.length;
+			var i = 0;
+			// 将元素追加到目标里面
+			while(target[j++] = ele[i++]){};
+			// 重新设置目标长度
+			target.length = j - 1;
+		}
+	</script>
+	<script>
+		var push;
+
+		//将错误判断放在push自定义方法里,可以优化代码,提高性能
+		try{
+			push可以,用数组方法的push
+		}catch(e){
+			push不可用,用自定义的push方法
+		}
+	</script>
+</body>
+</html>

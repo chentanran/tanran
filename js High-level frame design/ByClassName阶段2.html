@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+<script>
+	<!-- //创建一个对象 -->
+	var support = {};
+	// 将dom对象返回值转变为boolean值
+	support.getElementsByClassName = !!document.getElementsByClassName;
+	//className元素存在,并能获取到类名
+	support.getElementsByClassName = (function(){
+		// 判断这个dom元素是否存在
+		var isExist = !!document.getElementsByClassName;
+		//判断浏览器是否支持此方法
+		if(isExist && typeof document.getElementsByClassName == "function"){
+			var div = document.createElement("div");
+			var divWithClass = document.createElement("div");
+			divWithClass.className = "c";
+
+			div.appendChild(divWidthClass);
+
+			return div.getElementsByClassName("c") == divWidthClass;
+		}
+		return false;
+	});
+
+	if(support.getElementsByClassName){
+		alert("支持class");
+	}else{
+		alert("不支持class");
+	}
+</script>
+</body>
+</html>

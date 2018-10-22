@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<script>
+		var select = function(sel){
+			var se = sel.split(",");
+
+			for(var i = 0; i < se.length; i++){
+				var see = se[i];
+
+
+				var  sele = se[i].split(" ");
+				// console.log(see);
+				for(var j = 0; j < sele.length; j++){
+					if(sele[j] === "") continue;
+					console.log(sele[j]);
+				}
+			}
+		}
+
+		var div = select(".box .box1,.box2,.box3");
+		console.log(div);
+	</script>
+</body>
+</html>

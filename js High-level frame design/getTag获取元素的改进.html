@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<div></div>
+	<div></div>
+	<p></p>
+	<p></p>
+
+	<script>
+		var getTag = function(tag,result){
+			result = result || [];
+			result.push.apply(result,document.getElementsByTagName(tag));
+
+			return result;
+		}
+
+		var div = getTag("div");
+		console.log(getTag("p",getTag("div")));	
+	</script>
+</body>
+</html>

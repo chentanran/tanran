@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		.box{
+			height: 100px;
+			width: 100px;
+			border: 1px solid #ccc;
+			margin: 100px auto;
+		}
+		.cls{
+			height: 50px;
+			width: 50px;
+			border: 1px solid red;
+			margin: 20px auto;
+		}
+	</style>
+</head>
+<body>
+	<div class="box">
+		<div class="cls"></div>
+	</div>
+	<div class="box1">
+		<div class="cls"></div>
+	</div>
+	<script>
+	//push方法实现
+	var mypush = function(target,ele){
+		var j = target.length;
+		var i = 0;
+		while(target[j++] = ele[i++]){};
+		target.length = j - 1;
+	}
+	//each循环
+	var each = function(arr,fn){
+		for(var i = 0; i < arr.length; i++){
+			if(fn.call(arr[i],i,arr[i]) == false){
+				break;
+			}
+		}
+	}
+
+
+			//获取标签名
+	var getTag = function(tag,context,result){
+		try{
+			result.push.apply(result,context.getElementsByTagName(tag));
+		}catch(e){
+			mypush(result,context.getElementsByTagName(tag));
+		}
+		return result;
+	}
+	//获取类名
+	var getClass = function(className,context,result){
+		
+		if (document.getElementsByClassName) {
+			result.push.apply(result,context.getElementsByClassName(className));
+		}else{
+			var tempArr = getTag("*");
+			each(tempArr,function(i,v){
+				if((" "+v.className+" ").indexOf(" "+className+" ") != -1){
+					result.push(v);
+				}
+			})
+		}
+		return result;
+		
+	}
+	// 获取id名
+	var getId = function(id,result){
+		
+		result.push(document.getElementById(id));
+		return result;
+	}
+	// 获取任意元素
+	var get = function(tag,context,result){
+		context = context || document;
+		result = result || [];
+		var quickScreen = /^(?:\.([\w-]+)|#([\w-]+)|([\w+]+)|([\*]))$/;
+		var m = quickScreen.exec(tag);
+
+		if(m){
+			//将元素转换为数组
+			if(context.nodeType){
+			context = [ context ];
+			}
+			
+			//将字符串转换为数组
+			if(typeof context === "string"){
+				context = get(context);
+			}
+
+			each(context, function(i,v){
+			if(m[1]){
+				result = getClass(m[1],v,result);
+				// return result;
+			}else if(m[2]){
+				result = getId(m[2],result);
+				// return result;
+			}else if(m[3]){
+				result = getTag(m[3],this,result);
+				// return result;
+			}else if(m[4]){
+				result = getTag(m[4],this,result);
+				// return result;
+			}
+		})
+			return result;
+		}
+	}
+	
+	// 去空格方法
+	var mytrim = function(selector){
+		if(String.prototype.trim){
+			return selector.trim();
+		}else{
+			var select = selector.replace(/^\s+|\s+$/g, "");
+			return select;
+		}
+	}
+
+	var select = function(selector, context, result){
+		result = result || [];
+
+		var s = selector.split(",");
+		
+		
+		
+	each(s,function(i,v){
+		 var list = v.split(" ");
+		 var c = context;
+		for(var i = 0; i < list.length; i++){
+			if(s[i] == "") continue;
+			c = get(list[i], c);	
+		}
+		result.push.apply(result, c);
+	})
+		return result;
+	}
+
+	// 测试代码
+	var selector = select(".box .cls");
+	
+	each(selector,function(){
+		this.style.backgroundColor = "pink";
+	})
+	
+	</script>
+</body>
+</html>

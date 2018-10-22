@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<script>
+		//创建一个对象
+		var support = {};
+		//双重取反,将dom方法转化为布尔值
+		support.getElementsByClassName = !!document.getElementsByClassName;
+
+		if(support.getElementsByClassName){
+			return document.getElementsByClassName(ele);
+		}else{
+			// 兼容处理...
+		}
+	</script>
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<script>
+		var each = function(arr,fn){
+			for(var i = 0; i < arr.length; i++){
+				fn(i,arr[i]);
+			}
+		}
+
+		var i = [1,3,5];
+		var max=5;
+		 each(i,function(i,v){
+			if(max == v){
+				return max;
+			}else{
+				return -1;
+			}
+		})
+
+		console.log();
+	</script>
+</body>
+</html>
