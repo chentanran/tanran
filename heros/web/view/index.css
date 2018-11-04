@@ -1,0 +1,79 @@
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+div,
+span,
+ul,
+ol,
+li,
+input {
+  margin: 0;
+  padding: 0;
+}
+ul,
+ol {
+  list-style: none;
+}
+img,
+a {
+  display: block;
+}
+#boy {
+  padding: 40px;
+}
+#boy {
+  background: url(fn.jpeg) no-repeat top center;
+  background-attachment: fixed;
+}
+h1 {
+  color: orange;
+  text-align: center;
+}
+#tbody td {
+  text-align: center;
+}
+#thead th {
+  text-align: center;
+}
+#tbody a {
+  display: inline-block;
+}
+#content {
+  flex-direction: column;
+}
+#content .first {
+  padding-bottom: 10px;
+}
+#content .first p {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+#content .first input {
+  display: block;
+  height: 40px;
+  width: 100%;
+  border: 1px solid #ccc;
+  padding-left: 20px;
+}
+h1 {
+  background-color: rgba(0, 0, 0, 0);
+}
+button,
+table,
+.modal,
+.actions {
+  background-color: rbga(255, 255, 255, 0.1);
+}
+#thead th {
+  background-color: transparent;
+  color: orange;
+}
+#compile,
+#deletes {
+  color: orange;
+}

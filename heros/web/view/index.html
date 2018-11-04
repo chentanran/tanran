@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>web前端</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="/semantic/dist/semantic.min.css">
+    <script src="/node_modules/art-template/lib/template-web.js"></script>
+    <script src="/node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="/semantic/dist/semantic.min.js"></script>
+    
+    <script src="data.js"></script>
+</head>
+<body id="boy">
+    <h1 >英雄列表</h1>
+    <button class="ui primary button" id="btn" >
+        添加
+      </button>
+      <table class="ui celled padded table" style="background:transparent;color:white">
+        <thead id="thead">
+          <tr><th class="single line">编号</th>
+          <th>姓名</th>
+          <th>性别</th>
+          <th>创建时间</th>
+          <th>状态</th>
+          <th>操作</th>
+        </tr></thead>
+        <tbody id="tbody">
+          
+        </tbody>
+      </table>
+
+      <div class="ui modal">
+        <div class="header">
+          添加英雄
+        </div>
+        <div class="image content" id="content">
+           <div class="first">
+             <p>姓名:</p>
+             <input type="text" placeholder="请输入英雄姓名" name="heroname">
+           </div>
+           <div class="first">
+              <p>性别:</p>
+              <input type="text" placeholder="请输入英雄性别" name="herogender">
+            </div>
+        </div>
+        <div class="actions">
+          <div class="ui black deny button" id="cancel">
+            取消
+          </div>
+          <div class="ui black deny button positive " id="confirm">
+            确认
+          </div>
+        </div>
+      </div>
+
+<script type="text/template" id="heros">
+    {{each data}}
+  <tr>
+    <td>
+      {{$value.id}}
+    </td>
+    <td class="single line">
+      {{$value.name}}
+    </td>
+    <td>
+      {{$value.gender}}
+    </td>
+    <td class="right aligned">
+      {{$value.ctime}}
+    </td>
+    <td class="ui ribbon label {{$value.isdel === 0 ? 'blue' : 'red'}}">
+      {{ $value.isdel == 0 ? "正常" : "已删除" }}
+    </td>
+    <td>
+      <a href="javascript:;" id="compile" data-id="{{$value.id}}">编辑</a>
+      <a href="javascript:;" id="deletes" data-id="{{$value.id}}">删除</a>
+    </td>
+  </tr>
+  {{/each}}
+</script>
+</body>
+</html>
