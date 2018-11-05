@@ -45,27 +45,44 @@
   </form>
 
   <script src="/node_modules/jquery/dist/jquery.min.js"></script>
-  <script>
-    $(function () {
-      $('#form').on('submit', function (e) {
-        // 取消表单的默认提交事件
-        e.preventDefault()
-        // 当取消了表单的默认提交行为之后，手动发起Ajax请求，提交表单
+  <script >
+    $("#form").on("submit",function(){
         $.ajax({
-          url: '/register',
-          data: $('#form').serialize(),
-          type: 'POST',
-          dataType: 'json',
-          success: function (result) {
-           
-            if (result.status !== 200) {
-              return alert(result.msg)
+          url: "/register",
+          type: "post",
+          data: $("#form").serialize(),
+          success: function(res){
+            if(res.status !== 200) {
+              return alert(res.msg);
             }
-            location.href = '/login'
+            location.href = "/login";
           }
         })
-      })
+
+      return false;
     })
+  </script>
+  <script>
+    // $(function () {
+    //   $('#form').on('submit', function (e) {
+    //     // 取消表单的默认提交事件
+    //     e.preventDefault()
+    //     // 当取消了表单的默认提交行为之后，手动发起Ajax请求，提交表单
+    //     $.ajax({
+    //       url: '/register',
+    //       data: $('#form').serialize(),
+    //       type: 'POST',
+    //       dataType: 'json',
+    //       success: function (result) {
+           
+    //         if (result.status !== 200) {
+    //           return alert(result.msg)
+    //         }
+    //         location.href = '/login'
+    //       }
+    //     })
+    //   })
+    // })
   </script>
 </body>
 

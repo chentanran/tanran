@@ -44,14 +44,14 @@ app.post("/register", (req, res) => {
         if(err) res.send({status: 501, msg:"数据库链接错误"});
         if(data[0].count !== 0) res.send({status:502,msg:"账户名不能重复"});
         //添加到数据库
-        body.ctime = moment().format('YYYY-MM-DD h:mm:ss');
+        body.ctime = moment().format('YYYY-MM-DD HH:mm:ss');
        
         const insert = "insert into blogs set ? ";
         conn.query(insert,body,(err,data) => {
-            if(err) res.send({status:501,msg:"数据添加失败"})
-            if(data.affectedRows !== 1) res.send({status:502, msg:"数据添加失败"})
-            console.log(data);
-            res.send({status:200,msg:"数据添加成功"})
+            if(err) return res.status(400).send({status:501,msg:"数据添加失败"});
+            if(data.affectedRows !== 1) return res.status(402).send({status:502, msg:"数据添加失败"});
+            // console.log(data);
+            res.send({status:200,msg:"数据添加成功"});
         })
     })
 
