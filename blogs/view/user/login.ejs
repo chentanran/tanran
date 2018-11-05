@@ -46,25 +46,48 @@
 
   <script src="/node_modules/jquery/dist/jquery.min.js"></script>`
   <script>
-    $(function () {
-      $('#form').on('submit', function (e) {
-        // 组织表单的默认提交行为
-        e.preventDefault()
-        $.ajax({
-          url: '/login',
-          data: $('#form').serialize(),
-          type: 'POST',
-          dataType: 'json',
-          success: function (result) {
-            if (result.status !== 200) {
-              // 登录失败
-              return alert(result.msg)
-            }
-            location.href = '/'
+    $("#form").on("submit",function(){
+      $.ajax({
+        url: "/login",
+        type: "post",
+        data: $("#form").serialize(),
+        dataType: "json",
+        success: function(res){
+          if(res.status == 200){
+            alert(res.msg);
+            location.href = "/";
+          }else{
+            alert(res.msg)
           }
-        })
+        }
+        // error: function(err){
+        //   alert(err.responseJSON.msg)
+        // }
       })
+
+      return false;
     })
+  </script>
+  <script>
+    // $(function () {
+    //   $('#form').on('submit', function (e) {
+    //     // 组织表单的默认提交行为
+    //     e.preventDefault()
+    //     $.ajax({
+    //       url: '/login',
+    //       data: $('#form').serialize(),
+    //       type: 'POST',
+    //       dataType: 'json',
+    //       success: function (result) {
+    //         if (result.status !== 200) {
+    //           // 登录失败
+    //           return alert(result.msg)
+    //         }
+    //         location.href = '/'
+    //       }
+    //     })
+    //   })
+    // })
   </script>
 </body>
 

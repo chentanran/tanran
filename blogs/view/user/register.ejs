@@ -52,11 +52,16 @@
           type: "post",
           data: $("#form").serialize(),
           success: function(res){
-            if(res.status !== 200) {
-              return alert(res.msg);
+            if(res.status == 200){
+              location.href = "/login";
+            }else{
+              alert(res.msg);
             }
-            location.href = "/login";
           }
+          // error: function(err){
+          //   console.log(err)
+          //   alert(err.responseJSON.msg)
+          // }
         })
 
       return false;
