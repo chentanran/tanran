@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>兔子博客</title>
+  <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css">
+  <script src="/node_modules/jquery/dist/jquery.min.js"></script>
+  <script src="/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+  <!-- 导航栏 -->
+  <nav class="navbar navbar-default ">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand " href="javascript:;">兔子的博客</a>
+      </div>
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+       
+        <form class="navbar-form navbar-left " style="margin-left: 50%" id="headerform">
+          <div class="form-group">
+            <input type="text" class="form-control" placeholder="请输入文章名" name="article">
+          </div>
+          <button type="submit" class="btn btn-default">搜索</button>
+        </form>
+        <% if(!isLogin)  { %>
+            <div class="navbar-form nav navbar-nav navbar-right">
+                <a class="btn btn-success  right" href="/login">登录</a>
+                <a type="button" class="btn btn-info  right" href="/register">注册</a>
+            </div>
+           <% } else { %>
+            <div class="navbar-form nav navbar-nav navbar-right">
+                <button type="button" class="btn btn-success right btn-warning">欢迎 <%= user.nickname  %></button>
+                <a type="button" class="btn btn-info  right btn-danger" href="/logout">注销</a>
+            </div>
+            <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown">
+                <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">发表
+                  <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a  href="/publish/article">文章</a></li>
+                  <li><a  href="javascript:;">问题</a></li>
+                </ul>
+              </li>
+            </ul>
+           <% } %>
+        </div>
+    </div>
+    </nav>
+
+    <script>
+      $(function(){
+        $("#headerform").on("submit",function(){
+          let title = $("[name = article]").val();
+          console.log(title)
+            $.ajax({
+              url: "/publish/search?title=" + title,
+              type: "get",
+              success: function(res){
+                console.log(res);
+                // location.href = "./publish/search"
+              }
+            })
+
+          return false;
+        })
+      })
+    </script>

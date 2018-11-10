@@ -5,7 +5,8 @@ const conn = mysql.createConnection({
     host: "localhost",
     user : "root",
     password : "root",
-    database : "node"
+    database : "node",
+    multipleStatements: true
 })
 
 module.exports = conn;

@@ -1,0 +1,48 @@
+<%- include("../common/header.ejs") %>
+<link rel="stylesheet" href="/node_modules/mditor/dist/css/mditor.min.css" />
+
+<div class="container">
+  <h1>发表文章页</h1>
+  <hr>
+  <form class="" id="form">
+    <input type="hidden" name="author_id" value="<%= user.id %>">
+    <div class="form-group">
+      <label for="exampleInputEmail1">标题</label>
+      <input type="text" class="form-control" id="exampleInputEmail1" placeholder="请输入标题" name="title">
+    </div>
+    <div class="form-group">
+        <label for="editor">内容</label>
+        <textarea name="content" id="editor"></textarea>
+    </div>
+    <button type="submit" class="btn btn-success pull-right" id="btn">提交</button>
+  </form>
+</div>
+
+<script src="/node_modules/mditor/dist/js/mditor.min.js"></script>
+<script>
+  var mditor =  Mditor.fromTextarea(document.getElementById('editor'));
+
+  $("#form").on("submit",function(){
+      $.ajax({
+        url: "/publish/article",
+        type: "post",
+        data: $("#form").serialize(),
+        success:function(res){
+          if(res.status == 200){
+            // console.log(res);
+            location.href = "/publish/content/" + res.insertId;
+          }
+        },
+        error:function(err){
+           if(err.responseJSON.status) return alert(err.responseJSON.msg);
+          //  console.log(err)
+        }
+      })
+
+      return false;
+  })
+</script>
+
+
+
+<%- include("../common/footer.ejs") %>
