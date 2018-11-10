@@ -4,13 +4,14 @@ const fs = require("fs");
 const path = require("path");
 const session = require("express-session");
 
+
 const app = express();
 //session注册中间件
 app.use(session({
     secret: 'keyboard cat',
+    name: "tuzi",
     resave: false,
-    saveUninitialized: true,
-    cookie: { secure: true }
+    saveUninitialized: false,
   }))
 //注册中间件
 app.use(bodyparser.urlencoded({extended: false}));
@@ -32,6 +33,7 @@ fs.readdir(path.join(__dirname,"router"),(err,files) => {
     if(err) return console.log(err.message);
     for(let i = 0; i < files.length; i++){
         let filesRouter = require("./router/" + files[i]);
+        // console.log(filesRouter)
         app.use(filesRouter);
     }
 })

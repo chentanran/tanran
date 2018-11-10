@@ -7,4 +7,6 @@ const router = express.Router();
 //首页
 router.get("/", ctrl.handleGetIndex);
 
+
+
 module.exports = router;

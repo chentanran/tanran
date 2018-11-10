@@ -9,9 +9,11 @@ router.get("/login", ctrl.handelGetLogin);
 router.get("/register", ctrl.handelGetRegister);
 //注册信息获取
 router.post("/register", ctrl.handelPostRegister);
-
 //登录信息获取
 router.post("/login",ctrl.handelPostLogin);
+//退出登录
+router.get("/logout", ctrl.handleGetLogout);
+
 
 module.exports = router;
 

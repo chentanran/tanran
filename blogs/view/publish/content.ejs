@@ -1,0 +1,14 @@
+<%- include("../common/header.ejs") %>
+
+<div class="container text-center">
+    <h2><%= data.title %>
+       <% if(isLogin && user.id == data.author_id) { %> 
+        <a href="/publish/edit/<%=data.id %>" class="btn btn-info pull-right">编辑</a>
+        <% } %>
+    </h2>
+    <p><%= data.ctime %></p>
+    <hr>
+    <p><%- data.content %></p>
+</div>
+
+<%- include("../common/footer.ejs") %>

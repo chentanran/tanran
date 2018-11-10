@@ -1,0 +1,18 @@
+<%- include('../common/header.ejs')  %>
+      
+<div class="container">
+<h1>文章搜索列表</h1>
+    <div class="list-group" style="margin-bottom:0">
+        <% for(let i = 0; i < data.length; i++) { %>
+        <a class="list-group-item" href="/publish/content/<%= data[i].id %>">
+        <%= data[i].content %>
+        <span class="badge" style="background-color:chartreuse">发表时间 <%=data[i].ctime %></span>
+         <span class="badge" style="background-color: darkorange">作者: </span>
+        </a>
+        <% } %>
+    </div>
+
+
+</div>
+
+<%- include('../common/footer.ejs') %>
