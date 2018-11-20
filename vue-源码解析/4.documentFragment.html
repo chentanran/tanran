@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <ul id="ul">
+        <li>这是一个节点i</li>
+        <li>这是一个节点i</li>
+        <li>这是一个节点i</li>
+        <li>这是一个节点i</li>
+        <li>这是一个节点i</li>
+    </ul>
+
+    <script>
+       /*    DocumentFragment: 文档碎片(高效批量更新多个节点)
+            document : 对应显示的页面 包含n个element 一旦更新document内部的某个元素界面更新
+            documentFragment : 内存中保存n个element的容器对象(不与界面关联),    如果更新fragment中的某个element,界面不变
+        */
+        const ul = document.querySelector("#ul");
+        //1.创建fragment
+        const fragment = document.createDocumentFragment();
+        //2.取出ul中的所有子节点保存到fragment
+        let child;
+        while(child = ul.firstChild){
+            fragment.appendChild(child);
+        }
+        //3.更新所有fragment中的li文本
+            Array.prototype.slice.call(fragment.childNodes).forEach(node=>{
+                if(node.nodeType == 1){
+                    node.textContent = "兔子"
+                }
+            })
+        //4. 将fragment插入ul
+            ul.appendChild(fragment)
+
+    </script>
+</body>
+</html>
