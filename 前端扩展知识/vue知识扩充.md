@@ -42,3 +42,9 @@
     }
   }
 ```
+
+## 树形控件 v-org-tree
+
+  文档地址:[v-org-tree](https://github.com/lison16/v-org-tree)
+
+  ![树形图片实例](./tree.png)

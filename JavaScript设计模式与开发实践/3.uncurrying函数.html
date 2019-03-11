@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    Function.prototype.uncurrying = function() {
+      var self = this;
+      return function() {
+        return Function.prototype.call.apply(self, arguments);
+      }
+      
+    }
+
+    var push = Array.prototype.push.uncurrying();
+
+    var obj = {
+      length: 1,
+      0:1
+    }
+
+    push(obj, 2)
+
+    console.log(obj)
+
+  </script>
+</body>
+</html>

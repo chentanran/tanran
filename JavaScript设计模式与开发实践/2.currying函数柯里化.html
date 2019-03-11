@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+
+  <script>
+    // var cost = (function () {
+    //   var args = [];
+    //   // alert(3)
+    //   return function () {
+    //     if (arguments.length === 0) {
+    //       var money = 0;
+    //       for (let i = 0; i < args.length; i++) {
+    //         money += args[i];
+    //       }
+    //       alert(2)
+    //       return money;
+    //     } else {
+    //       alert(1)
+    //       return [].push.apply(args, arguments)
+          
+    //     }
+    //   }
+    // })()
+
+    // cost(100)
+    // cost(200)
+    // cost(300)
+
+    // console.log(cost())
+
+    var currying = (function(fn){
+      var args = [];
+
+      return function(){
+        if(arguments.length == 0) {
+          return fn.apply(this, args)
+        } else {
+          return [].push.apply(args, arguments)
+        }
+      }
+    })
+
+    var cost = (function() {
+      var money = 0;
+
+      return function() {
+        for(let i = 0; i < arguments.length; i++) {
+          money += arguments[i];
+        }
+
+        return money;
+      }
+    })()
+
+    var cost = currying(cost)
+
+    cost(100)
+    cost(200)
+
+    console.log(cost())
+
+  </script>
+
+</body>
+
+</html>
