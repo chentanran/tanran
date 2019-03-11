@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    var createDiv = (function(){
+      var instance;
+
+      var createDiv = function(html) {
+        if(instance) {
+          return instance;
+        }
+
+        this.html = html;
+        this.init();
+
+        return instance = this
+      }
+
+      createDiv.prototype.init = function() {
+        var div = document.createElement('div');
+        div.innerHTML = this.html;
+        document.body.appendChild(div);
+      }
+
+      return createDiv;
+    })()
+
+    var a = new createDiv('abc1');
+    var b = new createDiv('efg1');
+
+    console.log(a, b);
+  </script>
+</body>
+</html>
