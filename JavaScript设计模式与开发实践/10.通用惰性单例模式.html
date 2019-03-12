@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+
+  <div id="app">shuangwaiwai</div>
+
+  <script>
+    
+    let getSingle = function(fn) {
+      let obj;
+      return function() {
+        return obj || (obj = fn.apply(this, arguments));
+      }
+    }
+
+    let createScript = function() {
+      let a = document.createElement("a");
+      a.style.display = "none";
+      a.innerHTML = "shuangwaiwai"
+      a.src = "http://www.baidu.com";
+      document.body.appendChild(a);
+
+      return a
+    }
+
+    let single = getSingle( createScript );
+
+    document.querySelector("#app").onclick = function() {
+      let singleName = single();
+      singleName.style.display = "block";
+    }
+
+  </script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    var createDiv = function(html) {
+      this.html = html;
+      this.init();
+    }
+
+    createDiv.prototype.init = function() {
+      var div = document.createElement("div");
+      div.innerHTML = this.html;
+      document.body.appendChild(div);
+    }
+
+    proxySingletonCreateDiv = (function(){
+      var instance;
+
+      return function(html) {
+        if(!instance) {
+          instance = new createDiv(html)
+        }
+
+        return instance;
+      }
+    })()
+
+    var abc1 = new proxySingletonCreateDiv("abc1");
+    var abc2 = new proxySingletonCreateDiv("abc2");
+
+    console.log(abc1(), abc2());
+  </script>
+</body>
+</html>

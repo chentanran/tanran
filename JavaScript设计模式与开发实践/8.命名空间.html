@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    var myApp = {};
+
+    myApp.nameSpace = function(name) {
+      var parts = name.split(".");
+      var current = myApp;
+
+      for(let i = 0; i < parts.length; i++) {
+        if(!current[parts[i]]){
+          current[parts[i]] = {}
+        }
+        current = current[parts[i]];
+      }
+    }
+
+    myApp.nameSpace('abc');
+    myApp.nameSpace('cde');
+
+    // console.log('abc'.split('.')) b
+
+    console.log(myApp);
+  </script>
+</body>
+</html>

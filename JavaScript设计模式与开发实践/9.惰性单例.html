@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+
+  <div id="app">登录</div>
+
+  <script>
+    var createPopUp = (function(){
+      var div;
+       
+      return function(){
+        console.log(div)
+        if(!div) {
+          div = document.createElement("div");
+          div.innerHTML = 'wahha';
+          div.style.display = 'none';
+          document.body.appendChild(div);
+        }
+
+        return div
+      }
+    })()
+
+    document.querySelector("#app").onclick = function(){
+      let app = createPopUp();
+      app.style.display = 'block';
+    }
+  </script>
+</body>
+</html>
