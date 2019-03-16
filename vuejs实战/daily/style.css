@@ -1,0 +1,85 @@
+html, body{
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  color: #657180;
+  font-size: 16px;
+}
+
+.daily-menu{
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  overflow: ahto;
+  background: #f5f7f9;
+  width: 150px;
+}
+
+.daily-menu-item{
+  font-size: 18px;
+  text-align: center;
+  margin: 5px 0;
+  padding: 10px 0;
+  cursor: pointer;
+  border-right: 1px solid transparent;
+  transition: all .3s ease-in-out;
+}
+
+.daily-menu-item:hover{
+  background: #e3e8ee;
+}
+
+.daily-menu-item.on{
+  border-right: 1px solid #3399ff;
+}
+
+.daily-list{
+  width: 300px;
+  position: fixed;
+  top: 0;
+  left: 150px;
+  bottom: 0;
+  cursor: pointer;
+  overflow: auto;
+  border-right: 1px solid #d7dde4;
+}
+
+.daily-list::-webkit-scrollbar {display:none}
+
+.daily-item {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+  padding: 16px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all .3s ease-in-out;
+}
+
+.daily-item:hover{
+  background: #e3e8ee;
+}
+
+.daliy-article{
+  margin-left: 450px;
+  padding: 20px;
+}
+
+.daily-menu ul {
+  list-style: none;
+}
+
+.daliy-menu ul li a{
+  display: block;
+  color: inherit;
+  text-decoration: none;
+  padding: 5px 0;
+  margin: 5px 0;
+  cursor: pointer;
+}
+
+.daily-menu ul li a:hover, .daily-menu ul li a.on{
+  color: #3399ff;
+  cursor: pointer;
+}
