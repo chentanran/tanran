@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    div{
+      height: 200px;
+      width: 200px;
+      background-color: #ccc;
+      
+    }
+
+    img{
+      display: block;
+      height: 100%;
+      width: 100%;
+      position: relative;
+      text-align: center;
+    }
+
+    img::after{
+      content: attr(alt);
+      position: absolute;
+      bottom: 20px;
+      left: 0;
+      width: 100%;
+      background-color: rgba(0,0,0,.5);
+      transform: translateY(100%);
+      transition: transform .5s;
+    }
+
+    img:hover::after{
+      transform: translateY(0)
+    }
+  </style>
+</head>
+<body>
+  <div>
+    <img src="" alt="耳机">
+    <button>点击</button>
+  </div>
+
+  <script>
+    document.querySelector("button").onclick = function(){
+      document.querySelector("img").src = "./images/1.jpg"
+    }
+  </script>
+</body>
+</html>
