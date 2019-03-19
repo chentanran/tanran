@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <form action="http://www.baidu.com" id="registerForm" method="post">
+    请输入用户名: <input type="text" name="username">
+    请输入密码: <input type="text" name="password">
+    请输入手机号: <input type="text" name="phone">
+    <button>提交</button>
+  </form>
+
+  <script>
+    let strategies = {
+      // 验证为空
+      isNonEmpty: function(value, errorMsg){
+        if(value === ''){
+          return errorMsg;
+        }
+      },
+      // 限制最小长度
+      minLength: function(value, length, errorMsg){
+        if(value.length < length) {
+          return errorMsg;
+        }
+      },
+      // 验证手机号
+      isMobile: function(value, errorMsg){
+        if(!/(^1[3|5|8][0-9]{9}$)/.test(value)){
+          return errorMsg;
+        }
+      }
+    }
+
+    var validatorFunc = function() {
+      
+      let validator = new Validator();
+
+      validator.add(registerForm.username, 'isNonEmpty', '不能为空');
+      validator.add(registerForm.password, 'minLength:6', '密码长度不能少于六位');
+      validator.add(registerForm.phone, 'isMobile', '手机号码格式不正确');
+      
+      let errorMsg = validator.start();
+      return errorMsg;
+    }
+
+    let registerForm = document.getElementById("registerForm");
+    registerForm.onsubmit = function(){
+      
+      let errorMsg = validatorFunc();
+      
+      if(errorMsg) {
+        alert(errorMsg);
+        
+        return false;
+      }
+    }
+
+    var Validator = function(){
+      // alert(1)
+      this.cache = [];
+    }
+    Validator.prototype.add = function(dom, rule, errorMsg){
+      // alert(2)
+      let ary = rule.split(':');
+      // alert(ary)
+      this.cache.push(function(){
+        let strategy = ary.shift();
+        ary.unshift(dom.value);
+        ary.push(errorMsg);
+        return strategies[ strategy ].apply(dom, ary);
+      })
+    }
+    Validator.prototype.start = function(){
+      for(var i = 0, validatorFunc; validatorFunc = this.cache[i++];){
+        
+        var msg = validatorFunc();
+        console.log(msg)
+        if(msg) {
+          return msg;
+        }
+      }
+    }
+  </script>
+</body>
+</html>
