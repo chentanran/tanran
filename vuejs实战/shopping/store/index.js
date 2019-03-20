@@ -32,6 +32,28 @@ const store = new vuex.Store({
     },
     setFilterArrays(store, array){
       store.filterArray = array;
+    },
+    // 添加商品到购物车
+    addCart(state, id) {
+      const isAdded = state.cartList.find(item => item.id === id);
+      if(isAdded) {
+        isAdded.count++
+      } else {
+        state.cartList.push({
+          id: id,
+          count: 1
+        })
+      }
+    },
+    // 编辑商品
+    editCartCount(state, payload){
+      const product = state.cartList.find(item => item.id === payload.id);
+      product.count += payload.count;
+    },
+    // 删除商品
+    deleteCart(state, id) {
+      const index = state.cartList.findIndex(item => itme.id === id);
+      state.cartList.splice(index, 1);
     }
   },
 

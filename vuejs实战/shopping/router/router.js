@@ -26,11 +26,11 @@ const router = [
     component: (resolve) => require(['../views/product.vue'], resolve)
   },
   {
-    path: '/cast',
+    path: '/cart',
     meta: {
       title: '购物车'
     },
-    component: (resolve) => require(['../views/list.vue'], resolve)
+    component: (resolve) => require(['../views/cart.vue'], resolve)
   },
   {
     path: '*',
