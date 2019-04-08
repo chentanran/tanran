@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    
+    var salesOffices = {}; // 定义发布者
+
+    salesOffices.clientList = {}; // 缓存列表, 存放订阅者的回调函数
+
+    salesOffices.listen = function(key, fn) {
+      if(!this.clientList[key]) { // 如果没有订阅此消息, 给该类消息创建一个缓存列表
+        this.clientList[key] = [];
+      };
+      this.clientList[key].push(fn); // 订阅的消息添加进消息缓存列表
+    };
+
+    salesOffices.trigger = function() { // 发布消息
+      let key = Array.prototype.shift.call(arguments);
+      let fns = this.clientList[key];
+      if(!fns || fns.length == 0) { // 如果没有订阅消息 则返回
+        return false;
+      };
+      for(let i = 0, fn; fn = fns[i++];) {
+        fn.apply(this, arguments);
+      };
+    };
+
+    salesOffices.listen('xiaoming',function(type){
+      console.log('小明订阅了此消息' + type);
+    });
+    salesOffices.listen('xiaohong', function(type) {
+      console.log('小红订阅了此消息' + type);
+    });
+
+    salesOffices.trigger('xiaoming', '娃哈哈');
+    salesOffices.trigger('xiaohong', '爽歪歪');
+  </script>
+</body>
+</html>

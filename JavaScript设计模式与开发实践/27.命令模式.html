@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <button id="button1">按钮1</button>
+  <button id="button2">按钮2</button>
+  <button id="button3">按钮3</button>
+
+  <script>
+    var button1 = document.getElementById("button1");
+    var button2 = document.getElementById("button2");
+    var button3 = document.getElementById("button3");
+
+    // 负责向按钮上安装命令
+    var setCommand = function(button, command) {
+      button.onclick = function() {
+        command.execute();
+      }
+    }
+
+    // 具体行为交上结果
+    var MenuBar = {
+      refresh: function() {
+        console.log('刷新菜单目录');
+      }
+    }
+
+    var SubMenu = {
+      add: function() {
+        console.log('增加子菜单');
+      },
+      del: function() {
+        console.log('删除子菜单');
+      }
+    }
+
+    // 封装到命令类
+    var RefreshMenuBarCommand = function(receiver){
+      this.receiver = receiver;
+    }
+
+    RefreshMenuBarCommand.prototype.execute = function() {
+      this.receiver.refresh();
+    }
+
+    var AddMenuBarCommand = function(receiver){
+      this.receiver = receiver;
+    }
+
+    AddMenuBarCommand.prototype.execute = function(){
+      this.receiver.add();
+    }
+
+    var DelMenuBarCommand = function(receiver){
+      this.receiver = receiver;
+    }
+
+    DelMenuBarCommand.prototype.execute = function() {
+      this.receiver.del();
+    }
+
+    // 命令接受者传递到command对象中
+    var refreshMenuBarCommand = new RefreshMenuBarCommand(MenuBar);
+    var addMenuBarCommand = new AddMenuBarCommand(SubMenu);
+    var delMenuBarCommand = new DelMenuBarCommand(SubMenu);
+
+    // command 对象 安装到 button 上
+    setCommand(button1, refreshMenuBarCommand);
+    setCommand(button2, addMenuBarCommand);
+    setCommand(button3, delMenuBarCommand);
+  </script>
+</body>
+</html>

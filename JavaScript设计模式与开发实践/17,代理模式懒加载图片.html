@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    var myImage = (function() {
+      var imgNode = document.createElement('img');
+      document.body.appendChild(imgNode);
+
+      return {
+        setSrc: function(src) {
+          imgNode.src = src
+        }
+      }
+    })()
+
+    var proxyImage = (function() {
+      var img = new Image;
+      img.onload = function() {
+        myImage.setSrc(this.src);
+      }
+
+      return {
+        setSrc: function(src) {
+          myImage.setSrc('./loading.gif');
+          
+          img.src = src;
+        }
+      }
+    })()
+
+    proxyImage.setSrc('https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=935292084,2640874667&fm=27&gp=0.jpg')
+
+    // myImage.setSrc('https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=935292084,2640874667&fm=27&gp=0.jpg')
+  </script>
+</body>
+</html>

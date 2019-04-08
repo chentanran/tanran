@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    var Flower = function(){}
+
+    var xiaoming = {
+      sendFlower: function(target) {
+        var flower = new Flower()
+        target.receiveFlower(flower)
+      }
+    }
+
+    // 引入代理模式
+    var B = {
+      receiveFlower: function(flower) {
+        A.listenGoodMood(function() {
+          A.receiveFlower(flower);
+        })
+      }
+    }
+
+    // 虚拟代理
+    // var B = {
+    //   receiveFlower: function(flower) {
+    //     A.listenGoodMood(function() {
+    //       var flower  = new Flower(); // 可以在代理B中再创建花对象
+    //       A.receiveFlower(flower);
+    //     })
+    //   }
+    // }
+
+    var A = {
+      receiveFlower: function(flower) {
+        console.log('收到花' + flower)
+      },
+      listenGoodMood: function(fn) {
+        setTimeout(function(){
+          fn()
+        }, 5000)
+      }
+    }
+
+    xiaoming.sendFlower(B)
+  </script>
+</body>
+</html>

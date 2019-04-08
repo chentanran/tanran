@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    var salesOffices = {} // 定义售楼处
+
+    salesOffices.clientList = []; // 缓存列表,存放订阅者的回调函数
+
+    salesOffices.listen = function(fn) { // 增加订阅者
+      this.clientList.push(fn); // 订阅的消息添加进缓存列表
+    };
+
+    salesOffices.trigger = function() { // 发布消息
+      for(let i = 0, fn; fn = this.clientList[i++];) {
+        fn.apply(this, arguments);
+      }
+    };
+
+    // 订阅消息
+    salesOffices.listen(function(price) {
+      console.log('小明订阅了一份报纸' + price);
+    });
+
+    salesOffices.listen(function(price) {
+      console.log('小花订阅了一张彩票' + price);
+    });
+
+    salesOffices.trigger(2000)
+    salesOffices.trigger(3000)
+  </script>
+</body>
+</html>

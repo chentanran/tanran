@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+
+  <button id="count">点击</button>
+  <div id="show"></div>
+
+  <script>
+    let event = {
+      clientList: {},
+
+      listen: function(key, fn) {
+        if(!this.clientList[key]) {
+          this.clientList[key] = [];
+        };
+        this.clientList[key].push(fn);
+      },
+
+      trigger: function() {
+        let key = Array.prototype.shift.call(arguments);
+        let fns = this.clientList[key];
+        if(!fns || fns.length === 0) {
+          return false;
+        };
+        for(let i = 0, fn; fn = fns[i++];) {
+          fn.apply(this, arguments);
+        };
+      },
+
+      remove: function(key, fn) {
+        let fns = this.clientList[key];
+        if(!fns) {
+          return false;
+        };
+        if(!fn) {
+          fns && (fns.length = 0);
+        };
+        for(let i = fns.length-1; i >= 0; i--) {
+          let _fn = fns[i];
+          if(_fn == fn) {
+            fns.splice(i, 1);
+          };
+        };
+      }
+    };
+
+    let installEvent = function(obj) {
+      for(let i in event) {
+        obj[i] = event[i];
+      };
+    };
+
+    // var salesOffices = {};
+
+    // installEvent(salesOffices);
+
+    // salesOffices.listen('xiaoming', fn1 = function(wahha){
+    //   console.log('xiaoming' + wahha)
+    // });
+
+    // salesOffices.listen('xiaoming', fn2 = function(shunagwaiwai){
+    //   console.log('xiaoli' + shunagwaiwai);
+    // });
+
+    // // salesOffices.trigger('xiaoming', '11111');
+    // // salesOffices.trigger('xiaoli', '222222');
+
+    // salesOffices.remove('xiaoming', fn1)
+    // salesOffices.trigger('xiaoming', 100)
+
+    let a = (function(){
+      let count = 0;
+      let button = document.getElementById('count');
+      button.onclick = function() {
+        event.trigger('add', count++);
+      }
+    })();
+
+    let b = (function(){
+      let div = document.getElementById('show');
+      event.listen('add', function(count){
+        div.innerHTML = count;
+      })
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    let each = function(obj, callback) {
+      if(obj.length <= 0) {
+        throw new Error('obj的长度为空')
+      }
+      for(let i = 0; i < obj.length; i++) {
+        callback.call(obj[i], i, obj[i])
+      }
+    }
+
+    // let b = [1,3,4,5,6,7,89];
+    let b = []
+
+    let arr = each(b, (i, n) => {
+      console.log(i, n)
+    })
+  </script>
+</body>
+</html>

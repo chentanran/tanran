@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <button id="button1">按钮1</button>
+  <button id="button2">按钮2</button>
+  <button id="button3">按钮3</button>
+
+  <script>
+    var button1 = document.getElementById('button1');
+    var button2 = document.getElementById('button2');
+    var button3 = document.getElementById('button3');
+
+    var setCommand = function(button, command) {
+      button.onclick = function(){
+        command.execute();
+      }
+    }
+
+    var MenuBar = {
+      refresh: function(){
+        console.log('增加一个子菜单');
+      }
+    }
+
+    var refreshMenuBar = function(receiver){
+      return {
+        execute:function(){
+          receiver.refresh();
+        }
+      }
+    }
+
+    var refreshMenuBars = refreshMenuBar(MenuBar);
+    setCommand(button1, refreshMenuBars);
+
+  </script>
+</body>
+</html>

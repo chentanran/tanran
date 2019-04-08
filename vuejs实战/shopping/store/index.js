@@ -54,6 +54,10 @@ const store = new vuex.Store({
     deleteCart(state, id) {
       const index = state.cartList.findIndex(item => itme.id === id);
       state.cartList.splice(index, 1);
+    },
+    // 清空购物车
+    emptyCart(state) {
+      state.cartList = [];
     }
   },
 
@@ -63,6 +67,15 @@ const store = new vuex.Store({
       setTimeout(()=>{
         context.commit('setProductList', product_data)
       }, 500)
+    },
+    // 购买
+    buy(context) {
+      return new Promise(resolve => {
+        setTimeout(() => {
+          context.commit('emptyCart');
+          resolve();
+        }, 500)
+      })
     }
   }
 })

@@ -60,7 +60,7 @@
       </div>
       <div class="cart-footer-desc">
         <div class="cart-control-order"
-        @click="hanleOrder">现在结算</div>
+        @click="handleOrder">现在结算</div>
       </div>
     </div>
   </div>
@@ -73,7 +73,9 @@ export default {
   name: 'cart',
   data(){
     return{
-      productList: product_data
+      productList: product_data,
+      promotion: '',
+      promotionCode: ''
     }
   },
   methods: {
@@ -87,8 +89,22 @@ export default {
     handleDelete(index) {
       this.$store.commit('deleteCart', this.cartList[index].id);
     },
-    handelCheckCode(){
-      
+    handleCheckCode(){
+      if(this.promotionCode === '') {
+        window.alert('请输入优惠码');
+        return;
+      }
+      if(this.promotionCode !== 'vue.js') {
+        window.alert('优惠码验证失败');
+      } else {
+        this.promotion = 500;
+      }
+    },
+    // 通知vuex, 完成下单
+    handleOrder() {
+      this.$store.dispatch('buy').then(() => {
+        window.alert('购物成功');
+      })
     }
   },
   computed: {
@@ -122,7 +138,7 @@ export default {
 
 <style scoped>
   .cart{
-    margin: 32px;
+    margin: 50px;
     background: #fff;
     border: 1px solid #dddee1;
     border-radius: 10px;
@@ -134,6 +150,7 @@ export default {
       background: #f8f8f9;
   }
   .cart-header-main{
+      color: #000;
       padding: 8px 32px;
       overflow: hidden;
       border-bottom: 1px solid #dddee1;
@@ -227,5 +244,29 @@ export default {
   .cart-footer-desc span{
       color: #f2352e;
       font-size: 20px;
+  }
+  .cart.promotion{
+    padding: 16px 32px;
+  }
+  .cart-control-promotion,
+  .cart-control-order{
+    display: inline-block;
+    padding: 8px 32px;
+    border-radius: 6px;
+    background: #2d8cf0;
+    color: #fff;
+    cursor: pointer;
+  }
+  .cart-control-promotion{
+    padding: 2px 6px;
+    font-size: 12px;
+    border-radius: 3px;
+  }
+  .cart-footer{
+    padding: 32px;
+    text-align: right;
+  }
+  .cart-footer-desc{
+    display: inline-block;
   }
 </style>
