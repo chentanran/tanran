@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    div{
+      height: 50px;
+      width: 300px;
+      border: 1px solid #ccc;
+      margin: auto;
+    }
+    .abc{
+      counter-reset: xiaowang 2 xiaoli 3;
+      /* counter-increment: xiaowang; */
+      /* counter-increment: counter 2; */
+      font-size: 20px;
+      color: red;
+    }
+
+    .abc::before {
+      content: counter(xiaowang) '\A' counter(xiaoli);
+      white-space: pre;
+    }
+
+    /* .abc::before{
+      content: counter(xiaowang);
+       counter-increment: xiaowang 2; 
+    }*/
+
+    /* .abc::before,
+    .abc::after{
+      display: block;
+      content: counter(xiaowang, lower-roman);
+      counter-increment: xiaowang;
+    } */
+
+  </style>
+</head>
+<body>
+  <div>
+    <p>我叫小王, 我的爱好是敲代码</p>
+    <p class="abc"></p>
+  </div>
+</body>
+</html>

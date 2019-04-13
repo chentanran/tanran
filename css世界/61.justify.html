@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    .justify{
+      text-align: justify;
+    }
+    .justify li{
+      display: inline-block;
+      text-align: center;
+    }
+
+    .justify::after{
+      content: '';
+      display: inline-table;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <ul class="justify">
+    <li>
+      <img src="1.jpg" alt="">
+      <p>图标描述1</p>
+    </li>
+    <li>
+      <img src="1.jpg" alt="">
+      <p>图标描述2</p>
+    </li>
+  </ul>
+</body>
+</html>

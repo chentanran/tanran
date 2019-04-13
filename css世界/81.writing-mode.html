@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    .verticle-mode{
+      height: 500px;
+      width: 500px;
+      background-color: #666;
+      writing-mode: tb-rl;
+      writing-mode: vertical-rl;
+    }
+    img {
+      display: block;
+      margin-top: auto;
+      margin-bottom: auto;
+    }
+    /* 文字下沉 */
+    .verticle-mode:active{
+      text-indent: 2em;
+    }
+  </style>
+</head>
+<body>
+  <div class="verticle-mode">
+    天真的我
+    <!-- <img src="1.jpg" alt=""> -->
+  </div>
+</body>
+</html>

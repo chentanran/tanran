@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    .add{
+      height: 200px;
+      width: 200px;
+      display: inline-block;
+      color: #ccc;
+      border: 2px dashed;
+      position: relative;
+    }
+    .add:before, .add:after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+    }
+    .add::before {
+      content: '';
+      width: 100px;
+      border-top: 10px solid;
+      margin: -5px 0 0 -50px;
+    }
+    .add::after {
+      content: '';
+      height: 100px;
+      border-left: 10px solid;
+      margin: -50px 0 0 -5px;
+    }
+    /* hover变色 */
+    .add:hover {
+      border-color: #06c;
+    }
+    .add:hover::before, .add:hover::after{
+      color: #06c;
+    }
+
+
+  </style>
+</head>
+<body>
+  <div class="add">＋</div>
+</body>
+</html>

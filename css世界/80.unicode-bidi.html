@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    .rtl{
+      direction: rtl;
+      /* 颠倒文字循序 */
+      unicode-bidi: bidi-override;
+    }
+    .rtl > span {
+      background-color: #ddd;
+    }
+  </style>
+</head>
+<body>
+  <p class="rtl">开头 <span style="unicode-bidi:normal;">中间</span> 结束</p>
+  <p class="rtl">开头 <span style="unicode-bidi:embed;">中间</span> 结束</p>
+  <!-- 颠倒文字 -->
+  <p>&#x202E开始 中间 结束</p>
+</body>
+</html>

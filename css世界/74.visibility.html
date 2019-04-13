@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    .list{
+      position: absolute;
+      visibility: hidden;
+    }
+    td:hover .list{
+      visibility: visible;
+      transition: visibility 1s;
+    }
+  </style>
+</head>
+<body>
+  <table>
+    <td>
+      <a href="">操作↓</a>
+      <div class="list">
+        <a href="">编辑</a>
+        <a href="">删除</a>
+      </div>
+    </td>
+  </table>
+  
+</body>
+</html>

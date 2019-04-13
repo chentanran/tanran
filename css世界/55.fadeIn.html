@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    .box{
+      height: 300px;
+      width: 400px;
+      position: relative;
+      background-color: #ccc;
+    }
+    .text{
+      position: absolute;
+      bottom: 0;
+      text-align: center;
+      z-index: 1;
+    }
+    img{
+      height: 300px;
+      width: 400px;
+    }
+
+    .fade{
+      animation: fadeIn  5s 2s infinite;
+    }
+
+    @keyframes fadeIn {
+      0% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <span class="text">图片淡出, 文案100%透明</span>
+    <img src="1.jpg" alt="" class="fade">
+  </div> 
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    /* 显示隐藏 */
+    /* div > img {
+      display: none;
+      position: absolute;
+      opacity: 0;
+      transition: opacity 2s;
+    }
+    div:hover > img{
+      display: block;
+      opacity: 1;
+    } */
+
+    /* 淡入淡出 */
+    div > img {
+      position: absolute;
+      opacity: 0;
+      transition: opacity 2s;
+      visibility: hidden;
+    }
+    div:hover > img{
+      visibility: visible;
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  <div>
+    显示
+    <img src="./1.jpg" alt="">
+  </div>
+</body>
+</html>

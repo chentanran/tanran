@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    /* 选择第一个数字.字母.汉字 前面不能有 inline-block, inline-table之类 */
+    div::first-letter{
+      color: red;
+    }
+    /* 伪元素会影响first-letter的选择 */
+    div::before{
+      content: '新闻';
+    }
+  </style>
+</head>
+<body>
+  <div>????我要变色了</div>
+</body>
+</html>
