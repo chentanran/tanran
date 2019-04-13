@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <button id="button">按钮</button>
+
+  <script>
+    var macroCommand = function(){
+      return {
+        commandList: [],
+        add: function(command){
+          this.commandList.push(command);
+        },
+        execute: function(){
+          for(let i = 0, command; command = this.commandList[i++];){
+            command.execute();
+          }
+        }
+      }
+    }
+
+    // 开电视, 开音响
+    var openPcCommand = {
+      execute:function(){
+        console.log('开电视');
+      }
+    }
+
+    var openSoundCommand = {
+      execute: function(){
+        console.log('开音响');
+      }
+    }
+
+    var macroCommand1 = macroCommand();
+    macroCommand1.add(openPcCommand);
+    macroCommand1.add(openSoundCommand);
+
+    // 关门, 开电脑, 登QQ
+    var closeDoorCommand = {
+      execute: function(){
+        console.log('关门');
+      }
+    }
+
+    var openComputerCommand = {
+      execute: function(){
+        console.log('开电脑');
+      }
+    }
+
+    var openQQCommand = {
+      execute: function(){
+        console.log('登QQ');
+      }
+    }
+
+    var macroCommand2 = macroCommand();
+    macroCommand2.add(closeDoorCommand);
+    macroCommand2.add(openComputerCommand);
+    macroCommand2.add(openQQCommand);
+
+    var macroCommand3 = macroCommand();
+    macroCommand3.add(macroCommand1);
+    macroCommand3.add(macroCommand2);
+
+    var setCommand = (function(command){
+      document.querySelector('#button').onclick = function(){
+        command.execute();
+      }
+    })(macroCommand3)
+  </script>
+</body>
+</html>

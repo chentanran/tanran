@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    var objectPoolFactory = function(createObjFn){
+      let objectPool = [];
+
+      return {
+        create: function(){
+          let obj = objectPool.length === 0 ? createObjFn(this, arguments) : objectPool.shift();
+
+          return obj;
+        },
+
+        recover: function(obj) {
+          objectPool.push(obj);
+        }
+      }
+    }
+
+    var divFactory = objectPoolFactory(function(){
+      var div = document.createElement('div');
+      document.body.appendChild(div);
+
+      div.onload = function(){
+        div.onload = null;
+        divFactory.recover(div);
+      }
+      return div;
+    });
+
+    var div1 = divFactory.create();
+    div1.innerHTML = '你好啊';
+
+    var div2 = divFactory.create();
+    div2.innerHTML = '大家好啊';  
+  </script>
+</body>
+</html>

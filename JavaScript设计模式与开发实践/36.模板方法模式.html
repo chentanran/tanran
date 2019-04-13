@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    var Beverages = function(param){
+
+      var boilWater = function(){
+        console.log('将水煮开');
+      };
+
+      var brew = param.brew || function(){
+        throw new Error('必须重写brew方法');
+      };
+
+      var pourInCup = param.pourInCup || function(){
+        throw new Error('必须重写pourInCup方法');
+      };
+
+      var addCondiment = param.addCondiment || function(){
+        throw new Error('必须重写addCondiment方法');
+      };
+
+      var F = function() {};
+
+      F.prototype.init = function(){
+        boilWater();
+        brew();
+        pourInCup();
+        addCondiment();
+      }
+
+      return F;
+    }
+
+    // 创建一个 咖啡 对象
+    var Coffee = Beverages({
+
+      brew: function(){
+        console.log('冲泡咖啡');
+      },
+
+      pourInCup: function(){
+        console.log('将咖啡倒入杯中');
+      },
+
+      addCondiment: function(){
+        console.log('加牛奶和糖');
+      }
+    });
+
+    Coffee.prototype.init();
+  </script>
+</body>
+</html>

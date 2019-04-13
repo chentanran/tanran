@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    // 文件夹
+    var Folder = function(name){
+      this.name = name;
+      this.files = [];
+    }
+
+    Folder.prototype.add = function(file){
+      this.files.push(file);
+    }
+
+    Folder.prototype.scan = function(){
+      console.log('开始扫描文件夹' + this.name);
+      for(let i = 0, file; file = this.files[i++];){
+        file.scan();
+      }
+    }
+
+    // 文件
+    var File = function(name){
+      this.name = name;
+    }
+
+    File.prototype.add = function(){
+      throw new Error('文件中不能添加文件');
+    }
+
+    File.prototype.scan = function(){
+      console.log('开始输出文件' + this.name)
+    }
+
+    var file1 = new File('javascript高级程序设计');
+    // file1.scan();
+
+    var Folder1 = new Folder('javascript');
+    Folder1.add(file1);
+    Folder1.scan();
+  </script>
+</body>
+</html>

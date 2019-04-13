@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    // 文件夹
+    var Folder = function(name){
+      this.name = name;
+      this.parent = null; // 添加父对象
+      this.files = [];
+    }
+
+    Folder.prototype.add = function(file){
+      file.parent = this;
+      this.files.push(file);
+    }
+
+    Folder.prototype.scan = function(){
+      console.log('开始扫描文件夹' + this.name);
+      for(let i = 0, file; file = this.files[i++];){
+        file.scan();
+      }
+    }
+
+    Folder.prototype.remove = function(){
+      if(!this.parent){
+        return;
+      }
+      for(let files = this.parent.files, i = files.length-1; i >= 0; i-- ){
+        let file = files[i];
+        if(file === this){
+          files.splice(i, 1);
+        }
+      }
+    }
+
+    // 文件
+    var File = function(name){
+      this.name = name;
+      this.parent = null;
+    }
+
+    File.prototype.add = function(){
+      throw new Error('文件中不能添加文件');
+    }
+
+    File.prototype.scan = function(){
+      console.log('开始输出文件' + this.name)
+    }
+
+    File.prototype.remove = function(){
+      if(!this.parent){
+        return;
+      }
+      for(let files = this.parent.files, i = files.length - 1; i >= 0; i--){
+        let file = files[i];
+        if(file === this){
+          files.splice(i, 1);
+        }
+      }
+    }
+
+    var file1 = new File('javascript高级程序设计');
+    var file2 = new File('javascript设计模式');
+
+    var Folder1 = new Folder('javascript');
+    var Folder2 = new Folder('javascript1');
+    var Folder3 = new Folder('javascript2');
+    Folder1.add(file1);
+    Folder1.add(file2);
+
+    var folder = new Folder('JS');
+    folder.add(Folder1);
+    folder.add(Folder2);
+    folder.add(Folder3);
+
+    // 移除文件夹
+    Folder1.remove();
+    // 移除文件
+    file2.remove();
+
+    folder.scan();
+  </script>
+</body>
+</html>
