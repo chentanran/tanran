@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    // 支付500定金, 领100优惠卷.. 支付200定金, 领50优惠卷.. 库存有限,先到先得
+    // orderType 为1 表示500 为2 表示200 为3 表示没有
+    // pay 表示支付 true为成功, false为失败
+    // stock 表示库存 
+
+    // 新手写法
+    var order = function(orderType, pay, stock){
+      if(orderType === 1){
+        if(pay === true){
+          console.log('500元定金预定, 得到100元优惠卷')
+        } else {
+          if(stock > 0){
+            console.log('普通购买, 无优惠卷');
+          }else{
+            console.log('手机库存不足');
+          }
+        }
+      }else if(orderType === 2){
+        if(pay === true){
+          console.log('200元定金, 得到50元优惠卷');
+        }else{
+          if(stock > 0){
+            console.log('普通购买, 无优惠卷');
+          }else{
+            console.log('库存不足');
+          }
+        }
+      }else if(orderType === 3){
+        if(stock > 0){
+          console.log('普通购买, 无优惠卷');
+        }else{
+          console.log('库存不足');
+        }
+      }
+    }
+
+    // order(1, true, 500);
+    // order(2, false, 300);
+    // order(3, false, 300);
+    // order(2, true, 0);
+
+    // 责任链重构代码
+    var order500 = function(orderType, pay, stock){
+      if(orderType === 1 && pay === true){
+        console.log('500元定金, 领取100元优惠卷');
+      }else{
+        order200(orderType, pay, stock);
+      }
+    }
+
+    var order200 = function(orderType, pay, stock){
+      if(orderType === 2 && pay === true){
+        console.log('200元定金, 领取50元优惠卷');
+      }else{
+        orderNormal(orderType, pay, stock);
+      }
+    }
+
+    var orderNormal = function(orderType, pay, stock){
+      if(stock > 0){
+        console.log('普通购买,无优惠卷');
+      }else{
+        console.log('库存不足');
+      }
+    }
+
+    order500(1, true, 400);
+    order500(2, true, 400);
+    order500(3, true, 400);
+    order500(3, true, 0);
+  </script>
+</body>
+</html>

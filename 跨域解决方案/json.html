@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>jsonp</title>
+</head>
+<body>
+    <button class="btn">提交请求</button>
+    
+</body>
+</html>
+<script>
+    function $(selector) {
+        return document.querySelector(selector)
+    }
+
+    $('.btn').onclick = function () {
+        var url1 = 'http://v.juhe.cn/dream/query?key=a3bad6b379879791d5de72c98ea9e88d&q=%E9%BB%84%E9%87%91'
+        var url2 = 'http://127.0.0.1:8789/test'
+        var url3 = 'http://127.0.0.1:8789/proxy'
+       fetch(url3)
+       .then(res => res.json())
+       .then(res => {
+           console.log(res, 66666666)
+       })
+    }
+
+    // function a (data) {
+    //     console.log(data, 'jsonp请求成功')
+    // }
+</script>
+<!-- <script src="http://127.0.0.1:8789/jsonp?cb=a"></script> -->
+<!-- <script>callback(9898989898)</script> -->

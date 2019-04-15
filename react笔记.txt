@@ -1,0 +1,17 @@
+引入css文件时, 如果以对象接收, 在css-loader中,必须加上modules
+
+axios post请求  前端请求头配置x-www....
+		后台配置
+node querystring.parse 
+          querystring.stringify  序列化
+可以下载qs模块 , 挂载到vue原型中, 解决axios的post请求
+ 
+var test = new UrlSearchParams(location.search) //http://www.aa.com?ie=utf-8&th=baidu
+test.get('ie') //  结果 utf-8  
+
+new Promise()  会立即执行, 一般放在函数中
+	可以支持链式编程,可以无限.then下去
+
+async 用来修饰 function的, 被async修饰的 function 就是一个异步方法
+await 只能用在被 async 修饰的方法中
+  在调用被async修饰的方法的时候,在执行的一瞬间,主程序会进入到异步方法内,在异步方法内部遇到第一个await之前,所有diamante都是被主程序执行的,当遇到第一个await, await后的内容会被放在队列中执行

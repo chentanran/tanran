@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    var player = function(name){
+      this.name = name;
+      this.enemy = null; // 敌人
+    };
+
+    player.prototype.win = function(){
+      console.log(this.name + 'win');
+    };
+
+    player.prototype.lose = function(){
+      console.log(this.name + 'lose');
+    };
+
+    player.prototype.die = function(){
+      this.lose();
+      this.enemy.win();
+    };
+
+    // 设置两个角色
+    var player1 = new player('小王');
+    var player2 = new player('小李');
+
+    // 互相设为敌人
+    player1.enemy = player2;
+    player2.enemy = player1;
+
+    player1.die();
+  </script>
+</body>
+</html>

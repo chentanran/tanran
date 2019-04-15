@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		pre{
+			background-color: lightpink;
+		}
+	</style>
+</head>
+<body>
+	<pre>
+		github 查找 awesome + 搜索东西
+
+		header 头部 main 主体 article 文章 aside  侧边 footer 底部 nav 导航
+
+		number: 数字 max min value
+		placeholder: 提示文本,提示占位
+		multiple  多文件上传
+		autofocus: 自动获取焦点
+		autocomplete: 自动完成: on:打开 off:关闭
+			1.必须成功提交过:提交才会记录
+			2.添加的autocomplete 必须要有name属性
+		tel 并不会实现验证,仅仅在移动端弹出数字键盘
+		required: 必须输入,没有输入会阻止数据提交
+		pattern: 正则表达式验证 *:代表任意个 ?:代表0个或1个 +:代表1个或多个
+		file
+			multiple 可以选择多个文件
+			在email中 允许输入多个邮箱地址 用逗号分隔
+		form:指定表单id,在将来指定id号的表单进行提交的时候,当前表单元素数据一起提交
+
+		datalist: 创建选择列表 id="xxx",  建立联系 list="xxx"
+					value:具体的值,label:提示信息
+					如果input的输入框类型是url,value必须添加value
+		option 可以是单标签
+		
+		oninput:监听当前指定元素内容的改变,只要内容改变(添加内容,删除内容),就会触发这个事件
+		oninvalid: 当验证不通过时触发
+			this.setCustomValidity("xxx"); 设置默认的提示信息
+
+		progress 进度条 max:最大值 value:当前进度
+		meter 度量器: 衡量当前进度值
+			high:规定较高的值
+			low:规定的较低的值
+			max:最大值
+			min:最小值
+			value:当前度量值
+
+		audio: 音频
+			src:播放的音频文件路径
+			controls:音频播放器的控制面板
+			autoplay: 自动播放
+			loop:循环
+
+		video: 视频
+			src:播放的音频文件路径
+			controls:音频播放器的控制面板
+			autoplay: 自动播放
+			loop:循环
+			width:宽度
+			height:高度
+			poster:当视频还没完全下载,用户还没有点击播放前的默认显示封面,默认显示当前视频文件的第一幅画面
+			注意: 当设置宽高的时候,一般只设置宽度或高度,让其自动等比例缩放
+
+		source: 不同浏览器支持的视频格式不同,进行视频添加时,需考虑浏览器是否支持,可以准备多个格式的视频文件,让浏览器自动选择
+			<video controls>
+				<source src="xxx.flv" type="video/fiv">
+				<source src="xxx.mp4" type="video/mp4">
+				浏览器不支持
+			</video>
+
+		add: 伪元素添加指定名称的样式,一次只能添加一个样式
+		classList:当前元素的所有样式列表-数组
+		remove: 伪元素移除指定名称样式(不是移除classs) 一次只能移除一个
+		toggle: 切换元素的样式: 如果元素没有指定名称的样式则添加,有则移除
+		contains: 判断元素是否包含指定名称的样式,返回true/false
+
+		自定义属性:
+			data--开头
+			data后必须至少有一个字符
+			建议:
+				1.名称应该都使用小写--不要包含任何大写字符
+				2.名称中不要有任何的特殊符号
+				3.名称不要副作用纯数字
+			获取自定义属性
+				将data-后面的单词使用camel(驼峰)命名法链接:必须使用camel合法获取值,否则可能无法获取到值
+				dataset['类名'];
+
+		ononline: 网络连通的时候触发这个事件  window.addEventLister(online, function(){})
+		onoffline: 网络断开时触发	offline
+
+		全屏操作的主要方法和属性:
+			1.requestFullScreen() : 开启全屏显示
+				不同浏览器需添加不同的前缀
+					chrome: webkit
+					firefox:moz
+					ie:ms
+					opera:o
+			2.cancelFullScreen() : 退出全屏显示
+				退出全屏 只能使用document来调用
+			3.FullScreenElement(): 是否退出全屏状态   也是通过document来判断
+
+		FileReader: 读取文件内容
+			1.readAsText(): 读取文本文件(可以使用txt打开的文件),返回字符串,默认编码utf-8
+			2.readAsBinaryString(): 读取任意类型的文件.返回二进制字符串.这个方法不是用来读取文件展示给用户看,而是存储文件.例如: 读取文件,获取二进制数据,传给后台,后台接收数据之后,再将数据存在
+			3.readAsDataURL(): 读取文件获取一段以data开头的字符串,这段字符串的本质是DataURL.DataURL是一种将文件(指图像或能嵌入到文档的文本格式)嵌入的文档的方案.
+				DataURL是将资源转换为base64编码的字符串形式,将内容直接存储在url中>>优化网站的加载速度和执行效率
+				(1,没有返回值:void, 但是读取文件之后,它会将读取的结果存储在文件读取对象的result中 2.需要传递一个参数: 文件(图片或其他嵌入文档类型) 3,文件存储在file表单元素的files属性中,是一个数组)
+			src:指定路径(资源定位--url): src请求的是外部文件,一般是服务器资源,意味着需要向服务器发送请求,占用服务器资源
+
+		onabort(): 读取文件中断时触发
+		onerror: 读取错误时触发
+		onload: 文件读取成功时触发
+		onloadend:读取完成时触发,无论成功失败
+		onloadstart: 开始读取文件时触发
+		onprogress: 读取文件过程中持续触发
+
+		draggable="true"  拖拽元素 图片和超链接不用加
+			拖拽事件:
+				拖拽元素:
+			ondrag: 整个拖拽事件都会触发
+			ondragstart: 拖拽开始时调用
+			ondragleave : 鼠标离开拖拽元素时调用
+			ondragend: 拖拽时结束
+				目标元素:
+			ondragenter: 当拖拽元素进入时调用
+			ondragover: 停留在目标元素上时调用
+			ondrop : 在目标元素上松开鼠标时调用
+				浏览器默认会阻止ondrop事件,必须在ondragover中阻止浏览器的默认行为
+					e.preventDefault();
+			ondragleave: 鼠标离开目标元素时调用
+		通过dataTransfer来实现数据的存储与获取
+			serData(format,data):
+				format:数据类型: text/html text/uri-list
+				data: 数据:字符串值
+			getData 获取 : 只能在ongrop中获取
+
+		sessionStorage : 存储数据到本地,容量为5mb左右.
+				1.这个数据本质是存储在当前页面的内存中
+				2.它的生命周期为关闭当前页面,关闭页面,数据会清除
+		localStorage : 
+				1.存储的内容大概20mb
+				2.不同浏览器不能共享数据.同一浏览器的不同窗口可以共享数据
+				3.永久生效,数据存储在硬盘上,不会随着页面或浏览器的关闭而清除,如果想清除,必须手动
+			setItem(key,value) : 存储数据,以键值对的方式存储
+			getItem(key): 获取数据,通过对应的key获取对应的value值
+				1.找不到对应名称的key,会获取null
+			removeItem(key): 删除数据,通过指定名称key删除对应的值
+				1.删除的时候如果key值错误,不会报错,也不会删除数据
+			clear() : 清空所有存储的内容
+
+	css3
+		属性选择器: 属性是相对于标签而言.根据指定名称的属性的值来查找元素
+			1. E[attr]: 查找拥有attr属性的E标签
+			2. E[attr=value]: 查找拥有指定的attr属性并且值为value的E标签 == 严格匹配
+			3. E[attr*=value] : 查找拥有指定的attr属性并且属性值中包含(可以在任意位置)value的E标签
+			4.E[attr^=value]: 查找拥有指定attr属性,并且属性值以value开头的E标签
+			5.E[attr$=value]: 查找拥有指定attr属性,并且属性值以value结束的E标签
+
+		伪类选择器:
+			兄弟伪类:
+				+ : 获取当前元素的相邻的满足条件的元素  , 必须是指定类型元素
+				~ : 获取当前元素满足条件的兄弟元素
+			相对于父元素的结构伪类:
+				E:first-child: 查找E元素的父级元素中的第一个E元素.查找时不会限制元素类型
+					1.相对于当前指定父元素
+					2.查找的类型必须是指定的类型
+				E:last-child: 查找E元素的父级元素中的最后一个E元素
+				E:first-of-type: 查找E元素的父级元素中指定的第一个E元素
+					1.相对于父元素
+					2.查找时只查找满足条件的元素,过渡掉其他类型的元素
+				E:last-of-type: 查找E元素的父级元素中指定的最后一个E元素
+				E:nth-child(从1开始的索引||关键字||表达式)  指定索引位置
+					even: 偶数   odd: 奇数
+				E:nth-of-type(从1开始的索引||关键字||表达式)  指定索引位置 筛选
+				n:默认取值范围为0~子元素的长度,当n<=0时,选取无效
+				E:nth-last-of-type(-n+5)  从后开始选取
+
+				E:empty :为空时触发
+				E:target  可以为锚点目标添加样式,目标被触发为当前锚点值时,可以调用此伪类样式
+
+			伪元素:
+				::before : 必须添加content, 默认是行内元素
+				::after  :
+				::first-letter 获取第一个字符  float:left 文字环绕
+				::first-line  获取第一行内容
+				::selection :设置当前选中内容的样式 , 只能设置显示的样式,不能设置内容大小 
+
+		盒子阴影:
+			box-shadow: x轴 y轴 阴影模糊 颜色
+			文本阴影: text-shadow: offsetX offsetY blur color;
+			边框阴影:box-shadow: h v blur spread color inset
+				h: 水平方向的偏移值
+				v: 垂直方向的偏移值
+				blur: 模糊--可选
+				spread: 阴影的尺寸.扩展阴影--可选,默认0
+				color: 颜色
+				inset: 内阴影
+
+		圆角边框:
+			border-radius: x y z a/x y z a
+				想设置四个角点的不同方向上的不同圆角值
+			分别是水平方向上的: 左上. 右上. 右下. 左下./垂直方向的: 左上. 右上. 右下. 左下
+
+		线性渐变: 需要使用background
+		linear-gradient(方向,开始颜色 位置, 颜色2 位置, 颜色3 位置...) 
+			to top: 0deg
+			to right: 90deg
+			to bottom: 180deg --默认值
+			to left: 270deg
+
+		径向渐变:
+			radial-gradient(形状 大小 坐标, 颜色1, 颜色2);
+			形状shape: circle: 产生正方形的渐变色
+						ellipse: 适配当前的形状,如是正方形,两者效果一样,如宽高不一样,默认切换到ellipse
+			坐标 at position:坐标,默认在正中心.可以赋值坐标(参照元素的左上角),也可以赋值关键字(left center right top bottom)
+			大小 size: closest-side 最近边
+						farthest-side: 最远边
+						closest-corner: 最近角
+						farthest-corner: 最远角  默认最远角
+
+		重复渐变:
+			background: repeating-radial-gradient()  重复径向渐变
+						repeating-linear-gradient()  重复线性渐变
+
+		背景平铺:
+			round: 将图片进行缩放之后再平铺
+			space: 拖不会缩放平铺,只会在图片之间产生相同的间距值
+		背景固定:
+			background-attchment: 
+			local: 背景图片会跟随内容一起绑定
+			scroll: 背景图片不会跟随内容一起滚动
+		背景缩放 backgroun-size
+			contain: 按比例调整图片大小,使图片宽高自适应整个元素的背景区域,时图片全部包含在容器内
+				1.图片大于容器: 有可能造成容器的空白区域,将图片缩小
+				2.图片小于容器: 有可能造成容器的空白区域,将图片放大
+			cover: 背景图片按比例自适应整个背景区域,如果背景区域不足以包含所有背景图片,图片内容会溢出
+				1.图片大于容器: 等比例缩小,会填满整个背景区域,有可能造成图片的某些区域不可见
+				2.图片小于容器: 等比例放大,填满整个背景区域,图片有可能造成某个方向上内容的溢出
+		设置背景坐标的原点:
+			background-origin: content-box
+				border-box: 从border的位置开始填充背景,会与border重叠
+				padding-box: 从padding的位置开始填充背景,会与padding重叠
+				content-box: 从内容的位置开始填充背景
+		背景裁剪:
+			background-clip: content-box;
+				参数同上
+		边框图片:
+			border-image-source: url(); 可以指定边框图片的路径,默认只能填充到容器的四个角点
+			border-image-slice: 边距, fill 让它成为九宫格, fill: 做内容的内部填充
+			border-image-width: 边框图片的宽度.如果没有设置,默认为元素原始的边框宽度
+				细节: 1.边框图片的本质是背景,不会影响元素内容的放置
+					  2.内容只会被容器的border和padding影响
+				建议: 一般将值设置为原始边框的宽度
+			border-image-outset: 扩展边框
+			border-image-repeat: repeat:直接重复平铺  round:将内容缩放进行完整的重复平铺
+								 stretch 拉伸(默认值)
+
+		缩写: border-image: source slice / width / outset repeat 
+
+		过渡:
+			transition: 属性名称 过渡时间 时间函数 延迟
+						transition: left 2s linear 0s;
+							steps(1) : 过渡效果分为指定的几次来完成
+		点击:
+			:active
+
+		标签名:nth-of-type(1) : 获取当前第几个标签
+
+		2D转换:
+			translate : a,移动参照元素的左上角; b.执行完毕后会恢复到原始状态
+			2D移动:
+				transform: translate() 
+					1.如果只有一个参数代表x方向
+					2.如果有两个 代表x/y方向
+				transform: translateX, translateY  延x或y移动
+			2D缩放:
+				transform: scale(); 实现缩放: 1指不缩放, >1.01放大 < 0.99缩小 参照元素的几何中心
+					1.如果只有一个参数,代表x和y方向都进行同比例的缩放
+					2.如果有两个参数,就代表x/y方向
+					scaleX() : scaleY()
+			2D旋转:
+				rotate(0deg); 只有一个参数 设置一个角度, 进行旋转
+			2D斜切:
+				skew(0deg); 如果角度为正,则当前轴的负方向斜切,如果角度为负,则当前轴的正方向斜切
+				skewX()  skewY() 延某个方向斜切 
+			旋转轴心:
+				transform-origin: left top;  
+					关键字: left top right bottom center
+		3D转换:
+			transform-style: preserve-3d;  让子级元素在3D空间占据位置
+			3D移动: 
+				transform: translate3d(x方向的偏移, y方向的偏移, z方向的偏移)
+			3D缩放:
+				transform: scale3d(x方向上的缩放, y方向上的缩放,z方向上的缩放)
+			3D旋转:
+				transform: rotate3d(x,y,z,angle)
+					x: 代表x轴方向上的一个向量值
+					y: 代表y轴方向上的一个向量值
+					z: 代表z轴方向上的一个向量值
+			井深: perspective(length)
+			镜头在平面上的位置: perspective-origin:x,y 默认放在元素中心
+
+		动画:
+			animation:名称;   steps(1) : 过渡效果分为指定的几次来完成
+			@keyframes 名称 {
+				from{} to{}
+			}
+			1.指定动画名称
+			2.设置动画的总耗时
+			3.设置动画的播放次数,默认1次,可以指定具体的数值,也可以指定infinite
+			4.设置交替动画 alternate:来回交替
+			5.设置动画延迟
+			5.动画结束时的状态: 默认动画执行完,回到原位
+				forwards: 保留动画结束时的状态,有延迟的情况下,不会立刻进行到动画的初始状态
+				backwards: 不会保留动画结束时的状态,添加了动画延迟的前提下,动画有初始状态,会立刻进行到初始状态
+				both: 保留动画的结束时状态,有延迟的情况下会立刻进入到动画的初始状态
+			6.动画时间函数:
+				linear: 动画从头到尾的速度是相同的
+				 ease: 动画以低速开始,然后加快,结束时变慢  默认值
+			7.设置动画的播放状态
+				running:播放
+				paused: 暂停
+
+		多列布局:
+			1.设置列数:
+				column-count: 3;
+			2.添加列间隙样式,与边框样式的添加一样
+				column-rule: dashed 4px red;
+			3.设置列间隙大小:
+				column-gap: 50px;
+			4.设置列宽
+				原则: 取大优先
+					1.如果人为设置宽度更大,则取更大的值,但会填充整个屏幕,可能最终宽度大于设置的宽度-
+					2.如果人为设置宽度更小,使用默认计算的宽度
+				column-width: 200px;
+			5.横跨列数
+				column-span: 1 或 all    设置跨列数,如果是行内元素,需转换为块级元素
+
+		伸缩布局:
+			display: flex; 设置容器为父盒子,会使每一个子元素自动变成伸缩项
+			设置子元素在主轴方向上的排列方式:
+				justify-content: 
+				1.flex-start : 让子元素从父容器的起始位置开始排列
+				2.flex-end: 让子元素从父容器的结束位置开始排列
+				3.center : 让子元素从父容器的中间位置开始排列
+				4.space-between : 左右对齐父容器的开始和结束,中间平均分页,产生相同的间距
+				5.space-around: 将多余的空间平均的分页在每一个子元素的两边,造成中间盒子的间距是左右两边盒子间距的两倍 
+
+				flex-flow: 是flex-wrap 和 flex-direction的综合, 可以同时设置两个属性的值
+
+				flex-wrap: 控制子元素是否换行显示,默认不换行
+					nowrap: 不换行--则收缩
+					wrap: 换行
+					wrap-reverse: 翻转, 原来是从上到下,翻转后就是从下到上来排列
+				flex-direction: 设置子元素的排列方向: 就是用来主轴方向,默认主轴方向是row(水平方向)
+					row: 水平方向排列,从左到右
+					row-reverse: 水平排列方向,从右到左
+					column: 垂直排列方向,从上到下
+					column-reverse: 垂直方向翻转,从下到上
+
+				flex 是 flow-grow 和 flex-shrink 和 flex-basis 的综合, 可以同时设置三个属性, 也可以单独设置一个 默认0 1 auto
+
+				flow-grow: 可以来扩展子元素的宽度:设置当前元素应该占据剩余空间的比例值
+						比例值计算: 当前空间的flex-grow/所有兄弟元素的flex-grow的和.
+						flex-grow的默认是0 : 说明子元素并不会去占据剩余的空间
+				flex-shrink: 定义收缩比例, 通过设置的值来计算收缩空间
+						比例值计算: 当前空间的flex-shrink/所有兄弟元素的flex-shrink的和.  默认值为1
+				flex-basis: 分配多余空间之前,项目占据的主轴空间 默认auto 单位px
+
+			设置子元素(伸缩项)在侧轴方向上的对齐方式
+				align-items:
+					center: 设置在侧轴方向上居中对齐
+					flex-start: 设置在侧轴方向上顶对齐
+					flex-end: 设置在侧轴方向上底对齐
+					stretch: 拉伸 : 让子元素在侧轴方向上进行拉伸, 填充整个侧轴方向 >> 默认值
+					baseline: 文本基线
+				设置单个元素在侧轴方向上的对齐方式
+					align-self:center;
+
+				align-content:定义多根轴线的对齐方式,如只有一根轴线,该属性不起作用.
+					flex-start: 与交叉轴的起点对齐.
+					flex-end: 与交叉轴的终点对齐.
+					center: 与交叉轴的中心对齐
+					space-between: 与交叉轴两端对齐,轴线之间的间隔平均分布.
+					space-around: 每根轴线两侧的间隔相等.所有,轴线之间的间隔比轴线与边距的间隔大一倍.
+					stretch(默认值): 轴线占满整个交叉轴
+
+			order: 定义项目的排列顺序,数值越小,排列越靠前,默认为0
+
+		以下6个属性设置在项目上:
+			order  flex-grow  flex-shrink  flex-basis  flex  align-self
+
+	</pre>
+</body>
+</html>

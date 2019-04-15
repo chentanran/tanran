@@ -1,0 +1,30 @@
+1. 当给组件中的标签添加回车触发事件时, 因为组件提供的标签不是html标签, 不能识别, 加上事件修饰符 .native 可以解决
+
+2.angular.js 版本断层 优点: typeScript  没有组件化  学习组件比较陡
+  react.js   组件化,虚拟DOM
+  vue.js   一半借鉴于angular.js (指令)  一半借鉴于 react(虚拟DOM, 组件化)   vue文档通俗易懂
+	集两大框架于一身
+	文档友好
+	现在vue也是一个团队维护
+模块化: 从代码的角度,把一些可复用的代码抽离成单个的模块,便于维护和开发
+	从ui的角度,一些可复用的UI元素,抽离为单独的组件,便于项目的维护和开发
+
+	复用
+	易维护
+	每个.vue文件 就是一个组件
+js 网页 服务器 游戏 App 桌面应用  
+App webApp 游览器网页 M站 体验不好
+	就好比是手机上的网站
+        Hybird App 混合开发
+	App中的内容都是html.js.css写的,然后给它们包一个app的壳子
+		前端做的工作不变,你开发完了之后,将开发的前端代码给andorid和ios开发工程师,让它们打包成app即可
+         Native App  原生App
+	andorid用 java-android开发,
+	ios使用swift objectC开发
+file 跨域  jsonp cors 反向代理
+
+diff算法 新旧DOM树, 逐层对比,就是treeDiff
+
+小程序更新数据 this.setData
+
+keep-alive 包裹动态组件 不用从新渲染, 保留组件,避免重复渲染
