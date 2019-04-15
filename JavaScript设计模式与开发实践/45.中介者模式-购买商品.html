@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <select name="" id="colorSelect">
+    <option value="">请选择</option>
+    <option value="red">红</option>
+    <option value="green">绿</option>
+    <option value="blue">蓝</option>
+  </select>
+
+  <select name="" id="memorySelect">
+    <option value="">请选择</option>
+    <option value="16">16G</option>
+    <option value="32">32G</option>
+  </select>
+
+  购买数量: <input type="text" id="numberInput">
+
+  <div>
+    <span>颜色: </span>
+    <span id="showColor"></span>
+  </div>
+
+  <div>
+    <span>内存: </span>
+    <span id="showMemory"></span>
+  </div>
+
+  <div>
+    <span>购买数量: </span>
+    <span id="showNumber"></span>
+  </div>
+
+  <button id="btn">加入购物车</button>
+
+  <script>
+    var commodity = {
+      "red|16": 4,
+      "red|32": 5,
+      "green|16": 8,
+      "green|32": 1,
+      "blue|16": 2,
+      "blue|32": 0
+    }
+
+    var mediator = (function(){
+      var colorSelect = document.querySelector('#colorSelect'),
+          numberInput = document.querySelector('#numberInput'),
+          memorySelect = document.querySelector('#memorySelect'),
+          showColor = document.querySelector('#showColor'),
+          showMemory = document.querySelector('#showMemory'),
+          showNumber = document.querySelector('#showNumber'),
+          btn = document.querySelector('#btn');
+        // debugger
+        return {
+          changed: function(obj){
+            var color = colorSelect.value,
+                memory = memorySelect.value,
+                number = numberInput.value,
+                stock = commodity[color + '|' + memory];
+
+            if(obj === colorSelect){
+              showColor.innerHTML = color;
+            } else if(obj === memorySelect){
+              showMemory.innerHTML = memory;
+            } else if(obj === numberInput){
+              showNumber.innerHTML = number;
+            }
+            
+            if(!color){
+              btn.disabled = true;
+              btn.innerHTML = "请选择颜色";
+              return;
+            }
+
+            if(!memory){
+              btn.disabled = true;
+              btn.innerHTML = "请选择内存";
+              return;
+            }
+
+            if(!(Number.isInteger(number - 0) && number > 0)){
+              btn.disabled = true;
+              btn.innerHTML = "请输入购买数量";
+              return;
+            }
+
+            btn.innerHTML = "加入购物车成功"
+            btn.disabled = false;
+          }
+        }
+    })();
+
+    colorSelect.onchange = function(){
+      mediator.changed(this);
+    };
+
+    memorySelect.onchange = function(){
+      mediator.changed(this);
+    };
+
+    numberInput.oninput = function(){
+      mediator.changed(this);
+    };
+    
+  </script>
+</body>
+</html>
