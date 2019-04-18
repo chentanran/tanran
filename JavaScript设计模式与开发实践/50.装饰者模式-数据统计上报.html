@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <button tag="login" id="button">点击打开登录浮层</button>
+
+  <script>
+    // showLogin 函数 既负责打开登录浮层, 又负责数据上报
+    // var showLogin = function(){
+    //   console.log('打开登录浮层');
+    //   log(this.getAttribute('tag'));
+    // }
+
+    // var log = function(tag){
+    //   console.log('上报标签为' + tag)
+    // }
+
+    // document.getElementById('button').onclick = showLogin
+
+    Function.prototype.after = function(afterFn){
+      var _self = this;
+      return function(){
+       var ret = _self.apply(this, arguments);
+       afterFn.apply(this, arguments);
+        return ret;
+      }
+    }
+
+    var showLogin = function(){
+      console.log('打开浮层');
+    }
+
+    var log = function(){
+      console.log('上报标签为' + this.getAttribute('tag'));
+    }
+
+    var showLogin = showLogin.after(log);
+
+    document.querySelector('#button').onclick = showLogin;
+  </script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  用户名: <input type="text" id="username"> <br>
+    密码: <input type="text" id="password"> <br>
+          <input type="button" id="submit" value="提交"></input>
+
+  <script>
+    var username = document.querySelector('#username');
+    var password = document.querySelector('#password');
+    var submit = document.querySelector('#submit');
+
+    Function.prototype.before = function(beforefn){
+      let _self = this;
+      return function(){
+        if(beforefn.apply(this, arguments) === false){
+          throw new Error('验证失败')
+        }
+        return _self.apply(this, arguments);
+      }
+    }
+
+    var validate = function(){
+      if(!username.value){
+        return false
+      } else if(!password.value){
+        return false
+      }
+    }
+
+    var submits = function(){
+      var param = {
+        username: username.value,
+        password: password.value
+      }
+      console.log('登录成功' + param.username + '-' + param.password)
+    }
+
+    submits = submits.before(validate)
+
+    submit.onclick = submits
+  </script>
+</body>
+</html>

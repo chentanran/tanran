@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    var before = function(fn, beforefn){
+      return function(){
+        debugger
+        beforefn.apply(this, arguments);
+        return fn.apply(this, arguments);
+      }
+    }
+
+    var a = before(
+      function(){ alert(1) },
+      function(){ alert(2) }
+    )
+
+    a = before(a, function(){alert(3)})
+
+    a();
+  </script>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    Function.prototype.before = function(beforefn){
+      let _self = this;
+      return function(){
+        beforefn.apply(this, arguments);
+        return _self.apply(this, arguments);
+      }
+    }  
+
+    var a = function(param){
+      console.log(param)
+    }
+
+    var b = function(param){
+      param.b = 'b'
+    }
+
+    // var param = {
+    //   a: 'a'
+    // }
+
+    a = a.before(b);
+
+    // a({a:'a'})
+  </script>
+
+  <script>
+    Function.prototype.before = function(beforefn){
+      let _self = this;
+      return function(){
+        beforefn.apply(this, arguments);
+        return _self.apply(this, arguments);
+      }
+    }  
+
+    var ajax = function(type, url, param){
+      console.dir(param)
+    }
+
+    var getToken = function(){
+      return 'token'
+    }
+
+    ajax = ajax.before(function(type, url, param){
+      param.token = getToken();
+    })
+
+    ajax('get', 'xxxxxx', {a:'a'})
+
+
+  </script>
+</body>
+</html>

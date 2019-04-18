@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    var Plane = {
+      fire: function(){
+        debugger
+        console.log('发射普通导弹');
+      }
+    }
+
+    var missileDecorator = function(){
+      console.log('发射导弹');
+    }
+
+    var atomDecorator = function(){
+      console.log('发射原子弹');
+    }
+
+    var plane1 = Plane.fire;
+    Plane.fire = function(){
+      debugger
+      plane1();
+      missileDecorator();
+    }
+
+    var plane2 = Plane.fire;
+    Plane.fire = function(){
+      debugger
+      plane2();
+      atomDecorator();
+    }
+
+    Plane.fire();
+  </script>
+</body>
+</html>
