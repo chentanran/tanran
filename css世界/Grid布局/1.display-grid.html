@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    .contain{
+      display: grid;
+      height: 500px;
+      /* display: inline-grid; */
+      grid-template-columns: repeat(2, 1fr);
+      /* grid-template-rows: 1fr 1fr; */
+      /* grid-template-areas: "header header item"
+                           "footer footer item"; */
+      /* text-align: center; */
+      /* grid-column-gap: 10px;
+      grid-row-gap: 20px; */
+      /* gap: 10px; */
+    }
+    /* .contain > div { position: relative; }
+    .contain > div.header { grid-area: header; background-color: pink; }
+    .contain > div.footer { grid-area: footer; background-color: blue;}
+    .contain > div.item { grid-area: item; background-color: green;} */
+  </style>
+</head>
+<body>
+  <div class="contain">
+    <div class="header">1</div>
+    <div class="footer">3</div>
+    <div class="item">5</div>
+  </div>
+</body>
+</html>
