@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+
+  <!-- <button id="btn"></button> -->
+
+  <script>
+    var state = function(){}
+
+    state.prototype.buttonWasPressed = function(){
+      throw new Error('未定义此方法');
+    }
+
+    var offLightState = function(light){
+      this.light = light;
+    }
+
+    offLightState.prototype = new state(); // 防止未定义方法,直接抛出错误
+
+    offLightState.prototype.buttonWasPressed = function(){
+      console.log('开灯');
+      
+      this.light.setState(this.light.weak);
+    }
+
+    var weakLightState = function(light){
+      this.light = light;
+    }
+
+    weakLightState.prototype = new state();
+
+    weakLightState.prototype.buttonWasPressed = function(){
+      console.log('亮灯');
+      this.light.setState(this.light.super);
+    }
+
+    var superLightState = function(light){
+      this.light = light
+    }
+
+    superLightState.prototype = new state();
+
+    superLightState.prototype.buttonWasPressed = function(){
+      console.log('超强光');
+      this.light.setState(this.light.strong)
+    }
+
+    var StrongLightState = function(light){
+      this.light = light;
+    }
+
+    StrongLightState.prototype = new state();
+
+    StrongLightState.prototype.buttonWasPressed = function(){
+      console.log('关灯');
+      this.light.setState(this.light.off);
+    }
+
+    var Light =function(){
+     this.off = new offLightState(this),
+     this.weak = new weakLightState(this),
+     this.super = new superLightState(this),
+     this.strong = new StrongLightState(this),
+     this.button = null
+    }
+    
+    Light.prototype.init = function(){
+      var self = this;
+      this.button = document.createElement('button');
+      document.body.appendChild(this.button);
+      this.button.innerHTML = '开关';
+
+      this.currentState = this.off;
+      this.button.onclick = function(){
+        // debugger
+        self.currentState.buttonWasPressed();
+      }
+    }
+
+    Light.prototype.setState = function(newState){
+      this.currentState = newState;
+    }
+   
+    var lights = new Light();
+    lights.init();
+  </script>
+</body>
+</html>

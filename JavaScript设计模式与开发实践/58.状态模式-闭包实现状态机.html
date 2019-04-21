@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    var delegate = function(client, delegation){
+      return {
+        buttonWasPressed: function(){
+          return delegation.buttonWasPressed.apply(client, arguments);
+        }
+      }
+    }
+
+    var FSM = {
+      off: {
+        buttonWasPressed: function(){
+          console.log('开灯');
+          this.button.innerHTML = '点击开灯';
+          this.currentState = this.onState;
+        }
+      },
+      on: {
+        buttonWasPressed: function(){
+          console.log('关灯');
+          this.button.innerHTML = '点击关灯';
+          this.currentState = this.offState;
+        }
+      }
+    }
+
+    var light = function(){
+      this.offState = delegate(this, FSM.on);
+      this.onState = delegate(this, FSM.off);
+      this.button = null;
+      this.currentState = this.offState;
+    }
+
+    light.prototype.init = function(){
+      var self = this;
+      var button = document.createElement('button');
+      button.innerHTML = '开灯';
+
+      this.button = document.body.appendChild(button);
+      this.button.onclick = function(){
+        self.currentState.buttonWasPressed(); // 注意小心 this
+      }
+    }
+
+    var lights = new light();
+    lights.init();
+  </script>
+</body>
+</html>

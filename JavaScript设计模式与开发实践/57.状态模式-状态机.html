@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    var light = function(){
+      this.currentState = FSM.off; // 默认关灯
+      this.button = null;
+    }
+
+    light.prototype.init = function(){
+      let self = this;
+      var button = document.createElement('button');
+      button.innerHTML = '开灯';
+      this.button = document.body.appendChild(button);
+
+      this.button.onclick = function(){
+        self.currentState.buttonWasPressed.call(self);
+      }
+    }
+
+    var FSM = {
+      off: {
+        buttonWasPressed: function(){
+          console.log('关灯');
+          this.button.innerHTML = '下次按我就是开灯'
+          this.currentState = FSM.on;
+        }
+      },
+      on: {
+        buttonWasPressed: function(){
+          console.log('开灯');
+          this.button.innerHTML = '下次按我就是关灯'
+          this.currentState = FSM.off;
+        }
+      }
+    }
+
+    var lights = new light();
+    lights.init()
+  </script>
+</body>
+</html>
