@@ -10,6 +10,7 @@
   <script>
     Function.prototype.uncurrying = function() {
       var self = this;
+      // debugger
       return function() {
         return Function.prototype.call.apply(self, arguments);
       }

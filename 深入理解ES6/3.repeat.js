@@ -1,0 +1,1 @@
+console.log('a'.repeat(5)) // aaaaa
