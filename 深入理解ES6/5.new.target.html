@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    function Person(name) {
+      console.log(new.target)
+      if(!(new.target)){ // 通过new.target判断是否通过new调用的函数
+        throw new Error('请通过new调用此函数')
+      }
+
+      this.name = name
+    }
+
+    // let person = Person('张三')
+
+    let person1 = new Person('张收纳')
+
+    console.log(person1)
+  </script>
+</body>
+</html>

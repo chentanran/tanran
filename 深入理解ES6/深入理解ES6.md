@@ -27,3 +27,16 @@
 
 + flags 获取正则表达式的修饰符
 + source 获取正则表达式的文本
+
+## new.target
++ 解决判断函数是否通过 new 关键字调用的问题
+
+```javascript
+  function Person(name) {
+    if(typeof new.target === Person){
+      // 通过 new 调用
+    } else {
+      throw new Error('没通过 new 调用')
+    }
+  }
+```
