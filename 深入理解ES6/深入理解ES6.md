@@ -40,3 +40,42 @@
     }
   }
 ```
+
+## Object.assign() 混入(mixin)
+
+## Object.getOwnPrototypeDescriptor() 属性描述符
+
+## Object.getOwnPrototypeNames() 
+### 自由属性枚举顺序
++ 所有数字键按升序排列
++ 所有字符串键按他们被加入对象的顺序排序
++ 所有symbol键按照它们被加入对象的顺序排序
+
+## setPrototype()[设置原型对象] 和 getPrototype()[获取原型对象]
+
+## Symbol
+
++ 可以使用typeof来检测是否为Symbol类型
++ 第一次调用 Symbol.for()方法创建这个Symbol, 第二次调用可以直接从Symbol的全局注册表中检索这个Symbol
++ 可以使用 Symbol.keyFor() 在Symbol全局注册表中检索与Symbol有关的键
+
+### Object.getOwnPropertySymbols() 返回一个包含所有Symbol自有属性的数组
+
+### Symbol.hasInstance 用于确定对象是否为函数的实例 等同于 instanceof
+
+### Symbol.isConcatSpreadable 属性 为一个布尔值, 该属性为true, 则表示对象有length属性和数字键
+```javascript
+  let collection = {
+    0: 'hello',
+    1: 'world',
+    length: 2,
+    [Symbol.isConcatSperadable]: true
+  }
+
+  let message = ['hi'].concat(collection)
+```
+
+### Symbol.match 接收一个字符串类型的参数,如果匹配成功,则返回匹配元素的数组, 否则返回null
+### Symbol.replace 接收一个字符串类型的参数和一个替换用的字符串,最终依旧返回一个字符串
+### Symbol.search 接收一个字符串参数,如果匹配到内容, 则返回数字类型的索引位置, 否则返回-1
+### Symbol.split 接收一个字符串参数, 根据匹配内容将字符串分解, 并返回一个包含分割后片段的数组
