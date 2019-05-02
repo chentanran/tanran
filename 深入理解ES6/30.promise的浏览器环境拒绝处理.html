@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    let rejectd;
+
+    window.onunhandledrejection = function(event) {
+      console.log(event.type)
+      console.log(event.reason.message)
+      console.log(rejected === event.promise)
+    }
+
+    window.onrejectionhandled = function(event) {
+      console.log(event.type)
+      console.log(event.reason.message)
+      console.log(rejectd === event.promise)
+    }
+
+    rejected = Promise.reject(new Error('Explosion!'))
+  </script>
+</body>
+</html>
