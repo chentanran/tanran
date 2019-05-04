@@ -114,3 +114,56 @@
 
 ### Promise.race()
 + 接收多个promise, 返回第一个调用的promise
+
+## proxy
++ 代理(proxy)是一种可以拦截并改变底层JavaScript引擎操作的包装器, 在新语言中通过它暴露内部运作的对象, 从而可以让开发者创建内建的对象.
+
+### set
++ trap Target 用于接收属性(代理的目标)的对象
++ key 要写入的属性值(字符串或Symbol类型)
++ value 被写入属性的值
++ receiver 操作发生的对象(通常是代理)
+
+### get
++ trap Target 被读取属性的源对象(代理的目标)
++ key 要读取的属性值(字符串或Symbol)
++ receiver 操作发生的对象(通常是代理)
+
+### has
++ trap Target 读取属性的对象(代理的目标)
++ key 要检查的属性值(字符串或Symbol)
+
+### deleteProperty
++ trap Target 要删除属性的对象(代理的目标)
++ key 要删除的属性键(字符串或Symbol)
+
+### 原型代理 getPrototypeOf 和 setPrototypeOf
++ trap Target 接受原型设置的对象(代理的目标)
++ proto 作为原型使用的对象
+```javascript
+  getPrototypeOf必须返回对象或null, 只要返回值必将导致运行错误
+  setPrototypeOf如果操作失败则返回的一定是 false
+```
+
+### 对象可扩展性陷阱
++ Reflect.isExtensible 判断是否是可扩展的对象
++ Reflect.preventExtensions 设置对象为不可扩展对象
++ 接收唯一的参数: trapTarget对象
+
+### 属性描述符陷阱 defineProperty 和 getOwnPropertyDescriptor
++ trapTarget 要定义属性的对象(代理的目标)
++ key 属性的键
++ descriptor 属性的描述符对象
+
+### ownKeys 
++ 通过 Reflect.ownKeys() 返回数组中包含所有自有属性的键名
+
+### 函数代理中的 apply 和 construct
+#### Reflect.apply 接收以下参数
++ 1. trap Target 被执行的函数(代理的目标)
++ 2. thisArg 函数被调用时内部this的值
++ 3. argumentsList 传递给函数的参数数组
+
+#### reflect.construct 接收以下参数
++ 1. trap Target 被执行的函数(代理的目标)
++ 2. argumentsList 传递给函数的参数数组
