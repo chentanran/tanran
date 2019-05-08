@@ -167,3 +167,18 @@
 #### reflect.construct 接收以下参数
 + 1. trap Target 被执行的函数(代理的目标)
 + 2. argumentsList 传递给函数的参数数组
+
+## WEB 浏览器中使用模块
+
+### script 标签上的修饰符
++ type="module" 可以让 js 模块按顺序一个一个的加载
++ async属性 : 在模块执行前, 模块中所有的导入资源都必须下载下来
+
+## import 
++ 使用 import 导入时, 导入的路径必须以 /, ./, ../ 开头
+
+## 安全的整数
++ Number.isInteger() 确保一个值是否是整数类型
++ Number.isSafeInteger() 确保一个值是不超过最大整数和最小整数的值
++ Number.MAX_SAFE_INTEGER 整数范围的上限
++ Number.MIN_SAFE_INTEGER 整数范围的下限
