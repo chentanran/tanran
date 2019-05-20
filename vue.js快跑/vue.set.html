@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <div id="app"></div>
+  <script src="vue.js"></script>
+  <script>
+    const vm = new Vue({
+      el: '#app',
+      data: {
+        formData: {
+          name: 'userName'
+        },
+        arr: ['123', '23', '45', 'er', 'rt']
+      },
+      mounted () {
+        // 有就替换, 没有就添加 
+        this.$set(this.formData, 'name  ', 'xiaolizi')
+        console.log(this.formData)
+
+        this.$set(this.arr, 2, 'gh')
+        console.log(this.arr)
+      }
+    })
+  </script>
+</body>
+</html>

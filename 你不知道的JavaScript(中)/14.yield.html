@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    function *foo(val) {
+      debugger
+      if(val > 1) {
+       val = yield *foo(val - 1)
+      }
+      return val
+    }
+
+    function *bar() {
+      var r1 = yield *foo(3)
+      console.log(r1)
+    }
+
+    var b = bar()
+  </script>
+</body>
+</html>

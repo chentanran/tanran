@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <div id="app">
+    <div>{{ statusFromId(status) }}</div>
+  </div>
+  <script src="vue.js"></script>
+  <script>
+    new Vue({
+      el: '#app',
+      data: {
+        status: 2,
+        obj: { 1: '睡觉', 2: '看小说', 3: '学习vue'}
+      },
+      methods: {
+        statusFromId(id) {
+          const status = this.obj[id]
+          return status || '无'
+        }
+      }
+    })
+  </script>
+</body>
+</html>
