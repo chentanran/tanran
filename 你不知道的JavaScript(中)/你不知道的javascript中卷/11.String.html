@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    var  a = new String('abc'); // 封装
+    debugger
+    console.log(a)
+
+    var c = Object(a);
+
+    console.log(c)
+    console.log(c instanceof String)
+
+    console.log(a.valueOf()); // 拆封
+  </script>
+</body>
+</html>
