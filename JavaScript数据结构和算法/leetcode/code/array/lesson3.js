@@ -7,15 +7,12 @@ export default (flowerbed, n) => {
   for (let i = 0; i < flowerbed.length - 1; i++) {
     if (flowerbed[i] === 0) {
       if (i === 0 && flowerbed[1] === 0) {
-        console.log(max + '11')
         max++
         i++
       } else if (flowerbed[i - 1] === 0 && flowerbed[i + 1] === 0) {
-        console.log(max + '22')
         max++
         i++
       } else if (i === flowerbed.length - 2 && flowerbed[i + 1] === 0) {
-        console.log(max + '33')
         max++
       }
     }
