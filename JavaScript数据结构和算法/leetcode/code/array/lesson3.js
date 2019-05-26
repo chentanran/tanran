@@ -17,7 +17,6 @@ export default (flowerbed, n) => {
       }
     }
   }
-  console.log(max, n)
   return max >= n
 }
 // 当相减为奇数时, /2 + 1 相减为偶数时, /2
