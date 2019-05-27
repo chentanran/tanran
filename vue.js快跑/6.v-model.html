@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <div id="app">
+    <input-model v-model="userName"></input-model>
+    <div>{{userName}}</div>
+  </div>
+  <script src="vue.js"></script>
+  <script>
+    Vue.component('input-model', {
+      template: '<input type="text" :value="value" @input="handleInput"/>',
+      props: {
+        value: {
+          type: String,
+          required: true
+        }
+      },
+      methods: {
+        handleInput(e) {
+          const value = e.target.value
+          if (value !== e.target.value) {
+            e.target.value = value
+          }
+          this.$emit('input', value)
+        }
+      },
+    })
+    new Vue({
+      el: '#app',
+      data: {
+        userName: 'xiaoming'
+      }
+    })
+  </script>
+</body>
+</html>

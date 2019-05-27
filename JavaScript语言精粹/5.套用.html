@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    // Function.method('curry', function() {
+    //   let slice = Array.prototype.slice
+    //   var args = slice.apply(arguments), that = this
+    //   return function () {
+    //     return that.apply(null, args.concat(slice.apply(arguments)))
+    //   }
+    // })
+
+    Function.prototype.curry = function () {
+      let slice = Array.prototype.slice
+      let args = slice.apply(arguments)
+      let that = this
+      return function (add) {
+        debugger
+        return that.apply(null, args.concat(slice.apply(add)))
+      }
+    }
+
+    function add(num) {
+    }
+
+    let add1 = add.curry(1)
+    console.log(add1(2))
+  </script>
+</body>
+</html>

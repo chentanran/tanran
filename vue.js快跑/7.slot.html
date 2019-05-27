@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <div id="app">
+    <blog-listing :posts="posts">
+      <template slot="play" slot-scope="{ play }">  
+        <div>
+          {{ play }}
+        </div>
+      </template>
+    </blog-listing>
+  </div>
+  <script src="vue.js"></script>
+  <script>
+    Vue.component('blog-listing', {
+      template: `<div>
+                  <div v-for="post in posts" :key="post.title">
+                    <h1>{{ post.title }}</h1>
+                    <p>{{ post.center }}</p>
+                    <slot name="play" :post="post"></slot>
+                  </div>
+                </div>`,
+      props: {
+        posts: Array
+      }
+    })
+    new Vue({
+      el: '#app',
+      data: {
+        posts: [
+          {
+            title: '小明',
+            center: '会玩',
+            play: '篮球'
+          },
+          {
+            title: '小花',
+            center: '会跳',
+            play: '足球'
+          }
+        ]
+      }
+    })
+  </script>
+</body>
+</html>

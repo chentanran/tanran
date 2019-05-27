@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    .color-perview {
+      height: 200px;
+      width: 200px;
+      border: 1px solid #ccc;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <!-- <color-perview color="red"></color-perview> -->
+    <color-perview color="pink"></color-perview>
+  </div>
+  <script src="./vue.js"></script>
+  <script>
+    Vue.component('color-perview', {
+      template: '<div class="color-perview" :style="style"></div>',
+      props: {
+        color: {
+          type: String,
+          required: true,
+          validator(value) {
+            return value === 'pink'
+          }
+        }
+      },
+      computed: {
+        style() {
+          return { backgroundColor: this.color }
+        }
+      }
+    })
+
+    new Vue({
+      el: '#app'
+    })
+  </script>
+</body>
+</html>
