@@ -1,4 +1,7 @@
 const http = require('http')
+const fs = require('fs')
+const path = require('path')
+const mime = require('mime')
 
 const hostname = '127.0.0.1'
 const port = 3000
@@ -6,14 +9,28 @@ const port = 3000
 const server = http.createServer((req, res) => {
   const url = req.url
   if (url === '/') {
-    res.end('hello world')
-  } else if (url === '/a') {
-    res.end('hello a')
-  } else if (url === '/b') {
-    res.end('hello b')
+    fs.readFile("./index.html", (err, data) => {
+      if (err) {
+        throw err
+      }
+      res.statusCode = 200
+      res.setHeader('Content-Type', 'text/html;charset=utf-8')
+      res.end(data)
+    })
+  } else if (url.startsWith('/assets')) {
+    fs.readFile(`.${url}`, (err, data) => {
+      if (err) {
+        throw err
+      }
+      const contentType = mime.getType(path.extname(url))
+      res.statusCode = 200
+      res.setHeader('Content-Type', contentType)
+      res.end(data)
+    })
   } else {
     res.statusCode = 404
-    res.end('404 Not Found.')
+    res.setHeader('Content-Type', 'text/plain; charset=utf-8')
+    res.end('404 Not Found')
   }
 })
 
