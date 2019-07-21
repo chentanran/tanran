@@ -7,6 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "buildPro": "webpack --config webpack.production.js",
     "build": "webpack --config ./build/webpack.prod.js",
+    "build:dev": "webpack --config ./build/webpack.dev.js",
     "watch": "webpack --watch",
     "dev1": "webpack-dev-server --contentBase src --open --port 9999 --hot --compress",
     "dev": "webpack-dev-server --config ./build/webpack.dev.js",

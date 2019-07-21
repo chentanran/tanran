@@ -11,7 +11,7 @@ module.exports = {
   entry: './src/main.js',
   output: {
     path: path.join(__dirname, '..', './dist'), // 解析当前相对路径为绝对路径
-    filename: '[name].js',
+    filename: 'build.js', // 当文件内容改变时, 生成的文件名发生改变
     publicPath: '/'
   },
   optimization: {
@@ -47,18 +47,19 @@ module.exports = {
       { test: /\.(jpg|jpeg|png|bmp|gif)$/, use: { loader: 'url-loader', options: { limit: 5 * 1024, outputPath: 'imgs', name: '[name]-[hash:3].[ext]' } } },
       { test: /\.(woff|woff2|eot|svg|ttf)$/, use: 'url-loader' },
       // babel
-      { test: /\.js$/, use: {
-        loader: 'babel-loader', 
-        // options: { 
-        //   presets: ['@babel/env'],
-        //   plugins: [
-        //     '@babel/plugin-proposal-class-properties', // class
-        //     '@babel/plugin-transform-runtime' // generator
-        //   ]}
-      },
-        exclude: /node_modules/, // 排除模块
-        include: path.resolve(__dirname, '../src') // 只解析某个模块的代码
-      },
+      // { test: /\.js$/, use: {
+      //   loader: 'babel-loader', 
+      //   // options: { 
+      //   //   presets: ['@babel/env'],
+      //   //   plugins: [
+      //   //     '@babel/plugin-proposal-class-properties', // class
+      //   //     '@babel/plugin-transform-runtime' // generator
+      //   //   ]}
+      // },
+      //   exclude: /node_modules/, // 排除模块
+      //   include: path.resolve(__dirname, '../src') // 只解析某个模块的代码
+      // },
+      { test: /\.js$/, use: '/loader/loader1.js' },
       // 处理引入html文件
       { test: /\.(htm|html)&/i, loader: 'html-withing-loader' },
     ]
