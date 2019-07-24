@@ -4,6 +4,7 @@ const parser = require('@babel/parser')
 const traverse = require('@babel/traverse').default
 const generator = require('@babel/generator').default
 const ejs = require('ejs')
+const { SyncHook } = require('tapable')
 class Compiler {
   constructor(config) {
     this.config = config
@@ -11,10 +12,33 @@ class Compiler {
     this.root = process.cwd() // 获取指令执行的路径
     this.modules = {} // 存放模块
     this.rules = config.module.rules
+    // 注册生命周期钩子
+    this.hooks = {
+      compiler: new SyncHook(),
+      afterCompiler: new SyncHook(),
+      emit: new SyncHook(),
+      afterEmit: new SyncHook(),
+      done: new SyncHook()
+    }
+    // 获取 plugins 数组中所有的插件对象,调用其 apply 方法
+    if (Array.isArray(this.config.plugins)) {
+      this.config.plugins.forEach(plugin => {
+        plugin.apply(this)
+      })
+    }
   }
   start() {
+    // 开始编译了
+    this.hooks.compiler.call()
     this.depAnalyse(path.resolve(this.root, this.entry))
+    // 编译完成了
+    this.hooks.afterCompiler.call()
+    // 开始发射文件了
+    this.hooks.emit.call()
     this.emitFile() // 输出文件
+    // 文件发送完成了
+    this.hooks.afterEmit.call()
+    this.hooks.done.call()
   }
   depAnalyse(modulePath) {
     let source = this.getSource(modulePath)

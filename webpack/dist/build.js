@@ -95,7 +95,7 @@ console.log(a);`);
   "./src/a.js":
   (function(module, exports, __webpack_require__) {
     eval(`module.exports = {
-  name: '333'
+  name: '1110'
 };`);
   }),
   

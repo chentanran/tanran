@@ -5,6 +5,8 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
 const webpack = require('webpack')
 // const htmlWithingLoader = require('html-withimg-loader')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const HTMLPlugin = require('../plugins/HTMLPlugin')
+const HelloWorldPlugin = require('../plugins/helloWorld')
 
 module.exports = {
   // entry: ['@babel/polyfill', './src/main.js'], // 兼容性处理
@@ -21,6 +23,11 @@ module.exports = {
   },
   // watch: true // 监视本地项目文件的变化,自动更新
   plugins: [
+    // new HelloWorldPlugin(),
+    // new HTMLPlugin({
+    //   filename: 'index.html',
+    //   template: './src/index.html'
+    // }),
     new htmlWebpackPlugin({
       filename: 'index.html',
       template: './src/index.html'
@@ -59,7 +66,7 @@ module.exports = {
       //   exclude: /node_modules/, // 排除模块
       //   include: path.resolve(__dirname, '../src') // 只解析某个模块的代码
       // },
-      { test: /\.js$/, use: '/loader/loader1.js' },
+      // { test: /\.js$/, use: '/loader/loader1.js' },
       // 处理引入html文件
       { test: /\.(htm|html)&/i, loader: 'html-withing-loader' },
     ]
