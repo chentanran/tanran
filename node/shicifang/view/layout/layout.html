@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+  <link rel="icon" href="/public/img/asset-favicon.ico" />
+  <title>社交-问答</title>
+  <!-- 页面 css js -->
+  <!-- <script type="text/javascript" src="../../plugins/sui/sui.min.js"></script> -->
+  <link rel="stylesheet" type="text/css" href="/public/plugins/normalize-css/normalize.css" />
+  <link rel="stylesheet" type="text/css" href="/public/plugins/yui/cssgrids-min.css" />
+  <link rel="stylesheet" type="text/css" href="/public/plugins/sui/sui.min.css" />
+  <link rel="stylesheet" type="text/css" href="/public/plugins/sui/sui-append.min.css" />
+  <link rel="stylesheet" type="text/css" href="/public/plugins/font-awesome/css/font-awesome.min.css" />
+  <link rel="stylesheet" type="text/css" href="/public/css/widget-base.css" />
+  <link rel="stylesheet" type="text/css" href="/public/css/widget-head-foot.css" />
+  {% block head %}
+  {% endblock %}
+</head>
+
+<body>
+  <div class="wrapper">
+    <!--引用组件-->
+    {% include "./header.html" %}
+  </div>
+  {% block main %}
+  {% endblock %}
+
+  {% include "./footer.html" %}
+
+  {% block script %}
+  {% endblock %}
+</body>
+
+</html>
