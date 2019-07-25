@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+  <link rel="icon" href="/public/img/asset-favicon.ico" />
+  <title>社交-登录注册</title>
+  <!-- 页面 css js -->
+  <!-- <script type="text/javascript" src="../../plugins/sui/sui.min.js" charset="UTF-8"></script> -->
+  <link rel="stylesheet" type="text/css" href="/public/plugins/normalize-css/normalize.css" />
+  <link rel="stylesheet" type="text/css" href="/public/plugins/yui/cssgrids-min.css" />
+  <link rel="stylesheet" type="text/css" href="/public/plugins/sui/sui.min.css" />
+  <link rel="stylesheet" type="text/css" href="/public/plugins/sui/sui-append.min.css" />
+  <link rel="stylesheet" type="text/css" href="/public/plugins/font-awesome/css/font-awesome.min.css" />
+  <link rel="stylesheet" type="text/css" href="/public/css/widget-base.css" />
+  <link rel="stylesheet" type="text/css" href="/public/css/widget-head-foot.css" />
+  <link rel="stylesheet" type="text/css" href="/public/css/page-sj-person-loginsign.css" />
+  <style>
+    .error {
+      display: block;
+      color: red;
+    }
+  </style>
+</head>
+
+<body>
+  <!--头部导航-->
+  <header class="head-login">
+    <div class="wrapper">
+      <div class="sui-navbar">
+        <div class="navbar-inner">
+          <a href="./index.html" class="sui-brand"> <img src="/public/img/asset-logo-black.png" alt="社交" /> </a>
+          <span class="login-text">| 登录注册</span>
+        </div>
+      </div>
+    </div>
+  </header>
+  <div class="wrapper loginsign">
+    <div class="item signup">
+      <div class="form">
+        <h3 class="loginsign-title">注册新账号</h3>
+        <form class="sui-form" id="signup_form">
+          <div class="control-group">
+            <label for="email" class="control-label">用户名</label>
+            <div class="controls">
+              <input
+                class="input-xlarge"
+                type="text"
+                id="username"
+                name="username"
+                required
+                placeholder="请输入邮箱"/>
+            </div>
+          </div>
+          <div class="control-group">
+            <label for="password" class="control-label">密码</label>
+            <div class="controls">
+              <input type="text" id="password" name="password" placeholder="请输入密码" required class="input-xlarge" />
+            </div>
+          </div>
+          <div class="different">
+            <div class="radio-content">
+              <div id="a1" class="phone">
+                <div class="control-group">
+                  <label for="nickname" class="control-label">昵称</label>
+                  <div class="controls">
+                    <input type="text" id="nickname" name="nickname" required placeholder="请输入昵称" class="input-xlarge" />
+                  </div>
+                </div>
+                <div class="control-group">
+                  <label for="captcha" class="control-label">验证码</label>
+                  <div class="controls">
+                    <input type="text" id="captcha" name="captcha" required placeholder="请输入验证码" class="input-xlarge" style="width: 200px;" />
+                    <img id="captcha_img" src="/captcha" alt="captcha">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="control-group btn-signup">
+            <label class="control-label"></label>
+            <div class="controls">
+              <label>
+                <input type="checkbox" name="agree" />
+                <span class="type-text" style="font-size:12px;">同意协议并接受《服务条款》</span>
+              </label>
+              <button type="button" class="sui-btn btn-danger btn-yes" id="register">注 册</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="item">
+      <div class="form">
+        <h3 class="loginsign-title">用户登录</h3>
+        <form class="sui-form login-form" id="signin_form">
+          <p class="error" id="signin_msg" style="display: none;"></p>
+          <div class="control-group">
+            <label for="inputname" class="control-label">用户名</label>
+            <div class="controls">
+              <input type="text" id="inputname" name="username" required placeholder="请输入用户名" class="input-xlarge" data-rules="required" />
+            </div>
+          </div>
+          <div class="control-group">
+            <label for="inputpassword" class="control-label">密码</label>
+            <div class="controls">
+              <input type="text" id="inputpassword" name="password" required placeholder="输入密码" class="input-xlarge" />
+            </div>
+          </div>
+          <div class="controls">
+            <label>
+              <input type="checkbox" name="remember" /><span class="type-text" style="font-size:12px;">记住登录状态</span> </label>
+            <button type="button" class="sui-btn btn-danger btn-yes">登 录</button>
+          </div>
+          <div class="other-methods">
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  {% include "./layout/footer.html" %}
+ 
+  <script>
+    // 获取所有form表单的键和值
+    function inputName(formId) { 
+      var from=document.getElementById(formId);
+      var tagElements=from.getElementsByClassName('input-xlarge');//这里我把所有我要获取值得属性都使用了同一个类来标识；
+      var json={};
+        for (var j = 0; j < tagElements.length; j++){  
+          var name=tagElements[j].name;//这里就是要获取得name属性，将此name属性作为json对象得key；
+          var value=tagElements[j].value;
+        		json[name] = value; 	//注意这里必须要使用这种方式给json赋值。如果使用json.name=value得话你会发现你所有的key都是一个字符串name，而不是name代表的值
+        }  
+      return json;
+    }
+    document.getElementById('register').onclick = function() {
+      console.log()
+      postData('/singup', inputName("signup_form"))
+      .then(data => alert(data.message)) // JSON from `response.json()` call
+      .catch(error => console.error(error))
+    }
+    
+    
+
+    function postData(url, data) {
+      // Default options are marked with *
+      return fetch(url, {
+        body: JSON.stringify(data), // must match 'Content-Type' header
+        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+        credentials: 'same-origin', // include, same-origin, *omit
+        headers: {
+          'user-agent': 'Mozilla/4.0 MDN Example',
+          'content-type': 'application/json'
+        },
+        method: 'POST', // *GET, POST, PUT, DELETE, etc.
+        mode: 'cors', // no-cors, cors, *same-origin
+        redirect: 'follow', // manual, *follow, error
+        referrer: 'no-referrer', // *client, no-referrer
+      })
+      .then(response => response.json()) // parses response to JSON
+    }
+  </script>
+</body>
+
+</html>
