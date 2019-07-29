@@ -1,11 +1,16 @@
 const user = require('../service/user')
 const svgCaptcha = require('svg-captcha')
 const config = require('../config/config')
-const { encrypto } = require('../utils/cipher')
+const { encrypto, decrypto } = require('../utils/cipher')
+const question = require('../service/question')
 
 exports.showIndex = async (req, res, next) => {
+  // let create = await question.create()
+  // console.log(create.data)
+  let { data: questionData } = await question.find()
+  console.log(questionData)
   res.render('index.html', {
-    // sessionUser: req.session.user
+    questionData
   })
 }
 
@@ -97,7 +102,7 @@ exports.singin = async (req, res, next) => {
     res.cookie('user', encrypto(JSON.stringify(users)), {
       maxAge: config.rememberMeExpires
     })
-    
+
   }
 
   // 记录 session

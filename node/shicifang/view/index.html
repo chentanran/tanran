@@ -22,6 +22,7 @@
             <div class="tab-content">
               <div id="new" class="tab-pane active">
                 <ul class="detail-list">
+                  {% for item in questionData %}
                   <li class="qa-item">
                     <div class="fl record">
                       <div class="number">
@@ -38,12 +39,13 @@
                     <div class="fl info">
                       <div class="question">
                         <p class="author"><span class="name">luckness</span><span>3</span>分钟前回答</p>
-                        <p class="title"><a href="./qa-detail.html" target="_blank">有关PHP初级进阶的问题？</a></p>
+                        <p class="title"><a href="./qa-detail.html" target="_blank">{{ item.title }}</a></p>
                       </div>
                       <div class="other">
                         <ul class="fl sui-tag">
-                          <li>Php</li>
-                          <li>Javascript</li>
+                          {% for tag in item.tags %}
+                          <li>{{ tag }}</li>
+                          {% endfor %}
                         </ul>
                         <div class="fr brower">
                           <p>浏览量 50 | 2017-07-05 15:09 来自 <a href="#">itcast </a></p>
@@ -52,156 +54,7 @@
                     </div>
                     <div class="clearfix"></div>
                   </li>
-                  <li class="qa-item">
-                    <div class="fl record">
-                      <div class="number">
-                        <div class="border useful">
-                          <p class="usenum">12</p>
-                          <p>有用</p>
-                        </div>
-                        <div class="border answer">
-                          <p class="ansnum">9</p>
-                          <p>回答</p>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="fl info">
-                      <div class="question">
-                        <p class="author"><span class="name">牛奶糖</span><span>3</span>分钟前回答</p>
-                        <p class="title"><a href="./qa-detail.html" target="_blank">springMVC的controller接收json数据失败</a></p>
-                      </div>
-                      <div class="other">
-                        <ul class="fl sui-tag">
-                          <li>Php</li>
-                          <li>Javascript</li>
-                        </ul>
-                        <div class="fr brower">
-                          <p>浏览量 50 | 2017-07-05 15:09 来自 <a href="#">itcast </a></p>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="clearfix"></div>
-                  </li>
-                  <li class="qa-item">
-                    <div class="fl record">
-                      <div class="number">
-                        <div class="border useful">
-                          <p class="usenum">12</p>
-                          <p>有用</p>
-                        </div>
-                        <div class="border answer">
-                          <p class="ansnum">9</p>
-                          <p>回答</p>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="fl info">
-                      <div class="question">
-                        <p class="author"><span class="name">大白兔</span><span>3</span>分钟前回答</p>
-                        <p class="title"><a href="./qa-detail.html" target="_blank">监听器中timer查询数据库</a></p>
-                      </div>
-                      <div class="other">
-                        <ul class="fl sui-tag">
-                          <li>Php</li>
-                          <li>Javascript</li>
-                        </ul>
-                        <div class="fr brower">
-                          <p>浏览量 50 | 2017-07-05 15:09 来自 <a href="#">itcast </a></p>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="clearfix"></div>
-                  </li>
-                  <li class="qa-item">
-                    <div class="fl record">
-                      <div class="number">
-                        <div class="border useful">
-                          <p class="usenum">34</p>
-                          <p>有用</p>
-                        </div>
-                        <div class="border answer">
-                          <p class="ansnum">9</p>
-                          <p>回答</p>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="fl info">
-                      <div class="question">
-                        <p class="author"><span class="name">luckness</span><span>3</span>分钟前回答</p>
-                        <p class="title"><a href="./qa-detail.html" target="_blank">服务器上安装了一个考试系统ASP.NET,安装完成后访问不了，求助</a></p>
-                      </div>
-                      <div class="other">
-                        <ul class="fl sui-tag">
-                          <li>Php</li>
-                          <li>Javascript</li>
-                        </ul>
-                        <div class="fr brower">
-                          <p>浏览量 50 | 2017-07-05 15:09 来自 <a href="#">itcast </a></p>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="clearfix"></div>
-                  </li>
-                  <li class="qa-item">
-                    <div class="fl record">
-                      <div class="number">
-                        <div class="border useful">
-                          <p class="usenum">12</p>
-                          <p>有用</p>
-                        </div>
-                        <div class="border answer">
-                          <p class="ansnum">9</p>
-                          <p>回答</p>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="fl info">
-                      <div class="question">
-                        <p class="author"><span class="name">牛奶糖</span><span>3</span>分钟前回答</p>
-                        <p class="title"><a href="./qa-detail.html" target="_blank">springMVC的controller接收json数据失败</a></p>
-                      </div>
-                      <div class="other">
-                        <ul class="fl sui-tag">
-                          <li>Php</li>
-                          <li>Javascript</li>
-                        </ul>
-                        <div class="fr brower">
-                          <p>浏览量 50 | 2017-07-05 15:09 来自 <a href="#">itcast </a></p>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="clearfix"></div>
-                  </li>
-                  <li class="qa-item">
-                    <div class="fl record">
-                      <div class="number">
-                        <div class="border useful">
-                          <p class="usenum">12</p>
-                          <p>有用</p>
-                        </div>
-                        <div class="border answer">
-                          <p class="ansnum">9</p>
-                          <p>回答</p>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="fl info">
-                      <div class="question">
-                        <p class="author"><span class="name">大白兔</span><span>3</span>分钟前回答</p>
-                        <p class="title"><a href="./qa-detail.html" target="_blank">监听器中timer查询数据库</a></p>
-                      </div>
-                      <div class="other">
-                        <ul class="fl sui-tag">
-                          <li>Php</li>
-                          <li>Javascript</li>
-                        </ul>
-                        <div class="fr brower">
-                          <p>浏览量 50 | 2017-07-05 15:09 来自 <a href="#">itcast </a></p>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="clearfix"></div>
-                  </li>
+                  {% endfor %}
                 </ul>
                 <div class="sui-pagination">
                   <ul>
