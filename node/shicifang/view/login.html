@@ -113,8 +113,8 @@
           </div>
           <div class="controls">
             <label>
-              <input type="checkbox" name="remember" /><span class="type-text" style="font-size:12px;">记住登录状态</span> </label>
-            <button type="button" class="sui-btn btn-danger btn-yes">登 录</button>
+              <input type="checkbox" name="remember" class="input-xlarge"/><span class="type-text" style="font-size:12px;">记住登录状态</span> </label>
+            <button type="button" class="sui-btn btn-danger btn-yes" id="login">登 录</button>
           </div>
           <div class="other-methods">
           </div>
@@ -125,6 +125,11 @@
   {% include "./layout/footer.html" %}
  
   <script>
+    // 点击获取验证码
+    let captcha_img = document.querySelector('#captcha_img')
+    captcha_img.onclick = function() {
+      captcha_img.setAttribute('src', '/captcha?' + Math.random())
+    }
     // 获取所有form表单的键和值
     function inputName(formId) { 
       var from=document.getElementById(formId);
@@ -137,15 +142,20 @@
         }  
       return json;
     }
+    // 注册
     document.getElementById('register').onclick = function() {
-      console.log()
       postData('/singup', inputName("signup_form"))
       .then(data => alert(data.message)) // JSON from `response.json()` call
       .catch(error => console.error(error))
     }
-    
-    
-
+    // 登录
+    document.getElementById('login').onclick = function() {
+      postData('/singin', inputName('signin_form')).then(data => {
+        // alert(data.message)
+        location.href = '/'
+      }).catch(error => console.error(error))
+    }
+    // fetch 请求
     function postData(url, data) {
       // Default options are marked with *
       return fetch(url, {

@@ -12,9 +12,7 @@
         <li><a href="./qa-login.html">话题</a></li>
       </ul>
       <div class="sui-nav pull-right info">
-        <!-- 登录前 -->
-        <!-- <li><a href="./signin.html" target="_blank">注册</a></li>
-        <li><a href="./signin.html" target="_blank" class="sui-btn btn-login">登录</a></li> -->
+        {% if sessionUser %}
         <!-- 登录后 -->
         <li><a href="./other-notice.html" class="notice">通知</a></li>
         <li class="hover"> <span class="fa fa-plus "></span>
@@ -26,8 +24,13 @@
           </ul>
         </li>
         <li>
-          <a href="./person-homepage.html" target="_blank" class="homego"><img src="/public/img/widget-photo.png" alt="用户头像" /></a>
+          <a href="/logout" class="homego"><img src="/public/img/widget-photo.png" alt="用户头像" /></a>
         </li>
+        {% else %}
+        <!-- 登录前 -->
+        <li><a href="/login" >注册</a></li>
+        <li><a href="/login"  class="sui-btn btn-login">登录</a></li>
+        {% endif %}
       </div>
     </div>
   </div>
