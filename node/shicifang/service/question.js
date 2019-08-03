@@ -1,12 +1,12 @@
 const request = require('../utils/request')
 
-exports.find = async () => {
+exports.find = async (options) => {
   return request({
     url: '/posts',
     method: 'get',
     params: {
-      // _page: 1,
-      // _limit: 10
+      _page: options._page,
+      _limit: options._limit || 1
     }
   })
 }

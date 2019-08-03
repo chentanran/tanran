@@ -7,7 +7,11 @@ const question = require('../service/question')
 exports.showIndex = async (req, res, next) => {
   // let create = await question.create()
   // console.log(create.data)
-  let { data: questionData } = await question.find()
+  let { page } = req.query
+  let { data: questionData } = await question.find({
+    _page: page,
+    _limit: 2
+  })
   console.log(questionData)
   res.render('index.html', {
     questionData
