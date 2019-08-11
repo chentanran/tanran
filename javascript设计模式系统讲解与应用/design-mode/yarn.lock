@@ -5,3 +5,7 @@
 core-decorators@^0.20.0:
   version "0.20.0"
   resolved "https://registry.npm.taobao.org/core-decorators/download/core-decorators-0.20.0.tgz#605896624053af8c28efbe735c25a301a61c65c5"
+
+javascript-state-machine@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.npm.taobao.org/javascript-state-machine/download/javascript-state-machine-3.1.0.tgz#06eeb2136a6a19ae1b56105c25caec283dd5cd14"
