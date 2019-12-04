@@ -100,3 +100,264 @@
     publicPath: 'http://cdn.com/'
   }
 ```
+10. loader 
+```javascript
+  loader 的本质是: output = loader(input)
+  // 链式调用
+  output = loaderA(loaderB(loaderC(input)))
+  // 源码结构
+  module.exports = function loader(content, map, meta) {
+    var callback = this.async()
+    var result = handler(content, map, meta)
+    callback(
+      null, // error
+      result.content, // 转换后的内容
+      result.map, // 转换后的 source-map
+      result.meta, // 转换后的 AST
+    )
+  }
+  // 配置 rules 规则 数组按照从后往前将资源交给 loader 处理
+  module: {
+    rules: [
+      { test: /\.css$/, use: ['style-loader', 'css-loader'] }
+    ]
+  }
+  // options loader 里面提供的配置项
+  { test: /\.css$/, use: ['style-loader', {
+    loader: 'css-loader',
+    options: { // css-loader 配置项 }
+  }] }
+  // exclude(排除) 与 include(包含) 指定目录下的模块, 可接收正则表达式或者字符串(绝对路径),及由它们组成的数组
+  // exclude 和 include 同时使用, exclude 优先级会更高
+  rules: [ // exclude
+      { test: /\.css$/, use: ['style-loader', 'css-loader'], exclude: /node_modules/ } // 排除 node_modules
+    ]
+  rules: [ // include
+      { test: /\.css$/, use: ['style-loader', 'css-loader'], include: /src/ } // 只包含 src 目录下的文件
+    ] // 对 include 中的子目录进行排除
+  rules: [
+      { test: /\.css$/, use: ['style-loader', 'css-loader'], exclude: /src\/lib/ include: /src/ } // 只包含 src 目录下的文件
+    ]
+  // issuer 加载着
+  rules: [
+      { test: /\.css$/,
+        use: ['style-loader', 'css-loader'],
+        exclude: /src\/lib/
+        issuer: { // 表示: 只有 /src/pages 目录下的 js 文件引用 css 文件, 规则才生效, 如果不是 js 文件, 或者 其他目录的 js 文件引用 css , 规则不会生效
+          test: /\.js$/,
+          include: /src/pages/,
+        }
+      }
+    ]
+  // 或者
+  rules: [
+      { test: /\.css$/,
+        use: ['style-loader', 'css-loader'],
+        resource: {
+          test: /\.css$/,
+          exclude: /node_modules/
+        }
+        issuer: {
+          test: /\.js$/,
+          exclude: /node_modules/
+        }
+      }
+    ]
+  // enforce 指定 loader 种类 (pre(在所有loader之前执行), inline, normal(默认,正常顺序), post(在所有loader之后执行))
+  rules: [
+    {
+      test: /\.js$/,
+      enforce: 'pre',
+      use: 'eslint-loader'
+    }
+  ]
+  // 常用 loader
+  ① babel-loader : 将 es6+ 编译为 es5
+  npm install babel-loader @babel/core @babel/preset-env
+  {
+    test: /\.js$/,
+    exclude: /node_modules/,
+    use: {
+      loader: 'babel-loader',
+      options: {
+        cacheDirectory: true, // 启用缓存机制
+        presets: [[
+          'env', {
+            modules: false
+          }
+        ]]
+      }
+    }
+  }
+  ② ts-loader 连接 webpack 和 Typescript 模块
+  npm install ts-loader typescript
+  rules: [
+    {
+      test: /\.ts$/,
+      use: 'ts-loader'
+    }
+  ]
+  ③ html-loader 将HTML文件转化为字符串并进行格式化, 可以把一个HTML片段通过JS加载进来
+  npm install html-loader
+  rules: [
+    {
+      test: /\.html$/,
+      use: 'html-loader'
+    }
+  ]
+  ④ handlebars-loader 处理handlebars模板, 加载后得到一个函数, 可以接收一个变量对象并返回最终的字符串
+  npm install handlebars-loader handlebars
+  rules: [
+    {
+      test: /\.handlebars$/,
+      use: 'handlebars-loader'
+    }
+  ]
+  // 使用示例
+   // content.handlebars
+   <div class="entry">
+    <h1>{{ title }}</h1>
+    <div class="body">{{ body }}</div>
+   </div>
+   // index.js
+   import contentTemplate from './content/handlebars'
+   const div = document.createElement('div')
+   div.innerHTML = contentTemplate({
+     title: 'Title',
+     body: "娃哈哈"
+   })
+   document.body.appendChild(div)
+  ⑤ file-loader 打包文件资源,返回 publicPath
+    npm install file-loader
+    rules: [
+      {
+        test: /\.(png|jpg|gif)$/,
+        use: {
+          loader: "file-loader",
+          options: {
+            name: '[name].[ext]',
+            publicPath: './another-path' // 配置文件路径
+          }
+        },
+      }
+    ]
+  ⑥ url-loader 设置文件大小阀值 与 file-loader 作用类似
+  npm install url-loader
+  rules: [
+    {
+      test: /\.(png|jpg|gif)$/,
+      use: {
+        loader: 'url-loader',
+        options: {
+          limit: 10240, // 大小
+          name: '[name].[ext]',
+          publicpath: './assets-path'
+        }
+      }
+    }
+  ]
+  ⑦ vue-loader 处理vue组件
+   npm install vue-loader vue vue-template-compiler css-loader
+   rules: [
+     {
+       test: /\.vue$/,
+       use: 'vue-loader'
+     }
+   ]
+```
+
+11. 样式处理
+```javascript
+  1. 处理样式的插件: extract-text-webpack-plugin(4之前) 和 mini-css-extract-plugin(4之后)
+    // extract-text-webpack-plugin
+    npm install extract-text-webpack-plugin
+    const ExtractTextPlugin = require('extract-text-webpack-plugin')
+    module.exports = {
+      plugins: [
+        new ExtractTextPlugin("bundle.css")
+      ]
+    }
+  2. SCSS
+    npm install sass-loaser node-sass
+    node-sass 下载慢解决: npm config ser sass_binary_site=https://npm.taobao.org/mirrors/node-sass/
+  3. Less
+    npm install less-loader less
+    看源码时: 单独配置sourceMap
+    {
+      lodaer: 'less-loader',
+      options: {
+        sourceMap: true
+      }
+    }
+  4. PostCSS 接收样式源代码,交由编译插件处理,输出css
+    npm install postcss-loader
+    rules: [
+      {
+        test: /\.css/,
+        use: {
+          'style-loader', 'css-loader', 'postcss-loader'
+        }
+      }
+    ]
+    // 根目录创建一个 postcss.config.js
+    // 安装 Autoprefixer, 添加前缀
+    npm install autoprefixer
+    配置:
+      const autoprefixer = require('autoprefixer')
+      module.exports = {
+        plugins: {
+          autoprefixer({
+            grid: true, // 添加支持的属性
+            browsers: {
+              '> 1%',
+              'last 3 versions',
+              'android 4.2',
+              'ie 8'
+            }
+          })
+        }
+      }
+    // stylelint css质量检测工具
+    npm install stylelint
+    const stylelint = require('stylelint')
+    module.exports = {
+      plugins: {
+        stylelint({
+          config: {
+            rules: {
+              'declaration-no-important': true // 代码不能出现 !important
+            }
+          }
+        })
+      }
+    }
+    // CSSNext 使用最新的css语法特性
+    npm install postcss-cssnext
+    const postcssCssnext = require('postcss-cssnext')
+    module.exports = {
+      plugins: [
+        postcssCssnext({
+          browsers: [
+            '> 1%',
+            'last 2 versions'
+          ]
+        })
+      ]
+    }
+  5. CSS Modules 每个css文件都拥有单独的作用域, 不会和外界发生命名冲突
+    rules: [
+      {
+        test: /\.css/,
+        use: [
+          'style-loader',
+          {
+            lodaer: 'css-loader',
+            options: {
+              modules: true,
+              localldentName: '[name]_[local]_[hash:base64:5]' // 指定css代码类名如何编译
+            }
+          }
+        ]
+      }
+    ]
+```
