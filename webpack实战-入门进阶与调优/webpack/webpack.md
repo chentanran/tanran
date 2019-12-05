@@ -361,3 +361,62 @@
       }
     ]
 ```
+
+12 代码分片
+  1. CommonsChunkPlugin(webpack4 之前) 将多个 chunk 中公共的部分提取出来
+  * 开发过程中减少重复模块打包
+  * 减小整体资源体积
+  * 合理分片后的代码可以更有效的利用客户端缓存
+```javascript
+  const webpack = require('webpack')
+  plugins: [
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'commons', // 指定公共chunk的名字
+      filename: 'commons.js' // 提取后的资源文件名
+    })
+  ]
+```
+  * 提取 vendor
+```javascript
+  module.exports = {
+    entry: {
+      app: './app.js',
+      app2: './app2.js',
+      vendor: ['react']
+    },
+    plugins: [
+      new webpack.optimize.CommonsChunkPlugin({
+        name: 'vendor', // 将 entry 中的 vendor 中的模块提取出来
+        filename: 'vendor.js', // 提取后的资源文件名
+        chunks: ['a', 'b'] // 规定从哪些入口中提取文件
+        minChunks: n // 只有该模块被 n 个入口同时引用才会进行提取 (接收 数字. Infinity(所有模块都不会被提取). 函数(function(module, count) {  }))
+      })
+    ]
+  }
+```
+  * hash 与 长效缓存
+```javascript
+  plugins: [
+      new webpack.optimize.CommonsChunkPlugin({
+        name: 'vendor'
+      }),
+      new webpack.optimize.CommonsChunkPlugin({
+        name: 'manifest' // webpack 运行时的代码提取出来
+      })
+    ]
+```
+  2. SplitChunks(webpack4 之后) 代码分片
+```javascript
+  // 异步加载,可以实现提取公共模块
+  module.exports = {
+    optimization: {
+      splitChunks: {
+        chunks: 'all'
+      }
+    }
+  }
+```
+  3. import() 异步加载函数
+```javascript
+  import('./a.js').then(a => { console.log(a) })
+```
