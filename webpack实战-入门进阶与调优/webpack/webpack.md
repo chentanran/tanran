@@ -420,3 +420,280 @@
 ```javascript
   import('./a.js').then(a => { console.log(a) })
 ```
+
+13. 生成环境配置
+```javascript
+  1. 生成环境和开发环境
+    // package.json
+    "scripts": {
+      "dev": "ENV=development webpack-dev-server",
+      "build": "ENV=production webpack"
+    }
+    // webpack.config.js
+    const ENV = process.env.ENV
+    const isProd = ENV === 'production' // 生成环境
+    module.exports = {
+      output: {
+        filename: isProd ? 'build@[chunkhash].js' : 'bundle.js',
+      },
+      mode: ENV,
+    }
+    // 为不同的环境创建配置文件 webpack.development.config.js 和 webpack.production.config.js
+    // package.json
+    {
+      "scripts": {
+        "dev": "webpack-dev-server --config=webpack.development.config.js",
+        "build": "webpack --config=webpack.production.config.js"
+      }
+    }
+    // 将公共部分提取出来 webpack.common.config.js
+    module.exports = {
+      entry: './src/index.js'
+      // development 和 production 共有配置
+    }
+    // mode 配置打包环境
+  2. 环境变量 DefinePlugin
+    const webpack = require('webpack')
+    module.exports = {
+      plugins: [
+        new webpack.DefinePlugin({
+          ENV: JSON.stringify('production'), // 配置开发环境
+          IS_PRODUCTION: true,
+          ENV_ID: 130912098,
+          CONSTANTS: JSON.stringify({
+            TYPES: ['foo', 'bar']
+          })
+        })
+      ]
+    }
+    // app.js
+    document.write(ENV) // 页面输出 production
+    // 或 
+    new webpack.definePlugin({ // 如启用 mode: production webpack会自动设置 process.env.MODE_ENV, 不需人为添加
+      process.env.MODE_ENV: 'production'
+    })
+  3. source map (源码映射)
+    module.exports  ={
+      devtool: 'source-map', // 打开 sourceMap
+      // 对于 less sass css 需额外配置
+      rules: [
+        {
+          test: /\.scss$/,
+          use: [
+            'style-loader',
+            {
+              loader: 'css-loader',
+              options: {
+                sourceMap: true
+              }
+            },
+            {
+              loader: 'sass-loader',
+              options: {
+                sourceMap: true
+              }
+            }
+          ]
+        }
+      ]
+    }
+    // 安全的 sourceMap 有两个 hidden-source-map 和 nosources-source-map
+    // 打开 chrome 开发者工具, soruces 目录 "webpack://" 下 可以找到解析后的工程源码
+    // 也可以正常打包输出 sourceMap, 通过服务器 nginx 设置, 将 .map 文件只对固定白名单开放
+  4. 压缩 JavaScript (UglifyJS: webpack3, terser: webpack4)
+    // webpack3
+    plugins: [ new webpack.optimize.UglifyJsPlugin() ]
+    // webpack4
+    optimization: { // 开启压缩
+      minimize: true
+    }
+    // 或
+    optimization: {
+      minimizer: [
+        new TerserPlugin({
+          test: /\.js(\?.*)?$/i,
+          exclude: /\/excludes/
+        })
+      ]
+    }
+  5. 缓存
+    1. 资源hash
+    2. 输出动态 html
+      const HtmlWebpackPlugin = require('html-webpack-plugin')
+      plugins: [
+        new HtmlWebpackPlugin()
+      ]
+  6. bundle 体积监控和分析
+    const Analyzer = require('webpack-bundle-analyzer).BundleAnalyzerPlugin
+    module.exports = {
+      plugins: [
+        new Analyzer()
+      ]
+    }
+```
+
+14. 打包优化
+```javascript
+  1. HappyPack 开启多个线程, 并行地对不同模块进行转译, 充分利用本地的计算资源来提升打包速度
+    // 单个 loader 优化
+    const HappyPack = require('happypack')
+    module.exports = {
+      module: {
+        rules: [
+          {
+            test: /\.js$/,
+            exclude: /node_modules/,
+            loader: 'happypack/loader',
+          }
+        ],
+        plugins: [
+          new HappyPack({
+            loaders: [
+              {
+                loaders: [
+                  loader: 'babel-loader',
+                  options: {
+                    presets: ['react']
+                  }
+                ]
+              }
+            ]
+          })
+        ]
+      }
+    }
+    // 多个 loader 优化
+    const HappyPack = require('happypack')
+    module.exports = {
+      module: {
+        rules: [
+          {
+            test: /\.js$/,
+            exclude: /node_modules/,
+            loader: 'happypack/loader?id=js',
+          },
+          {
+            test: /\.ts$/,
+            exclude: /node_modules/,
+            loader: 'happypack/loader?id=ts',
+          }
+        ],
+        plugins: [
+          new HappyPack({
+            id: 'js',
+            loaders: [
+              {
+                loaders: [
+                  loader: 'babel-loader',
+                  options: {} // babel-options
+                ]
+              }
+            ]
+          }),
+          new HappyPack({
+            id: 'ts',
+            loaders: [{
+              loader: 'ts-loader',
+              options: {} // ts options
+            }]
+          })
+        ]
+      }
+    }
+  
+  2. 缩小打包作用域
+    // include
+    module: {
+      rules: [
+        {
+          test: /\.js$/,
+          include: /src\/scripts/, // 只生效于源码目录
+          loader: 'babel-loader'
+        }
+      ]
+    }
+    // noParse webpack不会去解析这些模块
+    module: {
+      noparse: /loadsh/
+    }
+    或
+    module: {
+      noparse: function(fullPath) {
+        return /lib/.test(fullPath) // 完整路径匹配
+      }
+    }
+    // IgnorePlugin 完全排除一些模块, 即使被引用也不会被打包到资源文件中
+    plugins: [
+      new webpack.IgnorePlugin({
+        resourceRegExp: /^\.\/locale$/, // 匹配资源文件
+        contextRegExp: /moment$/, // 匹配检索目录
+      })
+    ]
+    // Cache  编译代码后保存一份缓存, 执行下一次编译前检查源码文件是否变化, 如没变化, 采用上一次缓存文件
+    webpack 5 中 添加了一个新的配置项 cache: { type: 'filesystem' }
+
+  3. 动态链接库 和 DllPlugin
+   // 创建一个新的 webpack 配置文件, webpack.vendor.config.js
+   const path = require('path')
+   const webpack = require('webpack')
+   const dllAssetPath = path.join(__dirname, 'dll')
+   const dllLibraryName = 'dllExample'
+   module.exports = {
+     entry: ['react'],
+     output: {
+       path: dllAssetPath,
+       filename: 'vendor.js',
+       library: dllLibraryName
+     },
+     plugins: [
+       new webpack.DllPlugin({
+         name: dllLibraryName, // 导出的 dll library名字
+         path: path.join(dllAssetPath, 'manifest.json') // 资源清单的绝对路径
+       })
+       new webpack.HashedmoduleIdsPlugin() // 解决数字id 导致的 顺序混乱
+     ]
+   }
+   // vendor 打包
+    // package.json
+    {
+      "scripts": {
+        "dll": "webpcpk --config webpack.vendor.config.js"
+      }
+    }
+   // 链接到业务代码
+    // webpack.config.js
+    const path = require('path')
+    const webpack = require('webpack')
+    module.exports = {
+      plugins: [
+        new webpack.DllReferencePlugin({
+          manifest: require(path.join(__dirname, 'dll/manifest.json'))
+        })
+      ]
+    }
+    // index.html
+    <body>
+      <script src="dll/vendor.js"></script>
+      <script src="dist/app.js"></script>
+    </body>
+    // 如果报 'dllExample 不存在', 有可能没有指定正确的 output..library, 或忘记在业务代码前加载 vendor.js
+
+  4. tree shaking 检测未被引用的代码, 压缩时去掉 (只对 es6 modules 生效)
+    // 通过配置. 禁用 babel-loader 的模块依赖解析, 就可以进行 tree-shaking
+    module: {
+      rules: [
+        {
+          test: /\.js$/.
+          exclude: /node_modules/,
+          use: [{
+            loader: 'babel-loader',
+            options: {
+              presets: [
+                [@babel/preset-env, { modules: false }]
+              ]
+            }
+          }]
+        }
+      ]
+    }
+```
