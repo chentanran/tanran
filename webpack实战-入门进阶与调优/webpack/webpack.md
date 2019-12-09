@@ -697,3 +697,110 @@
       ]
     }
 ```
+
+15. 开发环境调优
+```javascript
+  1. webpack-dashboard 构建结束后更好的展示输出的打包信息
+    npm install webpack-dashboard
+    // webpack 配置
+    const DashboardPlugin = require('webpack-dashboard/plugin')
+    module.exports = {
+      entry: './app.js',
+      output: {
+        filename: '[name].js'
+      },
+      mode: 'development',
+      plugins: [
+        new DashboardPlugin()
+      ]
+    }
+    // package.json 配置
+    {
+      "scripts": {
+        "dev": "webpack-dashboard --webpack-dev-server"
+      }
+    }
+
+  2. webpack-merge 合并代码(后者合并前者)
+    npm install webpack-merge
+    const merge = require('webpack-merge')
+    const common = require('./webpack.common.js')
+    module.exports = merge.smart(common, {
+      mode: 'production',
+      ...
+    })
+  
+  3. speed-measure-webpack-plugin 分析webpack整个打包过程在各个loader和plugin上耗费的时间
+    npm install speed-measure-webpack-plugin
+    const SpeedMeasurePlugin = require('speed-measure-webpack-plugin')
+    const smp = new SpeedMeasurePlugin()
+    module.exports = smp.wrap({
+      entry: 'app.js',
+      ...
+    })
+
+  4. siz-plugin 监控资源体积的变化(输出本次资源体积, 以及上次构建相比体积变化了多少)
+    npm install size-plugin
+    const SizePlugin = require('size-plugin')
+    module.exports = {
+      plugins: [
+        new SizePlugin()
+      ]
+    }
+  
+  5. 模块热替换 HMR
+    const webpack = require('webpack')
+    module.exports = {
+      plugins: [
+        new webpack.HotModuleReplacementPlugin()
+      ],
+      devServer: {
+        hot: true
+      }
+    }
+    // index.js 页面入口
+    if (module.hot) {
+      module.hot.accept() // 刷新所有页面
+    }
+    if (module.hot) {
+      module.hot.decline() // 关闭当前 index.js 的 HMR
+      module.hot.sccept(['./util.js']) // 对指定的文件进行更新
+    }
+```
+
+16. 其他打包工具
+  1. Rollup
+```javascript
+  1. 安装
+    npm install rollup -g
+  2. 配置
+    // rollup.config.js
+    module.exports = {
+      input: 'src/app.js',
+      output: {
+        file: 'dist/bundle.js',
+        format: 'cjs'
+      }
+    }
+    // src/app.js
+    console.log('娃哈哈真好喝')
+  3. 打包
+    rollup -c rollup.config.js (-c 参数告诉Rollup使用该配置文件)
+  4. tree shaking
+    基于对 ES6 Modules 的静态分析, 找出没有被引用过的模块.将其从最后生成的bundle中排除
+  5. 可选的输出格式
+    CommonJS, amd, esm, iife, umd, system
+```
+  2. Parcel
+```javascript
+  1. 打包速度
+    * 利用 worker 来并行执行任务
+    * 文件系统缓存
+    * 资源编译处理流程优化
+  2. 打包
+    parcel index.html // 执行打包
+    parcel build index.html // 打包成文件
+  3. 打包 vue 文件
+    npm install vue
+    npm install parcel-bundler -D
+```
