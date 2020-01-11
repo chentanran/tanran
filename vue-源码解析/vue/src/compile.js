@@ -93,20 +93,40 @@ const directivesUtil = {
     if (exp.test(txt)) {
       let pre = RegExp.$1.trim()
       ele.textContent = txt.replace(exp, this.getVMvalue(vm, pre))
+      // 订阅
+      new Watcher(vm, pre, (newValue, oldValue) => {
+        ele.textContent = newValue
+      })
     }
   },
   // text
   text(ele, vm, val) {
     // ele.textContent = vm.$data[val]
     ele.textContent = this.getVMvalue(vm, val)
+    // 订阅
+    new Watcher(vm, val, (newValue, oldValue) => {
+      ele.textContent = newValue
+    })
   },
   // html
   html(ele, vm, val) {
     ele.innerHTML = this.getVMvalue(vm, val)
+    // 订阅
+    new Watcher(vm, val, (newValue, oldValue) => {
+      ele.innerHTML = newValue
+    })
   },
   // model
   model(ele, vm, val) {
+    let self = this
     ele.value = this.getVMvalue(vm, val)
+    // 订阅
+    new Watcher(vm, val, (newValue, oldValue) => {
+      ele.value = newValue
+    })
+    ele.addEventListener('input', function() {
+      self.setVMValue(vm, val, this.value)
+    })
   },
   // on
   eventHandle(ele, vm, val, str) {
@@ -121,5 +141,17 @@ const directivesUtil = {
       data = data[key]
     })
     return data
+  },
+  //
+  setVMValue (vm, vals, value) {
+    let data = vm.$data
+    let val = vals.split('.')
+    val.forEach((key, index) => {
+      if (index < val.length - 1) {
+        data = data[key]
+      } else {
+        data[key] = value
+      }
+    })
   }
 }
