@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <div id="el">
+    {{ msg }}111
+    <p>111{{ msg }}
+      <span>111{{ msg2.data }}333</span>
+    </p>
+    <p v-text="msg2.data"></p>
+    <p v-text="msg"></p>
+    <p v-html="msg1"></p>
+    <input type="text" v-model="msg">
+    <button v-on:click="handleClick">点击触发</button>
+  </div>
+  <script src="./src/compile.js"></script>
+  <script src="src/vue.js"></script>
+  <script>
+    const vm = new Vue({
+      el: '#el',
+      data: {
+        msg: 'helloworld',
+        msg1: '<h2>wwwwwwwwwwww</h2>',
+        msg2: {
+          data: 1
+        }
+      },
+      methods: {
+        handleClick() {
+          console.log(this.$data.msg)
+        }
+      }
+    })
+  </script>
+</body>
+</html>
