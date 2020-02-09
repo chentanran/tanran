@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    div {
+      position: relative;
+      /* 其他的文字颜色、内边距等样式…… */
+    }
+
+    div::before {
+      content: '';
+      /* 用伪元素来生成一个矩形 */
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      z-index: -1;
+      background: #58a;
+      transform: skew(45deg);
+    }
+  </style>
+</head>
+
+<body>
+  <div>
+    <span>
+      娃哈哈
+    </span>
+  </div>
+</body>
+
+</html>

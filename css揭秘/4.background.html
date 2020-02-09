@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    div {
+      height: 200px;
+      /* 不等宽相间条纹 */
+      /* background: linear-gradient(#fb3 30%, #58a 0); */
+      /* 竖行条纹 */
+      /* background: linear-gradient(to right, #fb3 30%, #58a 0, #58a 66.6%, yellowgreen 0); */
+      /* background: linear-gradient(45deg, #fb3 25%, #58a 0, #58a 50%,
+                                  #fb3 0, #fb3 75%, #58a 0
+                                  ); */
+      /* 重复渐变 */
+      /* background: repeating-linear-gradient(45deg, #fb3, #58a 30px); */
+      /* background: repeating-linear-gradient(45deg, #fb3, #fe3 15px, #58a 0, #58a 30px); */
+      /* background-size: 100% 30px; */
+      /* background-size: 42px 42px; */
+      /* 方格图案 */
+      background: #58a;
+      background-image: linear-gradient(white 1px, transparent 0),
+                        linear-gradient( 90deg, white 1px, transparent 0),
+                        linear-gradient(hsla(0, 0%, 100, .3) 1px, transparent 0),
+                        linear-gradient( 90deg, hsla(0, 0%, 100, .3) 1px, transparent 0);
+      background-size: 75px 75px, 75px 75px, 15px 15px, 15px 15px;
+    }
+  </style>
+</head>
+<body>
+  <div></div>
+</body>
+</html>
