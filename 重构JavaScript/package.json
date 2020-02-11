@@ -10,5 +10,9 @@
   "license": "ISC",
   "devDependencies": {
     "deep-equal": "^2.0.1"
+  },
+  "dependencies": {
+    "ramda": "^0.26.1",
+    "sanctuary": "^3.0.0"
   }
 }

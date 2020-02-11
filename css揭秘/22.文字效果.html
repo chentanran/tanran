@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    /* div {
+      background: hsl(210, 13%, 60%);
+      color: hsl(210, 13%, 30%);
+    } */
+    .div1 {
+      background: hsl(210, 13%, 60%);
+      color: hsl(210, 13%, 30%);
+      text-shadow: 0 1px 1px hsla(0, 0%, 100%, .8);
+      /* text-shadow: 0 -1px 1px black; */
+    }
+
+    .div2 {
+      background: deeppink;
+      color: white;
+      text-shadow: 1px 1px black, -1px -1px black,
+        1px -1px black, -1px 1px black;
+    }
+
+    h1 {
+      font: 500%/1 Rockwell, serif;
+      background: deeppink;
+      color: white;
+    }
+
+    h1 text {
+      fill: currentColor;
+    }
+
+    h1 svg {
+      overflow: visible
+    }
+
+    h1 use {
+      stroke: black;
+      stroke-width: 6;
+      stroke-linejoin: round;
+    }
+
+    a {
+      background: #203;
+      color: white;
+      transition: 1s;
+    }
+    a:hover {
+      /* color: transparent;
+      text-shadow: 0 0 .1em, 0 0 .3em; */
+      filter: blur(.1em)
+    }
+
+    .div3 {
+      background: #58a;
+      color: white;
+      text-shadow: 0 1px hsl(0, 0%, 85%),
+                  0 2px hsl(0, 0%, 80%),
+                  0 3px hsl(0, 0%, 75%),
+                  0 4px hsl(0, 0%, 70%),
+                  0 5px hsl(0, 0%, 65%);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="div1">娃哈哈真好喝</div>
+  <hr>
+  <div class="div2">娃哈哈真好喝</div>
+  <hr>
+  <h1><svg width="2em" height="1.2em">
+      <use xlink:href="#css" />
+      <text id="css" y="1em">CSS</text>
+    </svg></h1>
+    <hr>
+    <a href="#">呜呜呜呜呜呜呜呜无无无无无无无无无无</a>
+  <hr>
+  <div class="div3">wahha zhen nan he</div>
+</body>
+
+</html>
