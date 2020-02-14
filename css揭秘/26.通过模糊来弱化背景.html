@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    main {
+      transition: .6s filter;
+    }
+
+    main.de-emphasized {
+      /* filter: blur(5px); */
+      filter: blur(3px) contrast(.8) brightness(.8);
+    }
+  </style>
+</head>
+
+<body>
+  <main>Bacon Ipsum dolor sit amet...</main>
+  <dialog>
+    O HAI, I'm a dialog. Click on me to dismiss.
+  </dialog>
+
+  <script>
+    const modal = document.querySelector('dialog');
+
+    // makes modal appear (adds `open` attribute)
+    modal.showModal();
+
+    // hides modal (removes `open` attribute)
+    // modal.close();
+  </script>
+</body>
+
+</html>

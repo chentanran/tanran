@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .image-slider {
+      height: 300px;
+      width: 300px;
+      position: relative;
+      display: inline-block;
+    }
+
+    .image-slider>div {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      width: 50%;
+      max-width: 100%;
+      overflow: hidden;
+      resize: horizontal;
+    }
+
+    .image-slider>div::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 12px;
+      height: 12px;
+      padding: 5px;
+      background:
+        linear-gradient(-45deg, black 50%, transparent 0);
+      background-clip: content-box;
+      cursor: ew-resize;
+    }
+
+    .image-slider img {
+      height: 300px;
+      width: 300px;
+      display: block;
+      user-select: none;
+    }
+
+    .image-slider2 {
+      position: relative;
+      display: inline-block;
+    }
+
+    .image-slider2>div {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      width: 50%;
+      overflow: hidden;
+    }
+
+    .image-slider2 img {
+      height: 300px;
+      width: 300px;
+      display: block;
+      user-select: none;
+    }
+
+    .image-slider2 input {
+      position: absolute;
+      left: 0;
+      bottom: 10px;
+      width: 100%;
+      margin: 0;
+      filter: contrast(.5);
+      mix-blend-mode: luminosity;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="image-slider">
+    <div>
+      <img src="./kt2.jpg" alt="Before" />
+    </div>
+    <img src="./kt1.jpg" alt="After" />
+  </div>
+  <hr>
+  <!-- <div class="image-slider2">
+    <div>
+      <img src="./kt2.jpg" alt="Before" />
+    </div>
+    <img src="./kt1.jpg" alt="After" />
+    <input type="range">
+  </div> -->
+
+  <div class="image-slider2">
+    <img src="./kt2.jpg" alt="Before" />
+    <img src="./kt1.jpg" alt="After" />
+  </div>
+
+  <script>
+    document.querySelectorAll('.image-slider2').forEach(function (slider) {
+      // 创建附加的div元素，并用它包住第一个图片元素
+      var div = document.createElement('div');
+      var img = slider.querySelector('img');
+      slider.insertBefore(div, img);
+      div.appendChild(img);
+      // 创建滑块
+      var range = document.createElement('input');
+      range.type = 'range';
+      range.oninput = function () {
+        div.style.width = this.value + '%';
+      };
+      slider.appendChild(range);
+    });
+
+  </script>
+</body>
+
+</html>
