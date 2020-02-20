@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    /* animation-direction 的 唯 一 作 用 就 是 反 转 每 一 个 循 环 周 期
+（reverse），或第偶数个循环周期（alternate），或第奇数个循环周期
+（alternate-reverse）。它的伟大之处在于，它会同时反转调整函数，
+从而产生更加逼真的动画效果 */
+    @keyframes blink-smooth {
+      to {
+        color: transparent;
+      }
+    }
+    .highlight {
+      animation: .5s blink-smooth 6 alternate;
+    }
+
+    @keyframes blink { 50% { color: transparent } }
+    .highlight2 {
+      animation: 1s blink 3 steps(1);
+    }
+  </style>
+</head>
+<body>
+  <div class="highlight">娃哈哈真好喝</div>
+  <hr>
+  <div class="highlight2">爽歪歪真好喝</div>
+</body>
+</html>

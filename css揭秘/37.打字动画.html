@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    @keyframes typing {
+      from { width: 0 }
+    }
+    @keyframes caret {
+      50% {
+        border-color: transparent;
+      } 
+    }
+    /* h1 {
+      width: 10em;
+      animation: typing 8s;
+      white-space: nowrap;
+      overflow: hidden;
+    } */
+    h1 {
+      width: 10em;
+      animation: typing 8s steps(10),
+                  caret 1s steps(1) infinite;
+      white-space: nowrap;
+      overflow: hidden;
+      border-right: .05em solid pink;
+    }
+  </style>
+</head>
+<body>
+  <h1>娃哈哈真好喝啊真好喝啊真好喝</h1>
+
+  <script>
+    document.querySelectorAll('h1').forEach(function(h1) {
+      var len = h1.textContent.length, s = h1.style;
+      s.width = len + 'em';
+      s.animationTimingFunction = "steps("+len+"),steps(1)";
+      })
+  </script>
+</body>
+</html>

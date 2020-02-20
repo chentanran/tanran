@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    /* @keyframes spin {
+      to {
+        transform: rotate(1turn);
+      }
+    }
+    @keyframes spin-reverse {
+      from {
+        transform: rotate(1turn);
+      }
+    }
+    .path {
+      position: relative;
+      height: 300px;
+      width: 300px;
+      background-color: yellow;
+      border-radius: 50%;
+    }
+    .avatar {
+      position: absolute;
+      left: 50%;
+      height: 30px;
+      width: 30px;
+      border-radius: 50%;
+      animation: spin 3s infinite linear;
+      transform-origin: 50% 150px;
+    }
+    img {
+      animation: inherit;
+      height: 100%;
+      width: 100%;
+      animation-name: spin-reverse;
+    } */
+
+    @keyframes spin {
+      from {
+        transform: translateY(150px) translateY(-50%) rotate(0turn) translateY(-150px) translateY(50%) rotate(1turn);
+      }
+
+      to {
+        transform: translateY(150px) translateY(-50%) rotate(1turn) translateY(-150px) translateY(50%) rotate(0turn);
+      }
+    }
+    .path {
+      position: relative;
+      height: 300px;
+      width: 300px;
+      background-color: yellow;
+      border-radius: 50%;
+    }
+    .avatar {
+      position: absolute;
+      left: 50%;
+      height: 30px;
+      width: 30px;
+      border-radius: 50%;
+      animation: spin 3s infinite linear;
+    }
+    img {
+      height: 100%;
+      width: 100%;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="path">
+    <div class="avatar">
+      <img src="kt1.jpg" />
+    </div>
+  </div>
+</body>
+
+</html>

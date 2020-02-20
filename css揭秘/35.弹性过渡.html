@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    @keyframes elastic-grow {
+      from { transform: scalc(0); }
+      70% {
+        trnasform: scale(1.1);
+        animation-timing-function: cubic-bezier(.1,.25,.1,.25);
+      }
+    }
+    input:not(:focus) + .callout {
+      transform: scale(0);
+      transition: .25s;
+    }
+    input:focus + .callout {
+      animation: elastic-grow .5s;
+    }
+    .callout {
+      position: absolute;
+      /* left: 0;
+      top: 0; */
+      /* transition: .5s transform; */
+      transform-origin: 1.4em -.4em;
+      transition: .5s cubic-bezier(.25,.1,.3,1.5) transform;
+    }
+  </style>
+</head>
+<body>
+  <label>
+    Your username: <input id="username" />
+    <span class="callout">Only letters, numbers,
+    underscores (_) and hyphens (-) allowed!</span>
+  </label>
+</body>
+</html>
