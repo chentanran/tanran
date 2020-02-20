@@ -1,3 +1,4 @@
+"use strict";
 var deck = {
     suits: ['黑', '红', '莓', '方'],
     cards: Array(52),
