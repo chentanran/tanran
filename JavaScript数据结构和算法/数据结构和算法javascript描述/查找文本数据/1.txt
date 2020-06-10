@@ -1,0 +1,8 @@
+1. 全部下载 hexo-cli
+2. 新建一个目录, 在目录下初始化hexo 
+	sudo hexo init
+3 启动 hexo s (srate)
+4. 创建文章 hexo n '博客文'
+5. 写入内容,然后 清理下 hexo clean
+6 生成 hexo g
+7 启动 hexo s

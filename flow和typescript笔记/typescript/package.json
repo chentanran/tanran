@@ -9,5 +9,8 @@
     "build:w": "tsc -w"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "typescript": "^3.8.3"
+  }
 }
