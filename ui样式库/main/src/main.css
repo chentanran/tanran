@@ -1,11 +1,9 @@
 /* 初始化 */
 @import './reset.css';
-
 /* 公共样式 */
 @import './common.css';
 
 @import './icon.css';
-
 /* 标题栏样式 */
 @import './header.css';
 /* 内容区样式 */
@@ -16,3 +14,9 @@
 @import './input.css';
 /* 按钮的样式 */
 @import './button.css';
+/* 搜索栏的样式 */
+@import './search.css';
+/* 列表的样式 */
+@import './list.css';
+/* 网格组件的样式 */
+@import './grid.css';
