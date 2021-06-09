@@ -4,12 +4,12 @@
 //引入Index 组件
 import React from 'react';
 import Index from '../../client/pages/index';
-import { renderToString} from 'react-dom/server';
+import { renderToString } from 'react-dom/server';
 
-export default  (ctx,next)=>{
+export default (ctx, next) => {
 
-    const html = renderToString(<Index/>);
-    ctx.body=`<!DOCTYPE html>
+    const html = renderToString(<Index />);
+    ctx.body = `<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
