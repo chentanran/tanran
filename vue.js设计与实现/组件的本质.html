@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<body>
+	<script>
+		// const vnode = {
+		// 	tag: 'div',
+		// 	props: {
+		// 		onClick: () => alert('hello')
+		// 	},
+		// 	children: 'click me'
+		// }
+
+		// const MyComponent = function () {
+		// 	return {
+		// 		tag: 'div',
+		// 		props: {
+		// 			onClick: () => alert('hello')
+		// 		},
+		// 		children: 'click me'
+		// 	}
+		// }
+
+		const MyComponent =  {
+			render() {
+				return {
+					tag: 'div',
+					props: {
+						onClick: () => alert('hello')
+					},
+					children: 'click me'
+				}
+			}
+		}
+
+		const vnode = {
+			tag: MyComponent
+		}
+
+		// 渲染器
+		function renderer(vnode, container) {
+			if (typeof vnode.tag === 'string') {
+				// vnode 描述的是 标签元素
+				mountElement(vnode, container)
+			} else if (typeof vnode.tag === 'function') {
+				// vnode 描述的是组件
+				mountComponent(vnode, container)
+			} else if (typeof vnode.tag === 'object') {
+				// 如果是对象， 说明vnode 面授的是组件
+				mountObjComponent(vnode, container)
+			}
+		}
+
+		function mountComponent (vnode, container) {
+			const subtree = vnode.tag()
+			renderer(subtree, container)
+		}
+
+		function mountObjComponent (vnode, container) {
+			const subtree = vnode.tag.render()
+			renderer(subtree, container)
+		}
+
+		function mountElement(vnode, container) {
+			// 使用 vnode.tag 作为标签名称创建 DOM 元素
+			const el = document.createElement(vnode.tag)
+			// 遍历 vnode.props 将属性，事件添加到dom元素
+			for (const key in vnode.props) {
+				if (/^on/.test(key)) {
+					el.addEventListener(
+						key.substr(2).toLowerCase(),
+						vnode.props[key]
+					)
+				}
+			}
+
+			// 处理 children
+			if (typeof vnode.children === 'string') {
+				el.appendChild(document.createTextNode(vnode.children)) 
+			} else if (Array.isArray(vnode.children)) {
+				vnode.children.forEach(child => renderer(child, el))
+			}
+
+			container.appendChild(el)
+		}
+
+		renderer(vnode, document.body)
+	</script>
+</body>
+</html>

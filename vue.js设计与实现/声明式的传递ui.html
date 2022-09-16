@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<body>
+	<script>
+		// js 描述
+		const title = {
+			// 标签
+			tag: 'h1',
+			// 标签属性
+			props: {
+				onClick: handler
+			},
+			 // 子节点
+			children: [
+				{ tag: 'span' }
+			]
+		}
+
+		// 对应 vue 模板
+		// <h1 @click="handler"></h1>
+
+		// 使用虚拟 dom 描述
+		// import { h } from 'vue'
+		// export default {
+		// 	render () {
+		// 		return h('h1', { onClick: handler })
+		// 	}
+		// }	
+
+		// 使用 js 对象描述
+		export default {
+			render () {
+				return {
+					tag: 'h1',
+					props: { onClick: handler }
+				}
+			}
+		}
+</script>
+</body>
+</html>

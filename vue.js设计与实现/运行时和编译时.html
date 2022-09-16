@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<body>
+	<script>
+		const obj = {
+				tag: 'div',
+				children: [
+					{ tag: 'span', children: 'hello world' }
+				]
+			}
+
+			function Render(obj, root) {
+				const el = document.createElement(obj.tag)
+				if (typeof obj.children === 'string') {
+					const text = document.createTextNode(obj.children)
+					el.appendChild(text)
+				} else if (obj.children) {
+					// 数组递归调用render，使用el作为root 参数
+					obj.children.forEach(child => {
+						return Render(child, el)
+					});
+				}
+				// 将元素添加到 root
+				root.appendChild(el)
+			}
+			// 渲染到 body 下
+			Render(obj, document.body)
+	</script>
+
+	<script>
+		const html = `
+			<div>
+				<span>hello world</span>	
+			</div>
+		`
+
+		// 调用 compiler 编译得到数型的数据结构
+		const obj2 = Compiler(html)
+		// 再调用 render 进行渲染
+		Render(obj2, document.body)
+	</script>
+
+	<script>
+		const div = document.createElement('div')
+		const span = document.createElement('span')
+		span.innerText = 'hello world'
+		div.appendChild(span)
+		document.body.appendChild(div)
+	</script>
+</body>
+</html>

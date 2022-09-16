@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<style>
+		.sss {
+			position: relative;
+		}
+
+		.aaa {
+			position: absolute;
+			right: 10px;
+			top: -5px;
+		}
+
+		.sss1 {
+			display: flex; /* 弹性布局 */
+			flex-direction: row;
+			align-items: center;/* 子元素垂直居中 */
+			justify-content: center;/* 子元素水平居中 */
+			justify-content: space-around;/* 子元素充满父元素 */
+			justify-content: space-between;/* 子元素两端对其 */
+		}
+		.aaa1 {
+			flex: 1;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="sss">
+		<div style="text-align: center;">网络状态</div>
+		<div class="aaa">还款记录</div>
+	</div>
+	<div style="text-align: center;">1111</div>
+	<div class="sss1">
+		<div class="aaa1"></div>
+		<div class="aaa1" style="text-align: center;">网络状态</div>
+		<div class="aaa1" style="text-align: right;">还款记录</div>
+	</div>
+	<div style="text-align: center;">1111</div>
+</body>
+
+</html>
