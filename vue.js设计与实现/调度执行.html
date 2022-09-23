@@ -10,12 +10,12 @@
 	<script>
 		// 存储副作用函数的桶
 		const bucket = new WeakMap()
-		const data = { for: true, bar: true }
+		const data = { foo: 1 }
 
 		const effctfnStack = []
 
 		let activeEffect
-		function effect(fn) {
+		function effect(fn, options = {}) {
 			const effectFn = () => {
 				// 完成清理工作
 				cleanup(effectFn)
@@ -26,6 +26,8 @@
 				effctfnStack.pop()
 				activeEffect = effctfnStack[effctfnStack.length - 1]
 			}
+			// 将 options 挂载到 effectFn 上
+			effectFn.options = options
 			// activeEffect.deps 用来存储所有与该副作用函数相关联得依赖集合
 			effectFn.deps = []
 			effectFn()
@@ -73,9 +75,21 @@
 			if (!depsMap) return
 			const effects = depsMap.get(key)
 			
-			const effctsToRun = new Set(effects)
+			const effctsToRun = new Set()
+			
+			effects && effects.forEach(effectFn => {
+				if (effectFn !== activeEffect) {
+					effctsToRun.add(effectFn)
+				}
+			})
+
 			effctsToRun && effctsToRun.forEach(fn => {
-        if (typeof fn === 'function') fn()
+				// 如果一个副作用函数存在调度器，则调用该调度器，并将副作用函数作为参数传递
+				if (fn.options.scheduler) {
+					fn.options.scheduler(fn)
+				} else {
+					if (typeof fn === 'function') fn()
+				}
     	})
 		}
 
@@ -91,25 +105,43 @@
 			effectFn.deps.length = 0
 		}
 
-		let temp1, temp2
-		effect(function effctfn1() {
-			console.log('effectFn1 执行')
+		// 定义一个任务队列
+		const jobQueue = new Set()
+		// 使用 Promise.resolve 创建一个 Promise 实例，用它将一个任务添加到微任务队列
+		const p = Promise.resolve()
 
-			effect(function effctfn2() {
-				console.log('effectFn2执行')
-				temp2 = obj.bar
+		// 标志代表是否正在刷新队列
+		let isFlushing = false
+		function flushJob() {
+			// 如果队列正在刷新，则什么都不做
+			if (isFlushing) return
+			// 设置为 true ，代表正在刷新
+			isFlushing = true
+			// 在微任务队列中刷新 jobQueue 队列
+			p.then(() => {
+				jobQueue.forEach(job => job())
+			}).finally(() => {
+				// 结束后重置 isFlushing
+				isFlushing = false
 			})
+		}
 
-			temp1 = obj.for
+
+		effect(() => {
+			console.log(obj.foo)
+		}, {
+			// 调度器 scheduler 是一个函数
+			scheduler(fn) {
+				// 每次调度时，将 副作用函数添加到 jobQueue 队列中
+				jobQueue.add(fn)
+				// 调用 flushJOb 刷新队列
+				flushJob()
+			}
 		})
 
-		// setTimeout(() => {
-		// 	obj.bar = '1234'
-		// }, 1000)
+		obj.foo++
+		obj.foo++
 
-		// obj.for = false
-		// obj.for = false
-		obj.bar = false
 	</script>
 </body>
 </html>

@@ -10,7 +10,7 @@
 	<script>
 		// 存储副作用函数的桶
 		const bucket = new WeakMap()
-		const data = { for: true, bar: true }
+		const data = { foo: 1 }
 
 		const effctfnStack = []
 
@@ -73,7 +73,14 @@
 			if (!depsMap) return
 			const effects = depsMap.get(key)
 			
-			const effctsToRun = new Set(effects)
+			const effctsToRun = new Set()
+			
+			effects && effects.forEach(effectFn => {
+				if (effectFn !== activeEffect) {
+					effctsToRun.add(effectFn)
+				}
+			})
+
 			effctsToRun && effctsToRun.forEach(fn => {
         if (typeof fn === 'function') fn()
     	})
@@ -93,23 +100,10 @@
 
 		let temp1, temp2
 		effect(function effctfn1() {
-			console.log('effectFn1 执行')
-
-			effect(function effctfn2() {
-				console.log('effectFn2执行')
-				temp2 = obj.bar
-			})
-
-			temp1 = obj.for
+			console.log(obj, '---')
+			obj.foo++
 		})
 
-		// setTimeout(() => {
-		// 	obj.bar = '1234'
-		// }, 1000)
-
-		// obj.for = false
-		// obj.for = false
-		obj.bar = false
 	</script>
 </body>
 </html>

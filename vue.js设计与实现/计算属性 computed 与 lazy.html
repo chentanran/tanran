@@ -10,25 +10,34 @@
 	<script>
 		// 存储副作用函数的桶
 		const bucket = new WeakMap()
-		const data = { for: true, bar: true }
+		const data = { foo: 1, bar: 2 }
 
 		const effctfnStack = []
 
 		let activeEffect
-		function effect(fn) {
+		function effect(fn, options = {}) {
 			const effectFn = () => {
 				// 完成清理工作
 				cleanup(effectFn)
 				activeEffect = effectFn
 				effctfnStack.push(activeEffect)
-				fn()
+				// 将 fn 的执行结果存储到 res 中
+				const res = fn()
 				// 在当前副作用函数执行完毕后，将当前副作用函数弹出栈，并把 activeEffect 还原为之前得值
 				effctfnStack.pop()
 				activeEffect = effctfnStack[effctfnStack.length - 1]
+				// 将 res 作为 effectFn 的返回值
+				return res
 			}
+			// 将 options 挂载到 effectFn 上
+			effectFn.options = options
 			// activeEffect.deps 用来存储所有与该副作用函数相关联得依赖集合
 			effectFn.deps = []
-			effectFn()
+			// 只有非 lazy 时 执行
+			if (!options.lazy) {
+				effectFn()
+			}
+			return effectFn
 		}
 
 		// 对原始数据进行代理
@@ -73,9 +82,21 @@
 			if (!depsMap) return
 			const effects = depsMap.get(key)
 			
-			const effctsToRun = new Set(effects)
+			const effctsToRun = new Set()
+			
+			effects && effects.forEach(effectFn => {
+				if (effectFn !== activeEffect) {
+					effctsToRun.add(effectFn)
+				}
+			})
+
 			effctsToRun && effctsToRun.forEach(fn => {
-        if (typeof fn === 'function') fn()
+				// 如果一个副作用函数存在调度器，则调用该调度器，并将副作用函数作为参数传递
+				if (fn.options.scheduler) {
+					fn.options.scheduler(fn)
+				} else {
+					if (typeof fn === 'function') fn()
+				}
     	})
 		}
 
@@ -91,25 +112,68 @@
 			effectFn.deps.length = 0
 		}
 
-		let temp1, temp2
-		effect(function effctfn1() {
-			console.log('effectFn1 执行')
+		function computed(getter) {
+			// value 用来缓存上一次计算的值
+			let value
+			// dirty 标志，用来标识是否需要重新计算值，为 true 则意味着 “脏”，需要计算
+			let dirty = true
 
-			effect(function effctfn2() {
-				console.log('effectFn2执行')
-				temp2 = obj.bar
+			// 把 getter 作为副作用函数，创建 lazy 的 effect
+			const effectFn = effect(getter, {
+				lazy: true,
+				// 添加调度器，在调度器中将 dirty 重置为 true
+				scheduler () {
+					dirty = true
+					// 当计算属性依赖的响应式数据变化时，手动调用 trigger 函数触发响应
+					trigger(obj, 'value')
+				}
 			})
 
-			temp1 = obj.for
+			const obj = {
+				// 当读取 value 时执行 effectFn
+				get value() {
+					// 只有“脏”时才计算值，并将得到的值缓存到 value 中
+					if(dirty) {
+						value = effectFn()
+						// 将 dirty 设为 true， 可以直接访问缓存数据 value
+						dirty = false
+					}
+					// 当读取 value 时，手动调用 track 函数进行追踪
+					track(obj, 'value')
+					return value
+				}
+			}
+
+			return obj
+		}
+
+		const sum = computed(() => obj.foo + obj.bar)
+
+		console.log(sum.value, 'value')
+		console.log(sum.value, 'value')
+		console.log(sum.value, 'value')
+
+		obj.foo++
+
+		console.log(sum.value, 'value++')
+
+		effect(() => {
+			console.log(sum.value, 'value--')
 		})
 
-		// setTimeout(() => {
-		// 	obj.bar = '1234'
-		// }, 1000)
+		obj.foo++
 
-		// obj.for = false
-		// obj.for = false
-		obj.bar = false
+		
+
+		// const effectFn = effect(() => {
+		// 	return  obj.foo + obj.bar
+		// }, {
+		// 	lazy: true
+		// })
+
+		// const value = effectFn()
+		// console.log(value)
+
 	</script>
 </body>
 </html>
