@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<body>
+	<script>
+		const obj = { 
+			foo: 1,
+			get bar() {
+				return this.foo
+			}
+		}
+
+		// 存储副作用函数的桶
+		const bucket = new WeakMap()
+		const data = { foo: 1, bar: 2 }
+
+		const effctfnStack = []
+		let activeEffect
+		function effect(fn, options = {}) {
+			const effectFn = () => {
+				// 完成清理工作
+				cleanup(effectFn)
+				activeEffect = effectFn
+				effctfnStack.push(activeEffect)
+				// 将 fn 的执行结果存储到 res 中
+				const res = fn()
+				// 在当前副作用函数执行完毕后，将当前副作用函数弹出栈，并把 activeEffect 还原为之前得值
+				effctfnStack.pop()
+				activeEffect = effctfnStack[effctfnStack.length - 1]
+				// 将 res 作为 effectFn 的返回值
+				return res
+			}
+			// 将 options 挂载到 effectFn 上
+			effectFn.options = options
+			// activeEffect.deps 用来存储所有与该副作用函数相关联得依赖集合
+			effectFn.deps = []
+			// 只有非 lazy 时 执行
+			if (!options.lazy) {
+				effectFn()
+			}
+			return effectFn
+		}
+
+		// 对原始数据进行代理
+		const p = new Proxy(obj, {
+			// 拦截读取操作
+			get(target, key, receiver) {
+				// 将副作用函数 effect 添加到存储副作用函数的桶中
+				track(target, key)
+				// 返回属性值
+				return Reflect.get(target, key, receiver)
+			},
+			// 拦截操作设置
+			set(target, key, newVal) {
+				// 设置属性值
+				target[key] = newVal
+				// 把副作用函数从桶里取出并执行
+				trigger(target, key)
+				return true
+			}
+		})
+
+		// 在 get 拦截函数内调用 track 函数追踪变化
+		function track(target, key) {
+			// 没有 activeEffect， 直接 return
+			if (!activeEffect) return
+			let depsMap = bucket.get(target)
+			if (!depsMap) {
+				bucket.set(target, depsMap = new Map())
+			}
+			let deps = depsMap.get(key)
+			if (!deps) {
+				depsMap.set(key, (deps = new Set()))
+			}
+			deps.add(activeEffect)
+			// 将其添加到 activeEffect.deps 数组中
+			activeEffect.deps.push(deps)
+		}
+
+		// 在 set 拦截函数内调用 trigger 函数触发变化
+		function trigger(target, key) {
+			const depsMap = bucket.get(target)
+			if (!depsMap) return
+			const effects = depsMap.get(key)
+			
+			const effctsToRun = new Set()
+			
+			effects && effects.forEach(effectFn => {
+				if (effectFn !== activeEffect) {
+					effctsToRun.add(effectFn)
+				}
+			})
+
+			effctsToRun && effctsToRun.forEach(fn => {
+				// 如果一个副作用函数存在调度器，则调用该调度器，并将副作用函数作为参数传递
+				if (fn.options.scheduler) {
+					fn.options.scheduler(fn)
+				} else {
+					if (typeof fn === 'function') fn()
+				}
+    	})
+		}
+
+		function cleanup(effectFn) {
+			// 遍历 effctfn.deps 数组
+			for(let i = 0, len = effectFn.deps.length; i < len; i++) {
+				// deps 是依赖集合
+				const deps = effectFn.deps[i]
+				// 将 effectFn 从依赖集合中移除
+				deps.delete(effectFn)
+			}
+			// 重置 effectFn.deps 数组
+			effectFn.deps.length = 0
+		}
+
+		effect(() => {
+			console.log(p.bar)
+		})
+
+		p.foo++
+		
+	</script>
+</body>
+</html>
