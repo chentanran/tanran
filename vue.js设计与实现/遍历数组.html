@@ -55,7 +55,8 @@
 					}
 
 					// 非只读得时候才需要建立响应联系
-					if (!isReadonly) {
+					// 如果 key 的类型是 symbol，则不进行追踪
+					if (!isReadonly && typeof key !== 'symbol') {
 						// 将副作用函数 effect 添加到存储副作用函数的桶中
 						track(target, key)
 					}
@@ -113,7 +114,7 @@
 				// 拦截 for in 操作
 				ownKeys(target) {
 					// 将副作用函数与 ITERATE_KEY 关联
-					track(target, ITERATE_KEY)
+					track(target, Array.isArray(target) ? 'length' : ITERATE_KEY)
 					return Reflect.ownKeys(target)
 				},
 				// 拦截 delete
@@ -249,29 +250,27 @@
 			effectFn.deps.length = 0
 		}
 
-		const arr = reactive(['foo'])
+		const arr = reactive([1,2,3,4,5])
 
 		effect(() => {
-			console.log(arr[0])
+			for (const val of arr) {
+				console.log(val)
+			}
 		})
 
+		arr[1] = 'bar'
 		arr.length = 0
 
 		// const arr = reactive(['foo'])
 
 		// effect(() => {
-		// 	console.log(arr.length)
+		// 	for (const key in arr) {
+		// 		console.log(key)
+		// 	}
 		// })
 
 		// arr[1] = 'bar'
-
-		// const arr = reactive(['foo'])
-
-		// effect(() => {
-		// 	console.log(arr[0])
-		// })
-
-		// arr[0] = 'bar'
+		// arr.length = 0
 		
 	</script>
 </body>
