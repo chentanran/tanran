@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<body>
+	<script>
+		const s = new Set([1, 2, 3])
+		const p = new Proxy(s, {
+			get(target, key, reactive) {
+				if (key === 'size') {
+					// 如果读取的是 size 熟悉
+					// 通过指定第三个参数 reactive 为原始对象 target 从而修复问题
+					return Reflect.get(target, key, target)
+				}
+				// 读取其他熟悉的默认行为
+				// return Reflect.get(target, key, reactive)
+				return target[key].bind(target)
+			}
+		})
+
+		console.log(p.size)
+		p.delete(1)
+		console.log(p.size)
+	</script>
+</body>
+</html>
