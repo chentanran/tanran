@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<body>
+	<div id="app"></div>
+<script>
+	function shouldSetAsProps(el, key, value) {
+		if (key === 'form' && el.tagName === 'INPUT') {
+			return false
+		}
+		return key in el
+	}
+
+	function createRenderer(options) {
+		const {
+			createElement,
+			insert,
+			setElementText,
+			patchProps
+		} = options
+		
+
+		function mountElement(vnode, container) {
+			// 创建 dom 元素
+			const el = vnode.el = createElement(vnode.type)
+			// 处理子节点，如果子节点是字符串，代表元素具有文本节点
+			if (typeof vnode.children === 'string') {
+				// 因此只需要设置元素的 textContent 属性即可
+				setElementText(el, vnode.children)
+			} else if (Array.isArray(vnode.children)) {
+				// 如果 children 是数组，则遍历每一个子节点，并调用 patch 函数挂载它们
+				vnode.children.forEach(child => {
+					patch(null, child, el)
+				})
+			}
+
+			// 如果 vnode.props 存在才处理它
+			if (vnode.props) {
+				for (const key in vnode.props) {
+					const value = vnode.props[key]
+					patchProps(el, key, null, value)
+				}
+			}
+
+			// 将元素添加到 容器中
+			insert(el, container)
+		}
+
+		// 更新函数
+		function patchElement(oldVNode, newVNode) {
+
+		}
+
+		function patch(oldNode, newNode, container) {
+			// 如果 n1 存在，则对比 n1 和 n2 类型
+			if (oldNode && oldNode.type !== newNode.type) {
+				unmounted(oldNode)
+				oldNode = null
+			}
+
+			// 如果 oldNode 和 newnode 相同
+			const { type } = newNode
+			// 如果 newNode.type 的值是字符串类型，则描述的是普通标签
+			if (typeof type === 'string') {
+				// 如果 n1 不存在，意味着挂载，则调用 mountEmement 函数完成挂载
+				if (!oldNode) {
+					mountElement(newNode, container)	
+				} else {
+					patchElement(oldNode, newNode)
+				}
+			} else if (typeof type === 'object') {
+				// 如果 newNode 的值类型是对象，则描述的是组件
+			} else if (type === 'xxx') {
+				// 处理其他类型的 vnode
+			}
+		}
+
+		function render(vnode, container) {
+			if (vnode) {
+				patch(container._vnode, vnode, container)
+			} else {
+				if (container._vnode) {
+					unmounted(container._vnode)
+				}
+			}
+			container._vnode = vnode
+		}
+
+		return {
+			render
+		}
+	}
+
+	function unmounted(vnode) {
+		const parent = vnode.el.parentNode
+		if (parent) {
+			parent.removeChild(vnode.el)
+		}	
+	}
+
+	// normalizeClass里处理Object.
+	function handleObject(set, obj) {
+		for (const key in obj) {
+			if (obj[key]) set.add(key) // 如果对象的值为true, set里把键(className)加进去
+		}
+	}
+
+	function normalizeClass(classValue) {
+		// 字符串
+		if (typeof classValue === 'string') return classValue
+		let resultClassSet = new Set()
+		// 数组和对象情况
+		if (Array.isArray(classValue)) {
+			for (const value of classValue) {
+				if (typeof value === 'string') resultClassSet.add(value)
+				else {
+					// 对象
+					handleObject(resultClassSet, value)
+				}
+			}
+		}else {
+			// 对象
+			handleObject(resultClassSet, classValue)
+		}
+		return Array.from(resultClassSet).join(' ').trim()
+	}
+
+	// 创建一个渲染器
+	const renderer = createRenderer({
+		// 用于创建元素
+		createElement(tag) {
+			return document.createElement(tag)
+		},
+		// 用于设置元素的文本节点
+		setElementText(el, text) {
+			el.textContent = text
+		},
+		// 用于在给定的 parent 下添加指定的元素
+		insert(el, parent, anchor = null) {
+			parent.insertBefore(el, anchor)
+		},
+		patchProps(el, key, prevValue, nextValue) {
+			// 对 class 进行特殊处理
+			if (key === 'class') {
+				el.className = nextValue || ''
+			} else if (shouldSetAsProps(el, key, nextValue)) {
+				// 获取该 dom properties 类型
+				const type = typeof el[key]
+				// 如果是布尔类型，并且 value 是 空字符串，则将值矫正为 true
+				if (type === 'boolean' && nextValue === '') {
+					el[key] = true
+				} else {
+					el[key] = nextValue
+				}
+			} else {
+				// 如果要设置的属性没有对应的 DOM properties， 则使用 setAttribute 函数设置属性
+				el.setAttribute(key, vnode.props[key])
+			}
+		}
+	})
+
+	const oldnode = {
+		type: 'p',
+	}
+
+	// 调用 render 函数渲染该 vnode
+	renderer.render(oldnode, document.querySelector('#app'))
+
+	const newnode = {
+		type: 'input',
+		props: {
+			disabled: false
+		},
+		children: 'xxxx'
+	}
+	
+	// 再次挂载新 vnode，将触发更新
+	renderer.render(newnode, document.querySelector('#app'))
+
+</script>
+</body>
+</html>
