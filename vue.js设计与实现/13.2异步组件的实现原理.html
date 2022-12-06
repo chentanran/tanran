@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<body>
+	<div id="app"></div>
+<script>
+
+	const AsyncComp = defineAsyncComponent({
+		loader: () => import('wahahazhehaohe'),
+		timeout: 2000,
+		errorComponent: 'MyErrorComp'
+	})
+	
+	function defineAsyncComponent (options) {
+		// options 可以是加载器，也可以是配置项
+		if (typeof options === 'function') {
+			// 如果是加载器，将其格式化为配置项形式
+			options = {
+				loader: options
+			}
+		}
+
+		const { loaded } = options
+
+		// 一个变量，用来存储异步加载的组件
+		let InnerComp = null
+		// 返回一个包装的组件
+		return {
+			name: 'AsyncComponentWrapper',
+			setup() {
+				// 异步组件加载是否成功
+				const loaded = ref(false)
+				// 代表是否超时
+				const timeout = ref(false)
+				// 当错误发生时，用来存储错误对象
+				const error = shallowRef(null)
+
+				// 执行加载器函数，返回一个 promise
+				loader().then(c => {
+					InnerComp = c
+					loaded.value = true
+				}).catch(err => {
+					error.value = err
+				})
+
+				let timer = null
+				if (options.timeout) {
+					timer = setTimeout(() => {
+						timeout.value = true
+
+						const err = new Error('组件加载超时')
+						error.value = err
+					}, options.timeout)
+				}
+
+				// 被卸载时，清除定时器
+				onUnmounted(() => {
+					clearTimeout(timer)
+				})
+
+				const placeholder = { type: Text, children: '' }
+
+				return () => {
+					if (loaded.value) {
+						return { type: InnerComp }
+					} else if (error.value && options.errorComponent) {
+						return {
+							type: options.errorComponent,
+							props: { error: error.value }
+						}
+					} else if (timeout.value) {
+						return loaded.value ? { type: InnerComp } : placeholder
+					}
+					return placeholder
+				}
+			}
+		}
+	}
+</script>
+</body>
+</html>

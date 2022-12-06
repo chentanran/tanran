@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<body>
+	<div id="app"></div>
+<script>
+
+	const AsyncComp = defineAsyncComponent({
+		loader: () => import('wahahazhehaohe'),
+		delay: 200,
+		loadingComponent: {
+			setup() {
+				return () => {
+					return { type: 'h2', children: 'loading' }
+				}
+			}
+		}
+	})
+	
+	function defineAsyncComponent (options) {
+		// options 可以是加载器，也可以是配置项
+		if (typeof options === 'function') {
+			// 如果是加载器，将其格式化为配置项形式
+			options = {
+				loader: options
+			}
+		}
+
+		const { loaded } = options
+
+		// 记录重试次数
+		let retries = 0
+		// 封装 load 函数用来加载异步组件
+		function load() {
+			return loader().catch(err => {
+				//  如果用户指定了 onError 回调，则将控制权交给用户
+				if (options.onError) {
+					return new Promise((resolve, reject) => {
+						// 重试
+						const retry = () => {
+							resolve(load())
+							retries++
+						}
+						// 失败
+						const fail = () => reject(err)
+						// 作为 onError 回调参数，让用户来决定下一步怎么做
+						options.onError(retry, fail, retries)
+					})
+				} else {
+					throw error
+				}
+			})
+		}
+
+		// 一个变量，用来存储异步加载的组件
+		let InnerComp = null
+		// 返回一个包装的组件
+		return {
+			name: 'AsyncComponentWrapper',
+			setup() {
+				// 异步组件加载是否成功
+				const loaded = ref(false)
+				// 当错误发生时，用来存储错误对象
+				const error = shallowRef(null)
+				// 是否正在加载组件
+				const loading = ref(false)
+
+				let loadingTimer = null
+
+				if (options.delay) {
+					loadingTimer = setTimeout(() => {
+						loading.value = true
+					}, options.delay)
+				} else {
+					loading.value = true
+				}
+
+				// 执行加载器函数，返回一个 promise
+				load().then(c => {
+					InnerComp = c
+					loaded.value = true
+				}).catch(err => {
+					error.value = err
+				}).finally(() => {
+					loading.value = false
+					clearTimeout(loadingTimer)
+				})
+
+				let timer = null
+				if (options.timeout) {
+					timer = setTimeout(() => {
+						const err = new Error('组件加载超时')
+						error.value = err
+					}, options.timeout)
+				}
+
+				// 被卸载时，清除定时器
+				onUnmounted(() => {
+					clearTimeout(timer)
+				})
+
+				const placeholder = { type: Text, children: '' }
+
+				return () => {
+					if (loaded.value) {
+						return { type: InnerComp }
+					} else if (error.value && options.errorComponent) {
+						return {
+							type: options.errorComponent,
+							props: { error: error.value }
+						}
+					} else if (loading.value && options.loadingComponent) {
+						return { type: options.loadingComponent }
+					}
+					return placeholder
+				}
+			}
+		}
+	}
+
+	function unmount(vnode) {
+		if (vnode.type === Fragment) {
+			vnode.children.forEach(c => unmount(c))
+			return
+		} else if (typeof vnode.type === 'object') {
+			unmount(vnode.component.subTree)
+			return
+		}
+		const parent = vnode.el.parentNode
+		if (parent) {
+			parent.removeChild(vnode.el)
+		}
+	}
+</script>
+</body>
+</html>
