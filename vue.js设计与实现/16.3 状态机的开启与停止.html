@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<body>
+	<script>
+		// 定义文本模式，作为一个状态表
+		const TextModes = {
+			DATA: 'DATA',
+			RCDATA: 'RCDATA',
+			RAWTEXT: 'RAWTEXT',
+			CDATA: 'CDATA'
+		}
+
+		// 解析器函数，接收模板作为参数
+		function parse(str) {
+			// 定义上下文对象
+			const context = {
+				// source 是模板内容，用于在解析过程中进行消费
+				source: str,
+				// 解析器当前处于文本模式，初始模式位 DATA
+				mode: TextModes.DATA
+			}
+			// 调用 parseChildren 函数开始进行解析，返回解析后得到的子节点
+			// 第一个参数是上下文对象 context， 第二个参数是父代节点构成的节点栈，初始时栈为空
+			const nodes = parseChildren(context, [])
+			// 解析器返回 Root 根节点
+			return {
+				type: 'Root',
+				children: nodes
+			}
+		}
+
+		//
+		function parseChildren(context, ancestors) {
+			// 定义 nodes 数组存储子节点，它将作为最终的返回值
+			let nodes = []
+			// 从上下文对象中取出当前状态，包括模式 mode 和 模板内容 source
+			const { mode, source } = context
+			// 开启 while 循环，对字符串进行解析
+			while(!isEnd(context, ancestors)) {
+				let node
+				// 只有 DATA 模式 和 RCDATA 模式 才支持插值节点的解析
+				if (mode === TextModes.DATA || mode === TextModes.RCDATA) {
+					// 只有 DATA 模式才支持标签节点的解析
+					if (mode === TextModes.DATA && source[0] === '<') {
+						if (source[1] === '!') {
+							if (source.startsWith('<!--')) {
+								// 注释
+								node = parseComment(context)
+							} else if (source.startsWith('<![CDATA[')) {
+								// CDATA
+								node = parseCDATA(context, ancestors)
+							}
+						} else if (source[1] === '/') {
+							// 结束标签
+							console.error('无效的结束标签')
+							continue
+						} else if(/[a-z]/i.test(source[1])) {
+							// 标签
+							node = parseElement(context, ancestors)
+						}
+					} else if (source.startsWith('{{')) {
+						// 解析插值
+						node = parseInterpolation(context)
+					}
+				}
+
+				// node 不存在，说明处于其他模式，即非 DATA 模式且非 RCDATA 模式
+				if (!node) {
+					// 解析文本节点
+					node = parseText(context)
+				}
+
+				// 将节点添加到 nodes 数组中
+				nodes.push(node)
+			}
+
+			return nodes
+		}
+
+		function parseElement(context, ancestors) {
+			// 解析开始标签
+			const element = parseTag(context)
+			if (element.isSlefClosing) {
+				return element
+			}
+
+			ancestors.push(element)
+			element.children = parseChildren(context, ancestors)
+			ancestors.pop()
+
+			if (context.source.startsWith(`<${element.tag}`)) {
+				parseTag(context, 'end')
+			} else {
+				// 缺少闭合标签
+				console.error(`${element.tag} 标签缺少闭合标签`)
+			}
+
+			return element
+		}
+
+		// function isEnd(context, ancestors) {
+		// 	// 当模板内容解析完毕后，停止
+		// 	if (!context.source) {
+		// 		return true
+		// 	}
+		// 	// 获取父级标签节点
+		// 	const parent = ancestors[ancestors.length - 1]
+		// 	// 如果遇到结束标签，并且该标签与父级标签节点同名，则停止
+		// 	if (parent && context.source.startsWith(`</${parent.tag}`)) {
+		// 		return true
+		// 	}
+		// }
+
+		function isEnd(context, ancestors) {
+			// 当模板内容解析完毕后，停止
+			if (!context.source) {
+				return true
+			}
+			
+			for (let i = ancestors.source.length - 1; i >= 0; i--) {
+				// 只要栈中存在当前结束标签同名的节点，就停止状态机
+				if (context.source.startsWith(`</${ancestors[i].tag}`)) {
+					return true
+				}
+			}
+		}
+
+	</script>
+</body>
+</html>
