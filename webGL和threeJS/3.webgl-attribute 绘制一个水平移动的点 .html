@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <canvas id="canvas" width="400" height="400"></canvas>
+  <script src="./lib/index.js"></script>
+  <script>
+    const ctx = document.getElementById('canvas')
+    const gl = ctx.getContext('webgl')
+    
+    // 着色器
+    // 创建着色器源码
+    const VERTEX_SHADER_SOURCE = `
+      // 声明变量
+      attribute vec4 aPosition;
+      void main() {
+        // 要绘制的点的坐标
+        gl_Position = aPosition; // 默认值 vec4(0.0, 0.0, 0.0, 1.0);
+        // 点的大小
+        gl_PointSize = 30.0;
+      }
+    `; // 顶点着色器
+
+    const FRAGMENT_SHADER_SOURCE = `
+      void main() {
+        gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);
+      }
+    `; // 片元着色器
+
+    const program = initShader(gl, VERTEX_SHADER_SOURCE, FRAGMENT_SHADER_SOURCE)
+
+    const aPosition = gl.getAttribLocation(program, 'aPosition');
+
+    let index = 0
+    setInterval(() => {
+      if (index >= 1) {
+        index = 0;
+      }
+      index += 0.1;
+      gl.vertexAttrib1f(aPosition, index);
+      // 执行绘制
+      gl.drawArrays(gl.POINTS, 0, 1);
+    }, 200)
+
+    
+  </script>
+</body>
+</html>
