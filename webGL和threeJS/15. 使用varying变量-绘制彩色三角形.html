@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+    canvas {
+      margin: 50px auto 0;
+      display: block;
+      background-color: gray;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="canvas" width="400" height="400"></canvas>
+  <script src="./lib/index.js"></script>
+  <script>
+    const ctx = document.getElementById('canvas')
+    const gl = ctx.getContext('webgl')
+    
+    // 着色器
+    // 创建着色器源码
+    const VERTEX_SHADER_SOURCE = `
+      // 声明变量
+      attribute vec4 aPosition;
+      varying vec4 vColor;
+      void main() {
+        vColor = aPosition;
+        // 要绘制的点的坐标
+        gl_Position = aPosition; // 默认值 vec4(0.0, 0.0, 0.0, 1.0);
+      }
+    `; // 顶点着色器
+
+    const FRAGMENT_SHADER_SOURCE = `
+      precision lowp float;
+      varying vec4 vColor;
+      void main() {
+        gl_FragColor = vColor;
+      }
+    `; // 片元着色器
+
+    const program = initShader(gl, VERTEX_SHADER_SOURCE, FRAGMENT_SHADER_SOURCE)
+
+    const aPosition = gl.getAttribLocation(program, 'aPosition');
+
+    const points = new Float32Array([
+      -0.5, -0.5,
+       0.5, -0.5,
+       0.0,  0.5,
+    ])
+
+    const buffer = gl.createBuffer()
+
+    gl.bindBuffer(gl.ARRAY_BUFFER, buffer)
+
+    gl.bufferData(gl.ARRAY_BUFFER, points, gl.STATIC_DRAW)
+
+    //  gl.vertexAttribPointer(location, size, type, normalized, stride, offset)
+    // location：attribute 变量存储的位置， size: 每个顶点的使用数据的个数， type：指定的数据格式
+    // normalized： 是否将数据规划到 [0, 1] [-1, 1] 这个区间， stride: 两个相邻顶点之间的字节数
+    // offset： 数据偏移量
+    gl.vertexAttribPointer(aPosition, 2, gl.FLOAT, false, 0, 0)
+    // 激活数据
+    gl.enableVertexAttribArray(aPosition)
+    // gl.disableVertexAttribArray(aPosition)
+    
+    gl.drawArrays(gl.TRIANGLES, 0, 3);
+  </script>
+</body>
+</html>

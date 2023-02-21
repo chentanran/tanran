@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+    canvas {
+      margin: 50px auto 0;
+      display: block;
+      background-color: gray;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="canvas" width="400" height="400"></canvas>
+  <script src="./lib/index.js"></script>
+  <script>
+    const ctx = document.getElementById('canvas')
+    const gl = ctx.getContext('webgl')
+    
+    // 着色器
+    // 创建着色器源码
+    const VERTEX_SHADER_SOURCE = `
+      // 声明变量
+      attribute vec4 aPosition;
+      attribute vec4 aTex;
+      varying vec2 vTex;
+      void main() {
+        // 要绘制的点的坐标
+        gl_Position = aPosition; // 默认值 vec4(0.0, 0.0, 0.0, 1.0);
+        vTex = vec2(aTex.x, aTex.y);
+      }
+    `; // 顶点着色器
+
+    const FRAGMENT_SHADER_SOURCE = `
+      precision lowp float;
+      uniform sampler2D uSampler;
+      uniform sampler2D uSampler1;
+      varying vec2 vTex;
+      void main() {
+        vec4 c1 = texture2D(uSampler, vTex);
+        vec4 c2 = texture2D(uSampler1, vTex);
+        gl_FragColor = c1 * c2;
+      }
+    `; // 片元着色器
+
+    const program = initShader(gl, VERTEX_SHADER_SOURCE, FRAGMENT_SHADER_SOURCE)
+
+    const aPosition = gl.getAttribLocation(program, 'aPosition');
+    const aTex = gl.getAttribLocation(program, 'aTex');
+    const uSampler = gl.getUniformLocation(program, 'uSampler');
+    const uSampler1 = gl.getUniformLocation(program, 'uSampler1');
+
+    // const points = new Float32Array([
+    //   -0.5, -0.5, 0.0, 1.0,
+    //    0.5, -0.5, 0.0, 0.0,
+    //   -0.5,  0.5, 1.0, 1.0,
+    //    0.5,  0.5, 1.0, 0.0
+    // ])
+
+    const points = new Float32Array([
+      -0.5,  0.5, 0.0, 1.0,
+      -0.5, -0.5, 0.0, 0.0,
+      0.5,  0.5, 1.0, 1.0,
+      0.5, -0.5, 1.0, 0.0,
+    ])
+
+    const buffer = gl.createBuffer()
+
+    gl.bindBuffer(gl.ARRAY_BUFFER, buffer)
+    const BYTES = points.BYTES_PER_ELEMENT;
+
+    gl.bufferData(gl.ARRAY_BUFFER, points, gl.STATIC_DRAW)
+
+    //  gl.vertexAttribPointer(location, size, type, normalized, stride, offset)
+    // location：attribute 变量存储的位置， size: 每个顶点的使用数据的个数， type：指定的数据格式
+    // normalized： 是否将数据规划到 [0, 1] [-1, 1] 这个区间， stride: 两个相邻顶点之间的字节数
+    // offset： 数据偏移量
+    gl.vertexAttribPointer(aPosition, 2, gl.FLOAT, false, BYTES * 4, 0)
+    // 激活数据
+    gl.enableVertexAttribArray(aPosition)
+    // gl.disableVertexAttribArray(aPosition)
+
+    gl.vertexAttribPointer(aTex, 2, gl.FLOAT, false, BYTES * 4, BYTES * 2)
+    // 激活数据
+    gl.enableVertexAttribArray(aTex)
+
+    function getImage(url, location, index) {
+      return new Promise(resolve => {
+        const img = new Image()
+        img.onload = function() {
+          // 创建纹理对象
+          const texture = gl.createTexture()
+
+          // 翻转 图片 Y轴
+          gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 1)
+
+          // 开启一个纹理单元
+          gl.activeTexture(gl[`TEXTURE${index}`])
+
+          // 绑定纹理对象
+          gl.bindTexture(gl.TEXTURE_2D, texture)
+
+          // 处理放大缩小逻辑
+          gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR)
+          gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR)
+
+          // 横向 纵向 平铺的方式
+          gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE)
+          gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE)
+
+          // 配置纹理图像
+          gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, img)
+
+          gl.uniform1i(location, index);
+
+          resolve();
+        }
+
+        img.src = url
+      })
+    }
+
+    Promise.all([getImage('./assets/border.png', uSampler, 0), getImage('./assets/content.png', uSampler1, 1)]).then(() => {
+      gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    })
+  </script>
+</body>
+</html>
