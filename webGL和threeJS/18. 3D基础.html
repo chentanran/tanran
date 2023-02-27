@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+    canvas {
+      margin: 50px auto 0;
+      display: block;
+      background-color: gray;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="canvas" width="400" height="400"></canvas>
+  <script src="./lib/index.js"></script>
+  <script>
+    const ctx = document.getElementById('canvas')
+    const gl = ctx.getContext('webgl')
+    
+    // 着色器
+    // 创建着色器源码
+    const VERTEX_SHADER_SOURCE = `
+      // 声明变量
+      attribute vec4 aPosition;
+      uniform mat4 mat;
+      void main() {
+        // 要绘制的点的坐标
+        gl_Position = mat * aPosition;
+        // 点的大小
+        gl_PointSize = 10.0;
+      }
+    `; // 顶点着色器
+
+    const FRAGMENT_SHADER_SOURCE = `
+      precision mediump float;
+      uniform vec2 uColor;
+      void main() {
+        gl_FragColor = vec4(uColor.r, uColor.g, 0.0, 1.0);
+      }
+    `; // 片元着色器
+
+    const program = initShader(gl, VERTEX_SHADER_SOURCE, FRAGMENT_SHADER_SOURCE)
+
+    const aPosition = gl.getAttribLocation(program, 'aPosition');
+    const mat = gl.getUniformLocation(program, 'mat');
+
+    function getTranslateMatrix(x = 0, y = 0, z = 0) {
+      return new Float32Array([
+        1.0, 0.0, 0.0, 0.0,
+        0.0, 1.0, 0.0, 0.0,
+        0.0, 0.0, 1.0, 0.0,
+        x,   y,   z,   1.0,
+      ])
+    }
+
+    const points = new Float32Array([
+      -0.5, -0.5,
+       0.5, -0.5,
+       0.0,  0.5,
+    ])
+
+    const buffer = gl.createBuffer()
+
+    gl.bindBuffer(gl.ARRAY_BUFFER, buffer)
+
+    gl.bufferData(gl.ARRAY_BUFFER, points, gl.STATIC_DRAW)
+
+    //  gl.vertexAttribPointer(location, size, type, normalized, stride, offset)
+    // location：attribute 变量存储的位置， size: 每个顶点的使用数据的个数， type：指定的数据格式
+    // normalized： 是否将数据规划到 [0, 1] [-1, 1] 这个区间， stride: 两个相邻顶点之间的字节数
+    // offset： 数据偏移量
+    gl.vertexAttribPointer(aPosition, 2, gl.FLOAT, false, 0, 0)
+    // 激活数据
+    gl.enableVertexAttribArray(aPosition)
+    // gl.disableVertexAttribArray(aPosition)
+    
+    let eye = -1
+    function animation() {
+      eye += 0.01
+      if (eye > 1) {
+        eye = -1
+      }
+      // const matrix = getTranslateMatrix(x, x)
+      const vm = getViewMatrix(0.0, eye, 0.1, 0.0, 0.0, 0.0, 0.0, 0.5, 0.0)
+      // 参数1： 存储位置， 参数二，恒为false， 参数三，array， 矩形矩阵
+      gl.uniformMatrix4fv(mat, false, vm)
+      gl.drawArrays(gl.TRIANGLES, 0, 3);
+
+      requestAnimationFrame(animation)
+    }
+    animation()
+
+    // 归一化函数
+    function normalized(arr) {
+      let sum = 0
+      for (let i = 0; i < arr.length; i++) {
+        sum += arr[i] * arr[i]
+      }
+
+      const middle = Math.sqrt(sum)
+
+      for (let i = 0; i < arr.length; i++) {
+        arr[i] = arr[i] / middle
+      }
+    }
+
+    // 叉积函数 获取法向量
+    function cross(a, b) {
+      return new Float32Array([
+        a[1] * b[2] - a[2] * b[1],
+        a[2] * b[0] - a[0] * b[2],
+        a[0] * b[1] - a[1] * b[0]
+      ])
+    }
+
+    // 点积函数 获取投影长度
+    function dot(a, b) {
+      return a[0] * b[0] + a[1] * b[1] + a[2] * b[2]
+    }
+
+    // 向量差
+    function minus(a, b) {
+      return new Float32Array([
+        a[0] - b[0],
+        a[1] - b[1],
+        a[2] - b[2]
+      ])
+    }
+
+    // 视图矩阵获取
+    function getViewMatrix(eyex, eyey, eyez, lookAtx, lookAty, lookAtz, upx, upy, upz) {
+      // 视点
+      const eye = new Float32Array([eyex, eyey, eyez])
+      // 目标点
+      const lookAt = new Float32Array([lookAtx, lookAty, lookAtz])
+      // 上方向
+      const up = new Float32Array([upx, upy, upz])
+
+      // 确定z轴
+      const z = minus(eye, lookAt)
+
+      normalized(z)
+      normalized(up)
+
+      // 确定x轴
+      const x = cross(z, up)
+
+      normalized(x)
+
+      // 确定y轴
+      const y = cross(x, z)
+
+      return new Float32Array([
+        x[0],        y[0],          z[0],         0,
+        x[1],        y[1],          z[1],         0,
+        x[2],        y[2],          z[2],         0,
+        -dot(x, eye), -dot(y, eye), -dot(z, eye), 1
+      ])
+    }
+  </script>
+</body>
+</html>
