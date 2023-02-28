@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <canvas id="canvas" width="400" height="400"></canvas>
+  <script src="./lib/index.js"></script>
+  <script>
+    const ctx = document.getElementById('canvas')
+    const gl = ctx.getContext('webgl')
+    
+    // 着色器
+    // 创建着色器源码
+    const VERTEX_SHADER_SOURCE = `
+      void main() {
+        // 要绘制的点的坐标
+        gl_Position = vec4(0.0, 0.0, 0.0, 1.0);
+        // 点的大小
+        gl_PointSize = 100.0;
+      }
+    `; // 顶点着色器
+
+    const FRAGMENT_SHADER_SOURCE = `
+      precision lowp float;
+
+      void main() {
+        // 计算距离
+        float dis = distance(gl_PointCoord, vec2(0.5, 0.5));
+
+        if (dis > 0.5 || (dis < 0.4 && dis > 0.3) || dis < 0.2) {
+          discard;
+        }
+
+        gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);
+      }
+    `; // 片元着色器
+
+    initShader(gl, VERTEX_SHADER_SOURCE, FRAGMENT_SHADER_SOURCE)
+
+    gl.drawArrays(gl.POINTS, 0, 1)
+  </script>
+</body>
+</html>
