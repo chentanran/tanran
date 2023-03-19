@@ -1,3 +1,8 @@
 #! /usr/bin/env node
+const { program } = require('commander')
 
-console.log(process.argv);
+const mycommander = require('./lib/core/mycommander')
+
+mycommander(program)
+
+program.parse(process.argv)
