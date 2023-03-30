@@ -1,5 +1,6 @@
 {
 	"dependencies": {
+		"express-validator": "^6.15.0",
 		"inquirer": "^9.1.5"
 	}
 }
