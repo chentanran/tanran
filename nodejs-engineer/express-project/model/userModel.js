@@ -8,6 +8,8 @@ const userSchema = new mongoose.Schema({
   password: { type: String, required: true, set: value => md5(value), select: false },
   phone: { type: String, required: true },
   image: { type: String, default: null },
+  cover: { type: String, default: null },
+  channeldes: { type: String, default: null },
   ...baseModel
 })
 

@@ -9,7 +9,7 @@ module.exports.createToken = async userinfo => {
     { userinfo },
     uuid,
     {
-      expiresIn: 30
+      expiresIn: 60 * 60 * 24
     }
   )
 }

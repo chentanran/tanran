@@ -24,3 +24,20 @@ module.exports.login = validate([
   body('password')
     .notEmpty().withMessage('密码不能为空').bail()
 ])
+
+module.exports.update = validate([
+  body('username')
+    .custom(async val => {
+      const usernameValidate = await User.findOne({ username: val })
+      if (usernameValidate) {
+        return Promise.reject('用户名不能重复')
+      }
+    }).bail(),
+  body('email')
+    .custom(async val => {
+      const emailValidate = await User.findOne({ email: val })
+      if (emailValidate) {
+        return Promise.reject('邮箱不能重复')
+      }
+    }).bail()
+])

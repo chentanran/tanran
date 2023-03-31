@@ -24,3 +24,9 @@ exports.login = async (req, res) => {
 exports.list = async (req, res) => {
   res.status(201).json({ data: '/user-list' })
 }
+
+exports.update = async (req, res) => {
+  console.log(req.body)
+  const dbBackData = await User.findByIdAndUpdate(req.user.userinfo._id, req.body, { new: true })
+  res.status(201).json({ data: dbBackData })
+}
