@@ -3,6 +3,6 @@ const router = express.Router()
 const userController = require('../controller/userController')
 const validate = require('../middleware/validator/userValidator')
 
-router.post('/register', validate.register, userController.register)
+router.get('/register', validate.register, userController.register)
 
 module.exports = router
