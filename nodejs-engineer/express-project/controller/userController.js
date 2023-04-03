@@ -1,5 +1,9 @@
+const fs = require('fs')
+const { promisify } = require('util')
 const { User } = require('../model/index')
 const { createToken } = require('../utils/jwt')
+
+const rename = promisify(fs.rename)
 
 exports.register = async (req, res) => {
   const userModel = new User(req.body)
@@ -13,8 +17,9 @@ exports.login = async (req, res) => {
   let dbBack = await User.findOne(req.body)
   if (!dbBack) {
     res.status(402).json({ error: '账号或密码不正确' })
+    return
   }
-
+  console.log(dbBack, 'dbback')
   dbBack = dbBack.toJSON()
   dbBack.token = await createToken(dbBack)
 
@@ -29,4 +34,19 @@ exports.update = async (req, res) => {
   console.log(req.body)
   const dbBackData = await User.findByIdAndUpdate(req.user.userinfo._id, req.body, { new: true })
   res.status(201).json({ data: dbBackData })
+}
+
+exports.upload = async (req, res) => {
+  const fileArr = req.file.originalname.split('.')
+  const fileType = fileArr[fileArr.length - 1]
+
+  try {
+    rename(
+      `./public/${req.file.filename}`,
+      `./public/${req.file.filename}.${fileType}`
+    )
+    res.status(201).json({ data: req.file })
+  } catch {
+    res.status(401).json({ data: '文件上传失败' })
+  }
 }
