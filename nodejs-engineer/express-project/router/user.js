@@ -12,5 +12,7 @@ router
 .get('/list', verifyToken(), userController.list)
 .post('/update', verifyToken(), validate.update, userController.update)
 .post('/upload', verifyToken(), upload.single('headimg'), userController.upload)
+.get('/subscribe/:userId', verifyToken(), userController.subscribe)
+.get('/unsubscribe/:userId', verifyToken(), userController.unsubscribe)
 
 module.exports = router

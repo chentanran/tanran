@@ -1,6 +1,6 @@
 const fs = require('fs')
 const { promisify } = require('util')
-const { User } = require('../model/index')
+const { User, Subscribe } = require('../model/index')
 const { createToken } = require('../utils/jwt')
 
 const rename = promisify(fs.rename)
@@ -47,5 +47,55 @@ exports.upload = async (req, res) => {
     res.status(201).json({ data: req.file })
   } catch {
     res.status(401).json({ data: '文件上传失败' })
+  }
+}
+
+exports.subscribe = async (req, res) => {
+  const userId = req.user.userinfo._id
+  const channelId = req.params.userId
+  if (userId === channelId) {
+    return res.status(401).json({ err: '不能关注自己' })
+  }
+
+  const record = await Subscribe.findOne({
+    user: userId,
+    channel: channelId
+  })
+
+  if (!record) {
+    await new Subscribe({
+      user: userId,
+      channel: channelId
+    }).save()
+
+    const user = await User.findById(channelId)
+    user.subscribeCount++
+    await user.save()
+    res.status(200).json({ msg: '关注成功' })
+  } else {
+    res.status(401).json({ err: '已订阅了此频道' })
+  }
+}
+
+exports.unsubscribe = async (req, res) => {
+  const userId = req.user.userinfo._id
+  const channelId = req.params.userId
+  if (userId === channelId) {
+    return res.status(401).json({ err: '不能取消关注自己' })
+  }
+
+  const record = await Subscribe.findOne({
+    user: userId,
+    channel: channelId
+  })
+
+  if (record) {
+    await Subscribe.deleteOne(record)
+    const user = await User.findById(channelId)
+    user.subscribeCount--
+    await user.save()
+    res.status(200).json({ msg: '取消关注成功' })
+  } else {
+    res.status(401).json({ err: '未关注此频道' })
   }
 }
