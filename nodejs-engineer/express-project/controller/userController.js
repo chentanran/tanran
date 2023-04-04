@@ -19,15 +19,14 @@ exports.login = async (req, res) => {
     res.status(402).json({ error: '账号或密码不正确' })
     return
   }
-  console.log(dbBack, 'dbback')
   dbBack = dbBack.toJSON()
   dbBack.token = await createToken(dbBack)
-
   res.status(201).json({ data: dbBack })
 }
 
 exports.list = async (req, res) => {
-  res.status(201).json({ data: '/user-list' })
+  let dbBack = await User.find()
+  res.status(201).json({ data: dbBack })
 }
 
 exports.update = async (req, res) => {

@@ -9,8 +9,8 @@ const upload = multer({ dest: 'public/' })
 router
 .post('/register', validate.register, userController.register)
 .post('/login', validate.login, userController.login)
-.get('/list', verifyToken, userController.list)
-.post('/update', verifyToken, validate.update, userController.update)
-.post('/upload', verifyToken, upload.single('headimg'), userController.upload)
+.get('/list', verifyToken(), userController.list)
+.post('/update', verifyToken(), validate.update, userController.update)
+.post('/upload', verifyToken(), upload.single('headimg'), userController.upload)
 
 module.exports = router

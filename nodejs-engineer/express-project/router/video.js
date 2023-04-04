@@ -6,7 +6,7 @@ const { verifyToken } = require('../utils/jwt')
 
 router
 .get('/list', videoController.list)
-.post('/createvideo', verifyToken, videoValidator.video, videoController.video)
-.get('/videoinfo/:videoId', verifyToken, videoController.videoinfo)
+.post('/createvideo', verifyToken(), videoValidator.video, videoController.video)
+.get('/videoinfo/:videoId', verifyToken(false), videoController.videoinfo)
 
 module.exports = router
