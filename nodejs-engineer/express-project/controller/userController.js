@@ -1,5 +1,6 @@
 const fs = require('fs')
 const { promisify } = require('util')
+const lodash = require('lodash')
 const { User, Subscribe } = require('../model/index')
 const { createToken } = require('../utils/jwt')
 
@@ -98,4 +99,22 @@ exports.unsubscribe = async (req, res) => {
   } else {
     res.status(401).json({ err: '未关注此频道' })
   }
+}
+
+exports.getUser = async (req, res) => {
+  let isSubscribe = false
+  if (req.user) {
+    const record = await Subscribe.findOne({
+      channel: req.params.userId,
+      user: req.user.userinfo._id
+    })
+    if (record) {
+      isSubscribe = true
+    }
+  }
+  const user = await User.findById(req.params.userId)
+  res.status(200).json({ data: {
+    ...lodash.pick(user, ['_id', 'username', 'image', 'cover', 'channeldes', 'subscribeCount']),
+    isSubscribe
+  } })
 }

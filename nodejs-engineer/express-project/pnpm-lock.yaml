@@ -5,6 +5,7 @@ specifiers:
   express: ^4.17.3
   express-validator: ^6.15.0
   jsonwebtoken: ^9.0.0
+  lodash: ^4.17.21
   mongoose: ^7.0.3
   morgan: ^1.10.0
   multer: 1.4.5-lts.1
@@ -15,6 +16,7 @@ dependencies:
   express: registry.npmmirror.com/express/4.18.2
   express-validator: registry.npmmirror.com/express-validator/6.15.0
   jsonwebtoken: registry.npmmirror.com/jsonwebtoken/9.0.0
+  lodash: registry.npmmirror.com/lodash/4.17.21
   mongoose: registry.npmmirror.com/mongoose/7.0.3
   morgan: registry.npmmirror.com/morgan/1.10.0
   multer: registry.npmmirror.com/multer/1.4.5-lts.1
