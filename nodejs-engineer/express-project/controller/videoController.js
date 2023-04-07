@@ -1,5 +1,8 @@
-const { Video, Videocomment, Videolike } = require('../model/index')
+const { Video, Videocomment, Videolike, Collect } = require('../model/index')
 const lodash = require('lodash')
+const { hotInc, topHots } = require('../redis/redishotsinc')
+
+// 热度： 观看+1 点赞+2 评论+2 收藏+3
 
 exports.list = async (req, res) => {
   let { pageNum, pageSize } = req.body
@@ -32,6 +35,9 @@ exports.videoinfo = async (req, res) => {
   let dbBack = await Video
                         .findById(videoId)
                         .populate('user', '_id username cover')
+  if (dbBack) {
+    await hotInc(videoId, 1)
+  }
   dbBack = dbBack.toJSON()
   dbBack.islike = false
   if (req.user.userinfo) {
@@ -55,6 +61,9 @@ exports.comment = async (req, res) => {
     video: videoId,
     user: req.user.userinfo._id
   }).save()
+  if (comment) {
+    await hotInc(videoId, 2)
+  }
   videoInfo.commentCount++
   await videoInfo.save()
   res.status(201).json({ data: comment })
@@ -98,12 +107,14 @@ exports.linkvideo = async (req, res) => {
   } else if (doc && doc.like === -1) {
     doc.like = 1
     await doc.save()
+    await hotInc(videoId, 2)
   } else {
     await new Videolike({
       user: userId,
       video: videoId,
       like: 1
     }).save()
+    await hotInc(videoId, 2)
   }
   video.linkCount = await Videolike.countDocuments({ video: videoId, like: 1 })
   video.dislinkCount = await Videolike.countDocuments({ video: videoId, like: -1 })
@@ -153,4 +164,35 @@ exports.linklist = async (req, res) => {
   const getvideoCount = await Videolike.countDocuments()
   
   res.status(201).json({ data: dbBack, total: getvideoCount })
+}
+
+// 视频收藏
+exports.collect = async (req, res) => {
+  const videoId = req.params.videoId
+  const userId = req.user.userinfo._id
+  const video = await Video.findById(videoId)
+  if (!video) {
+    return res.status(404).json({ err: '视频不存在' })
+  }
+  let doc = await Collect.findOne({
+    user: userId,
+    video: video
+  })
+  if (doc) {
+    return res.status(403).json({ err: '视频已被收藏' })
+  }
+  const mycollect = await Collect({
+    user: userId,
+    video: videoId
+  }).save()
+  if(mycollect) {
+    await hotInc(videoId, 3)
+  }
+  res.status(201).json({ data: mycollect })
+}
+
+exports.gethots = async (req, res) => {
+  let topnum = req.params.topnum
+  let tops = await topHots(topnum)
+  res.status(200).json({ data: tops })
 }

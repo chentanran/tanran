@@ -13,5 +13,7 @@ router
 .get('/linkvideo/:videoId', verifyToken(), videoController.linkvideo)
 .get('/dislinkvideo/:videoId', verifyToken(), videoController.dislinkvideo)
 .get('/linklist', verifyToken(), videoController.linklist)
+.get('/collect/:videoId', verifyToken(), videoController.collect)
+.get('/gethots/:topnum', verifyToken(), videoController.gethots)
 
 module.exports = router
