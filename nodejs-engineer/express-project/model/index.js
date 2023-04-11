@@ -6,9 +6,9 @@ async function main() {
 }
 
 main().then(res => {
-  console.log('连接成功')
+  console.log('mongodb连接成功')
 }).catch(err => {
-  console.log(err, '连接失败')
+  console.log(err, 'mongodb连接失败')
 })
 
 module.exports = {
