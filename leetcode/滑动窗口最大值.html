@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /**
+       * @param {number[]} nums
+       * @param {number} k
+       * @return {number[]}
+       */
+      var maxSlidingWindow = function (nums, k) {
+        // 定义一个单调队列类
+        class MonoQueue {
+          queue; // 队列数组
+          constructor() {
+            this.queue = []; // 初始化队列为空数组
+          }
+          enqueue(value) {
+            // 入队操作
+            // 从队尾获取最后一个元素
+            let back = this.queue[this.queue.length - 1];
+            // 当队尾元素存在且小于入队元素时，将队尾元素出队
+            while (back !== undefined && back < value) {
+              this.queue.pop();
+              back = this.queue[this.queue.length - 1];
+            }
+            // 将入队元素加入队列
+            this.queue.push(value);
+          }
+          dequeue(value) {
+            // 出队操作
+            // 从队首获取队首元素
+            let front = this.front();
+            // 当队首元素等于要出队的元素时，将队首元素出队
+            if (front === value) {
+              this.queue.shift();
+            }
+          }
+          front() {
+            console.log(this.queue, 'queue')
+            // 获取队首元素
+            return this.queue[0];
+          }
+        }
+        // 创建一个单调队列实例
+        let helperQueue = new MonoQueue();
+        // 定义索引变量
+        let i = 0,
+          j = 0;
+        // 创建结果数组
+        let resArr = [];
+        // 将前k个元素入队
+        while (j < k) {
+          helperQueue.enqueue(nums[j++]);
+        }
+        // 将队首元素加入结果数组
+        resArr.push(helperQueue.front());
+        // 在数组滑动窗口的过程中，入队新元素，出队旧元素，计算结果数组
+        while (j < nums.length) {
+          helperQueue.enqueue(nums[j]);
+          helperQueue.dequeue(nums[i]);
+          resArr.push(helperQueue.front());
+          i++, j++;
+          console.log(i, 'i', j, 'j')
+        }
+        // 返回结果数组
+        return resArr;
+      };
+
+      console.log(maxSlidingWindow([1, -1, 3, -3, 5, 3, 6, 7], 3));
+    </script>
+  </body>
+</html>

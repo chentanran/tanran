@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      var minSubArrayLen = function (target, nums) {
+        let start, end;
+        start = end = 0;
+        let sum = 0;
+        let len = nums.length;
+        let ans = Infinity;
+
+        while (end < len) {
+          sum += nums[end];
+          console.log(sum, nums[end], 'end')
+          while (sum >= target) {
+            ans = Math.min(ans, end - start + 1);
+            sum -= nums[start];
+            start++;
+
+            console.log(ans, end, start, sum, '----end - start')
+          }
+          end++;
+        }
+        return ans === Infinity ? 0 : ans;
+      };
+
+      const num = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+      console.log(minSubArrayLen(15, num))
+    </script>
+  </body>
+</html>
