@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    div {
+      height: 100vh;
+      width: 80vw;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      
+    }
+    button {
+        width: 100px;
+        height: 100px;
+        background-color: red;
+        margin-right: 20px;
+      }
+  </style>
+</head>
+<body>
+  <div>
+    <button id="a">A</button>
+    <button id="b">B</button>
+    <button id="c">C</button>
+  </div>
+
+  <script>
+    console.log()
+    const data = Math.floor(Math.random() * 3 + 1)
+    document.getElementById("a").onclick = function() {
+       alert(data)
+    }
+    document.getElementById("b").onclick = function() {
+      alert(data)
+    }
+    document.getElementById("c").onclick = function() {
+      alert(data)
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/ol@v7.3.0/ol.css"
+    />
+    
+    <style>
+      html, body, #map {
+        width: 100vw;
+        height: 100vh;
+      }
+      * {
+        padding: 0;
+        margin: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/ol@v7.3.0/dist/ol.js"></script>
+    <script>
+      const map = new ol.Map({
+        target: "map", // 绑定地图容器
+        layers: [
+          new ol.layer.Tile({
+            source: new ol.source.XYZ({
+              url: 'http://wprd0{1-4}.is.autonavi.com/appmaptile?lang=zh_cn&size=1&style=7&x={x}&y={y}&z={z}',
+            }),
+          })
+        ],
+        view: new ol.View({
+          center: [114.30, 30.50], // 设置视图中心点
+          projection: 'EPSG:4326', // 配置投影坐标系
+          zoom: 14
+        }),
+      });
+
+      // 放大缩小
+      const zoomslider = new ol.control.ZoomSlider();
+      map.addControl(zoomslider);
+
+      // 全屏控件
+      const fullscreen = new ol.control.FullScreen();
+      map.addControl(fullscreen);
+
+      const data = {
+        type: 'FeatureCollection',
+        features: [
+          {
+            type: 'Feature',
+            geometry: {
+              type: 'Point',
+              coordinates: [114.30, 30.50]
+            }
+          }
+        ]
+      }
+
+      const source = new ol.source.Vector({
+        features: new ol.format.GeoJSON().readFeatures(data)
+      })
+
+      let layer = new ol.layer.Vector({
+        source: source
+      })
+
+      let style = new ol.style.Style({
+        image: new ol.style.Circle({
+          radius: 10,
+          fill: new ol.style.Fill({
+            color: 'red'
+          }),
+          stroke: new ol.style.Stroke({
+            color: 'black',
+            width: 2
+          })
+        }),
+      })
+
+      layer.setStyle(style);
+
+      map.addLayer(layer);
+    </script>
+  </body>
+</html>

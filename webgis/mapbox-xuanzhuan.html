@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://api.mapbox.com/mapbox-gl-js/v3.1.2/mapbox-gl.js"></script>
+    <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-language/v1.0.0/mapbox-gl-language.js"></script>
+    <link
+      href="https://api.mapbox.com/mapbox-gl-js/v3.1.2/mapbox-gl.css"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map" style="width: 100vw; height: 100vh"></div>
+    <script>
+      mapboxgl.accessToken =
+        "pk.eyJ1IjoiZ2dvYTVzdzh0YyIsImEiOiJjbHJuOW8xbGQxOXJmMmtwN3h5anV5dXh3In0.BVFnOfNdISLxQlw9-ERV-w";
+
+      const style = {
+        version: 8,
+        sources: {
+          "raster-tiles": {
+            type: "raster",
+            tiles: [
+              // wprd0{1-4}
+              // scl=1&style=7 为矢量图（含路网和注记）
+              // scl=2&style=7 为矢量图（含路网但不含注记）
+              // scl=1&style=6 为影像底图（不含路网，不含注记）
+              // scl=2&style=6 为影像底图（不含路网、不含注记）
+              // scl=1&style=8 为影像路图（含路网，含注记）
+              // scl=2&style=8 为影像路网（含路网，不含注记）
+              "http://wprd01.is.autonavi.com/appmaptile?x={x}&y={y}&z={z}&lang=zh_cn&size=1&scl=1&style=7",
+            ],
+            tileSize: 256,
+          },
+        },
+        layers: [
+          {
+            id: "simple-tiles",
+            type: "raster",
+            source: "raster-tiles",
+            minzoom: 0,
+            "maxzoom": 22
+          },
+        ],
+      };
+
+      const map = new mapboxgl.Map({
+        container: "map", // container ID
+        style: 'mapbox://styles/mapbox/streets-v12', // style URL
+        center: [114.30, 30.50], // starting position [lng, lat]
+        zoom: 1.5, // starting zoom
+        projection: 'globe', // 显示地球
+        pitch: 0, //   俯仰角度
+        bearing: 0, //   旋转角度
+        antialias: true, // 使地图渲染时更平滑
+        interactive: true, // 使地图可点击
+      });
+
+      map.addControl(
+        new MapboxLanguage({
+          defaultLanguage: "zh-Hans",
+        })
+      );
+
+      map.on("style.load", () => {
+        map.setFog({}) // 设置背景
+        // map.addSource('mapbox-dem', {
+        //   'type': 'raster-dem',
+        //   url: 'mapbox://mapbox.mapbox-terrain-dem-v1'
+        // })
+        // map.setTerrain({ source: 'mapbox-dem', exaggeration: 1.5 })
+      })
+
+      let flag = false
+      let timer = null
+      map.on("click", () => {
+        flag = !flag
+        if (flag) {
+          timer = setInterval(() => {
+            let center = map.getCenter()
+            center.lng += 10
+            map.setCenter(center)
+          }, 100)
+        } else {
+          clearInterval(timer)
+        }
+        // map.easeTo({
+        //   center,
+        //   duration: 1000,
+        //   easing: n => n
+        // })
+      })
+      
+    </script>
+  </body>
+</html>

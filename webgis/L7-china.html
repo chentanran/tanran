@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://unpkg.com/@antv/l7"></script>
+  </head>
+  <body>
+    <div id="map"></div>
+
+    <script>
+      const scene = new L7.Scene({
+        id: "map",
+        map: new L7.GaodeMap({
+          style: "dark", // 样式URL
+          center: [120.19382669582967, 30.258134],
+          pitch: 0,
+          zoom: 3,
+          token: "21ebcfc42799cbd997689d9f4cce2b14",
+        }),
+      });
+
+      scene.on("loaded", () => {
+        // 地图上加载数据
+        fetch('./china.json')
+          .then(res => res.json())
+          .then(data => {
+            const geojson = data
+            console.log(geojson, 'geojson')
+            const layer = new L7.LineLayer().source(data).shape('line').size(2).color('#ff2d51')
+            scene.addLayer(layer)
+          })
+      });
+    </script>
+  </body>
+</html>

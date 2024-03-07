@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://unpkg.com/@antv/l7"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+
+    <script>
+      const scene = new L7.Scene({
+        id: "map",
+        map: new L7.GaodeMap({
+          style: "dark", // 样式URL
+          center: [116.412012, 39.909117],
+          pitch: 60,
+          zoom: 9,
+          viewMode: '3D',
+          token: "21ebcfc42799cbd997689d9f4cce2b14",
+        }),
+      });
+
+      scene.addImage(
+        "plane",
+        "https://gw.alipayobjects.com/zos/bmw-prod/0ca1668e-38c2-4010-8568-b57cb33839b9.svg"
+      );
+
+      scene.on("loaded", () => {
+        // 地图上加载数据
+        fetch("./line-.json")
+          .then((res) => res.json())
+          .then((data) => {
+            const geojson = data;
+            console.log(geojson, "geojson");
+
+            const line = new L7.LineLayer()
+              .source(data)
+              .color("red")
+              .shape("arc")
+              .size(2)
+              // .animate({
+              //   duration: 1,
+              //   interval: 0.2,
+              //   trailLength: 0.5,
+              // })
+              scene.addLayer(line);
+
+            const flyLine = new L7.LineLayer({ blend: "normal" })
+              .source(data)
+              .color("blue")
+              .texture("plane")
+              .shape("arc")
+              .size(15)
+              .animate({
+                duration: 1,
+                interval: 0.2,
+                trailLength: 0.05,
+              })
+              .style({
+                textureBlend: "replace",
+                lineTexture: true, // 开启线的贴图功能
+                iconStep: 10, // 设置贴图纹理的间距
+              });
+
+            
+            scene.addLayer(flyLine);
+          });
+      });
+    </script>
+  </body>
+</html>

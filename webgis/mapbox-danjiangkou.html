@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://api.mapbox.com/mapbox-gl-js/v3.1.2/mapbox-gl.js"></script>
+    <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-language/v1.0.0/mapbox-gl-language.js'></script>
+    <link
+      href="https://api.mapbox.com/mapbox-gl-js/v3.1.2/mapbox-gl.css"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      .btn {
+        position: absolute;
+        top: 20px;
+        text-align: center;
+        z-index: 100;
+        width: 100%;
+      }
+    </style>
+    </style>
+  </head>
+  <body>
+    <div class="btn">
+      <button>全市</button>
+      <button>大坝核心圈</button>
+      <button>环库中圈</button>
+      <button>环城外圈</button>
+    </div>
+    <div id="map" style="width: 100vw; height: 100vh"></div>
+    <script>
+      mapboxgl.accessToken =
+        "pk.eyJ1IjoiZ2dvYTVzdzh0YyIsImEiOiJjbHJuOW8xbGQxOXJmMmtwN3h5anV5dXh3In0.BVFnOfNdISLxQlw9-ERV-w";
+      const map = new mapboxgl.Map({
+        container: "map", // container ID
+        style: "mapbox://styles/mapbox/streets-v12", // style URL
+        center: [111.513323, 32.540269], // starting position [lng, lat]
+        zoom: 9, // starting zoom
+      });
+
+      map.addControl(
+        new MapboxLanguage({
+          defaultLanguage: "zh-Hans",
+        })
+      );
+    </script>
+  </body>
+</html>

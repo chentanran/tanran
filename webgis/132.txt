@@ -1,0 +1,284 @@
+{
+    "success": true,
+    "message": "",
+    "status": 200,
+    "data": [
+        {
+            "deviceType": "20003",
+            "geoJson": {
+                "features": [
+                    {
+                        "geometry": {
+                            "coordinates": [
+                                "111.478892 ",
+                                "32.559343"
+                            ],
+                            "type": "Point"
+                        },
+                        "type": "Feature",
+                        "properties": {
+                            "deviceType": "20003",
+                            "deviceIp": null,
+                            "latitude": "32.559343",
+                            "deviceTypeName": "武警船艇大队船艇",
+                            "dimensionalType": "0",
+                            "id": "10000000003000001001",
+                            "deviceState": "online",
+                            "iconUrl": null,
+                            "deviceName": "武警船艇大队-冲锋舟101",
+                            "iconState": "20003_online",
+                            "longitude": "111.478892 ",
+                            "animation": "0"
+                        }
+                    },
+                    {
+                        "geometry": {
+                            "coordinates": [
+                                "111.478892 ",
+                                "32.559343"
+                            ],
+                            "type": "Point"
+                        },
+                        "type": "Feature",
+                        "properties": {
+                            "deviceType": "20003",
+                            "deviceIp": null,
+                            "latitude": "32.559343",
+                            "deviceTypeName": "武警船艇大队船艇",
+                            "dimensionalType": "0",
+                            "id": "10000000003000001002",
+                            "deviceState": "online",
+                            "iconUrl": null,
+                            "deviceName": "武警船艇大队-冲锋舟102",
+                            "iconState": "20003_online",
+                            "longitude": "111.478892 ",
+                            "animation": "0"
+                        }
+                    },
+                    {
+                        "geometry": {
+                            "coordinates": [
+                                "111.478892 ",
+                                "32.559343"
+                            ],
+                            "type": "Point"
+                        },
+                        "type": "Feature",
+                        "properties": {
+                            "deviceType": "20003",
+                            "deviceIp": null,
+                            "latitude": "32.559343",
+                            "deviceTypeName": "武警船艇大队船艇",
+                            "dimensionalType": "0",
+                            "id": "10000000003000001003",
+                            "deviceState": "online",
+                            "iconUrl": null,
+                            "deviceName": "武警船艇大队-冲锋舟103",
+                            "iconState": "20003_online",
+                            "longitude": "111.478892 ",
+                            "animation": "0"
+                        }
+                    },
+                    {
+                        "geometry": {
+                            "coordinates": [
+                                "111.478892 ",
+                                "32.559343"
+                            ],
+                            "type": "Point"
+                        },
+                        "type": "Feature",
+                        "properties": {
+                            "deviceType": "20003",
+                            "deviceIp": null,
+                            "latitude": "32.559343",
+                            "deviceTypeName": "武警船艇大队船艇",
+                            "dimensionalType": "0",
+                            "id": "10000000003000001004",
+                            "deviceState": "online",
+                            "iconUrl": null,
+                            "deviceName": "武警船艇大队-冲锋舟104",
+                            "iconState": "20003_online",
+                            "longitude": "111.478892 ",
+                            "animation": "0"
+                        }
+                    },
+                    {
+                        "geometry": {
+                            "coordinates": [
+                                "111.478892 ",
+                                "32.559343"
+                            ],
+                            "type": "Point"
+                        },
+                        "type": "Feature",
+                        "properties": {
+                            "deviceType": "20003",
+                            "deviceIp": null,
+                            "latitude": "32.559343",
+                            "deviceTypeName": "武警船艇大队船艇",
+                            "dimensionalType": "0",
+                            "id": "10000000003000001005",
+                            "deviceState": "online",
+                            "iconUrl": null,
+                            "deviceName": "武警船艇大队-冲锋舟105",
+                            "iconState": "20003_online",
+                            "longitude": "111.478892 ",
+                            "animation": "0"
+                        }
+                    },
+                    {
+                        "geometry": {
+                            "coordinates": [
+                                "111.478892 ",
+                                "32.559343"
+                            ],
+                            "type": "Point"
+                        },
+                        "type": "Feature",
+                        "properties": {
+                            "deviceType": "20003",
+                            "deviceIp": null,
+                            "latitude": "32.559343",
+                            "deviceTypeName": "武警船艇大队船艇",
+                            "dimensionalType": "0",
+                            "id": "10000000003000001006",
+                            "deviceState": "online",
+                            "iconUrl": null,
+                            "deviceName": "武警船艇大队-冲锋舟106",
+                            "iconState": "20003_online",
+                            "longitude": "111.478892 ",
+                            "animation": "0"
+                        }
+                    },
+                    {
+                        "geometry": {
+                            "coordinates": [
+                                "111.478892 ",
+                                "32.559343"
+                            ],
+                            "type": "Point"
+                        },
+                        "type": "Feature",
+                        "properties": {
+                            "deviceType": "20003",
+                            "deviceIp": null,
+                            "latitude": "32.559343",
+                            "deviceTypeName": "武警船艇大队船艇",
+                            "dimensionalType": "0",
+                            "id": "10000000003000001007",
+                            "deviceState": "online",
+                            "iconUrl": null,
+                            "deviceName": "武警船艇大队-冲锋舟107",
+                            "iconState": "20003_online",
+                            "longitude": "111.478892 ",
+                            "animation": "0"
+                        }
+                    },
+                    {
+                        "geometry": {
+                            "coordinates": [
+                                "111.478892 ",
+                                "32.559343"
+                            ],
+                            "type": "Point"
+                        },
+                        "type": "Feature",
+                        "properties": {
+                            "deviceType": "20003",
+                            "deviceIp": null,
+                            "latitude": "32.559343",
+                            "deviceTypeName": "武警船艇大队船艇",
+                            "dimensionalType": "0",
+                            "id": "10000000003000001008",
+                            "deviceState": "online",
+                            "iconUrl": null,
+                            "deviceName": "武警船艇大队-冲锋舟108",
+                            "iconState": "20003_online",
+                            "longitude": "111.478892 ",
+                            "animation": "0"
+                        }
+                    },
+                    {
+                        "geometry": {
+                            "coordinates": [
+                                "111.478892",
+                                "32.559343"
+                            ],
+                            "type": "Point"
+                        },
+                        "type": "Feature",
+                        "properties": {
+                            "deviceType": "20003",
+                            "deviceIp": null,
+                            "latitude": "32.559343",
+                            "deviceTypeName": "武警船艇大队船艇",
+                            "dimensionalType": "0",
+                            "id": "10000000003000001009",
+                            "deviceState": "online",
+                            "iconUrl": null,
+                            "deviceName": "武警船艇大队-冲锋舟109",
+                            "iconState": "20003_online",
+                            "longitude": "111.478892",
+                            "animation": "0"
+                        }
+                    },
+                    {
+                        "geometry": {
+                            "coordinates": [
+                                "111.479558",
+                                "32.55932"
+                            ],
+                            "type": "Point"
+                        },
+                        "type": "Feature",
+                        "properties": {
+                            "deviceType": "20003",
+                            "deviceIp": null,
+                            "latitude": "32.55932",
+                            "deviceTypeName": "武警船艇大队船艇",
+                            "dimensionalType": "0",
+                            "id": "10000000003000002002",
+                            "deviceState": "online",
+                            "iconUrl": null,
+                            "deviceName": "武警船艇大队-巡逻艇202",
+                            "iconState": "20003_online",
+                            "longitude": "111.479558",
+                            "animation": "0"
+                        }
+                    },
+                    {
+                        "geometry": {
+                            "coordinates": [
+                                "111.479558",
+                                "32.55932"
+                            ],
+                            "type": "Point"
+                        },
+                        "type": "Feature",
+                        "properties": {
+                            "deviceType": "20003",
+                            "deviceIp": null,
+                            "latitude": "32.55932",
+                            "deviceTypeName": null,
+                            "dimensionalType": "0",
+                            "id": "1747972435617349633",
+                            "deviceState": "online",
+                            "iconUrl": null,
+                            "deviceName": "武警船艇大队-巡逻艇201",
+                            "iconState": "20003_online",
+                            "longitude": "111.479558",
+                            "animation": "0"
+                        }
+                    }
+                ],
+                "typeName": null,
+                "typeId": null,
+                "type": "FeatureCollection"
+            },
+            "deviceTypeName": null
+        }
+    ],
+    "timestamp": 1707122946653,
+    "errno": 0
+}

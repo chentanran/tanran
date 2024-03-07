@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <style>
+        .container {
+            width: 200px; /* 设置容器宽度 */
+            /* display: inline-block;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis; */
+        }
+    </style>
+</head>
+<body>
+    <div id="textContainer" class="container">这是一段很长的汉字文本，如果这段文字长度超过一行...</div>
+
+    <script>
+        function wrapText(container, symbol) {
+            const containerElement = document.getElementById(container);
+            const words = containerElement.innerText.split(' ');
+            let tempText = '';
+            let currentLineWidth = 0;
+            const maxWidth = containerElement.offsetWidth;
+
+            for (let i = 0; i < words.length; i++) {
+                // 获取当前单词加上tempText后的新字符串的宽度
+                const newWord = tempText + (tempText ? ' ' : '') + words[i];
+                const wordWidth = calculateTextWidth(newWord, containerElement);
+
+                if (currentLineWidth + wordWidth > maxWidth && tempText) {
+                    // 如果超出最大宽度，则在前面的符号处插入换行，并重置当前行宽度
+                    containerElement.innerHTML += `<br>${words[i]}`;
+                    currentLineWidth = wordWidth;
+                } else {
+                    // 否则继续累加当前行宽度
+                    currentLineWidth += wordWidth;
+                    tempText = newWord;
+                }
+
+                // 检查是否是最后一个单词
+                if (i === words.length - 1) {
+                    containerElement.innerHTML += tempText;
+                }
+            }
+        }
+
+        // 计算文本宽度的方法，这里假设你有这样一个函数，实际项目中可能需要使用canvas或第三方库来精确测量
+        function calculateTextWidth(text, element) {
+            // 这里仅作为示例，真实情况需实现计算文本宽度的逻辑
+            // 如：使用HTMLCanvasElement.measureText 或 使用第三方库如 jQuery.textWidth 等
+            return text.length * 10; // 假设每个字符平均宽度为10像素
+        }
+
+        // 初始化调用
+        wrapText('textContainer', '');
+    </script>
+</body>
+</html>

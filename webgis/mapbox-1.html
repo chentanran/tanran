@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>05、底图切换 - 高德｜天地图｜bingmap｜mapbox</title>
+    <link
+      href="https://api.mapbox.com/mapbox-gl-js/v2.7.0/mapbox-gl.css"
+      rel="stylesheet"
+    />
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.7.0/mapbox-gl.js"></script>
+    <style>
+      * {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+        text-decoration: none;
+      }
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+      }
+      #map {
+        width: 100%;
+        height: 100%;
+      }
+      .btn-list {
+        position: fixed;
+        top: 100px;
+        left: 100px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+    <ul class="btn-list">
+      <li>
+        <button onclick="changeMapType('gd-satellite')">高德 - 卫星影像</button>
+      </li>
+      <li>
+        <button onclick="changeMapType('gd-vector')">高德 - 矢量地图</button>
+      </li>
+      <li>
+        <button onclick="changeMapType('tian-satellite')">
+          天地图 - 卫星影像
+        </button>
+      </li>
+      <li>
+        <button onclick="changeMapType('tian-vector')">
+          天地图 - 矢量地图
+        </button>
+      </li>
+      <li>
+        <button onclick="changeMapType('bing-satellite')">
+          bingmap - 卫星影像
+        </button>
+      </li>
+      <li>
+        <button onclick="changeMapType('bing-vector')">
+          bingmap - 矢量地图
+        </button>
+      </li>
+      <li>
+        <button onclick="changeMapType('mapbox-satellite')">
+          mapbox - 卫星影像
+        </button>
+      </li>
+    </ul>
+    <script>
+      const mapList = [
+        { name: '高德地图 卫星影像', layerId: 'gd-satellite' },
+        { name: '高德地图 矢量地图', layerId: 'gd-vector' },
+        { name: '天地图 卫星影像', layerId: 'tian-satellite' },
+        { name: '天地图 矢量地图', layerId: 'tian-vector' },
+        { name: 'bingmap 卫星影像', layerId: 'bing-satellite' },
+        { name: 'bingmap 矢量地图', layerId: 'bing-vector' },
+        { name: 'mapbox 卫星影像', layerId: 'mapbox-satellite' },
+      ]
+      mapboxgl.accessToken =
+        'pk.eyJ1IjoiZ2dvYTVzdzh0YyIsImEiOiJjbHJuOW8xbGQxOXJmMmtwN3h5anV5dXh3In0.BVFnOfNdISLxQlw9-ERV-w'
+      const map = new mapboxgl.Map({
+        container: 'map', // 容器 id
+        style: {
+          version: 8,
+          sources: {
+            'gd-satellite': {
+              type: 'raster',
+              tiles: [
+                // 高德地图 卫星影像
+                'http://wprd04.is.autonavi.com/appmaptile?x={x}&y={y}&z={z}&lang=zh_cn&size=1&scl=1&style=6',
+              ],
+              tileSize: 256,
+            },
+            'gd-vector': {
+              type: 'raster',
+              tiles: [
+                // 高德地图 矢量地图
+                'http://wprd04.is.autonavi.com/appmaptile?x={x}&y={y}&z={z}&lang=zh_cn&size=1&scl=2&style=7',
+              ],
+              tileSize: 256,
+            },
+            'tian-satellite': {
+              type: 'raster',
+              tiles: [
+                // 天地图 卫星影像
+                'http://t0.tianditu.gov.cn/img_w/wmts?tk=1883a2da124fe27b3c281f9d65356e82&SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=img&STYLE=default&TILEMATRIXSET=w&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&FORMAT=tiles',
+              ],
+              tileSize: 256,
+            },
+            'tian-vector': {
+              type: 'raster',
+              tiles: [
+                // 天地图 矢量地图
+                'http://t0.tianditu.gov.cn/vec_w/wmts?tk=1883a2da124fe27b3c281f9d65356e82&SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=vec&STYLE=default&TILEMATRIXSET=w&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&FORMAT=tiles',
+              ],
+              tileSize: 256,
+            },
+            'bing-satellite': {
+              type: 'raster',
+              tiles: [
+                // bingmap 卫星影像
+                'http://ak.dynamic.t0.tiles.virtualearth.net/comp/ch/{quadkey}?mkt=zh-CN&it=A,G,L&og=819&n=z',
+              ],
+              tileSize: 256,
+            },
+            'bing-vector': {
+              type: 'raster',
+              tiles: [
+                // bingmap 矢量地图
+                'http://ak.dynamic.t0.tiles.virtualearth.net/comp/ch/{quadkey}?mkt=zh-CN&it=G,L&shading=hill&og=819&n=z',
+              ],
+              tileSize: 256,
+            },
+            'mapbox-satellite': {
+              type: 'raster',
+              tiles: [
+                // mapbox 卫星影像
+                'https://api.mapbox.com/v4/mapbox.satellite/{z}/{x}/{y}.png?sku=101wZp4uNMRnl&access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NDg1bDA1cjYzM280NHJ5NzlvNDMifQ.d6e-nNyBDtmQCVwVNivz7A',
+              ],
+              tileSize: 256,
+            },
+          },
+          layers: [
+            {
+              id: 'gd-satellite',
+              type: 'raster',
+              source: 'gd-satellite',
+              layout: {
+                visibility: 'visible',
+              },
+              minzoom: 0,
+              maxzoom: 22,
+            },
+            {
+              id: 'gd-vector',
+              type: 'raster',
+              source: 'gd-vector',
+              layout: {
+                visibility: 'none',
+              },
+              minzoom: 0,
+              maxzoom: 22,
+            },
+            {
+              id: 'tian-satellite',
+              type: 'raster',
+              source: 'tian-satellite',
+              layout: {
+                visibility: 'none',
+              },
+              minzoom: 0,
+              maxzoom: 22,
+            },
+            {
+              id: 'tian-vector',
+              type: 'raster',
+              source: 'tian-vector',
+              layout: {
+                visibility: 'none',
+              },
+              minzoom: 0,
+              maxzoom: 22,
+            },
+            {
+              id: 'bing-satellite',
+              type: 'raster',
+              source: 'bing-satellite',
+              layout: {
+                visibility: 'none',
+              },
+              minzoom: 0,
+              maxzoom: 22,
+            },
+            {
+              id: 'bing-vector',
+              type: 'raster',
+              source: 'bing-vector',
+              layout: {
+                visibility: 'none',
+              },
+              minzoom: 0,
+              maxzoom: 22,
+            },
+            {
+              id: 'mapbox-satellite',
+              type: 'raster',
+              source: 'mapbox-satellite',
+              layout: {
+                visibility: 'none',
+              },
+              minzoom: 0,
+              maxzoom: 22,
+            },
+          ],
+        }, // mapbox底图
+        center: [108, 35], // 初始化中心点
+        zoom: 2, // 初始化层级
+      })
+      // 底图切换
+      function changeMapType(layerId) {
+        mapList.forEach((item, index) => {
+          const showStatus = item.layerId === layerId ? 'visible' : 'none'
+          map.setLayoutProperty(item.layerId, 'visibility', showStatus)
+        })
+      }
+      
+    </script>
+  </body>
+</html>

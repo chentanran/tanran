@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://api.mapbox.com/mapbox-gl-js/v3.1.2/mapbox-gl.js"></script>
+    <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-language/v1.0.0/mapbox-gl-language.js"></script>
+    <script src="https://unpkg.com/@antv/l7"></script>
+    <link
+      href="https://api.mapbox.com/mapbox-gl-js/v3.1.2/mapbox-gl.css"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map" style="width: 100vw; height: 100vh"></div>
+    <script>
+      const accessToken =
+        "pk.eyJ1IjoiZ2dvYTVzdzh0YyIsImEiOiJjbHJuOW8xbGQxOXJmMmtwN3h5anV5dXh3In0.BVFnOfNdISLxQlw9-ERV-w";
+
+      const style = {
+        version: 8,
+        sources: {
+          "raster-tiles": {
+            type: "raster",
+            tiles: [
+              // wprd0{1-4}
+              // scl=1&style=7 为矢量图（含路网和注记）
+              // scl=2&style=7 为矢量图（含路网但不含注记）
+              // scl=1&style=6 为影像底图（不含路网，不含注记）
+              // scl=2&style=6 为影像底图（不含路网、不含注记）
+              // scl=1&style=8 为影像路图（含路网，含注记）
+              // scl=2&style=8 为影像路网（含路网，不含注记）
+              "http://wprd01.is.autonavi.com/appmaptile?x={x}&y={y}&z={z}&lang=zh_cn&size=1&scl=1&style=7",
+            ],
+            tileSize: 256,
+          },
+        },
+        layers: [
+          {
+            id: "simple-tiles",
+            type: "raster",
+            source: "raster-tiles",
+            minzoom: 0,
+            maxzoom: 22,
+          },
+        ],
+      };
+
+      const scene = new L7.Scene({
+        id: "map",
+        map: new L7.Mapbox({
+          style, // 样式URL
+          center: [114.050008, 22.529272],
+          pitch: 0,
+          zoom: 12,
+          token: accessToken,
+          projection: "globe", // 显示地球
+          pitch: 60, //   俯仰角度
+          bearing: 0, //   旋转角度
+          antialias: true, // 使地图渲染时更平滑
+          interactive: true, // 使地图可点击
+        }),
+      });
+
+      scene.map.on("style.load", () => {
+        scene.map.setFog({}); // 设置背景
+      });
+
+      scene.on("loaded", () => {
+        fetch(
+          "https://gw.alipayobjects.com/os/basement_prod/972566c5-a2b9-4a7e-8da1-bae9d0eb0117.json"
+        )
+          .then((res) => res.json())
+          .then((data) => {
+            const layer = new L7.PolygonLayer({});
+            layer.source(data).shape('extrude').size('h20').active(true)
+            scene.addLayer(layer);
+          })
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      const data = [
+        { label: "1", level: 1 },
+        { label: "2", level: 2 },
+        { label: "3", level: 2 },
+        { label: "4", level: 1 },
+        { label: "5", level: 2 },
+        { label: "11", level: 3 },
+        { label: "6", level: 2 },
+        { label: "12", level: 3 },
+        { label: "7", level: 1 },
+        { label: "8", level: 2 },
+        { label: "9", level: 2 },
+        { label: "10", level: 3 },
+      ];
+
+      function isTree(datas) {
+        let arr = [];
+
+        for (let i = 0; i < datas.length; i++) {
+          const item = datas[i];
+          switch (item.level) {
+            case 1:
+              arr.push({ ...item, children: [] });
+              break;
+            case 2:
+              arr[arr.length - 1].children.push({ ...item, children: [] });
+              break;
+            case 3:
+              arr[arr.length - 1].children[arr[arr.length - 1].children.length - 1].children.push(item);
+              break;
+          }
+        }
+
+        return arr;
+      }
+
+      console.log(isTree(data));
+    </script>
+  </body>
+</html>

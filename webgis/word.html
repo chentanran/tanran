@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    div {
+      width: 200px;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    
+  </div>
+
+  <script>
+    const str = `屈原既放，游于江潭，行吟泽畔，颜色憔悴，形容枯槁。渔父见而问之曰：“子非三闾大夫与？何故至于斯？”屈原曰：“举世皆浊我独清，众人皆醉我独醒，是以见放。”
+渔父曰：“圣人不凝滞于物，而能与世推移。世人皆浊，何不淈其泥而扬其波？众人皆醉，何不哺其糟而歠其醨？何故深思高举，自令放为？”
+屈原曰：“吾闻之，新沐者必弹冠，新浴者必振衣；安能以身之察察，受物之汶汶者乎？宁赴湘流，葬于江鱼之腹中。安能以皓皓之白，而蒙世俗之尘埃乎？”
+渔父莞尔⑾而笑，鼓枻而去，乃歌曰：“沧浪之水清兮，可以濯吾缨；沧浪之水浊兮，可以濯吾足。”遂去，不复与言。`
+
+// document.getElementById('app').innerHTML = str.split('').map(item => {
+//   return `<span>${item}</span>`
+// }).join('')
+document.getElementById('app').innerHTML = str
+
+// console.log(str.split('').map(item => {
+//   return `<span>${item}</span>`
+// }).join(''))
+
+const clientWidth = document.body.clientWidth - document.body.clientWidth % 16
+
+console.log(clientWidth)
+
+console.log(str.length * 16)
+
+const strLen = str.length * 16
+
+for (let i = clientWidth; i < strLen; i+=clientWidth) {
+  console.log(str[i / 16 - 1], i, str, i / 16, '=---')
+}
+
+function getTextLineCount(element) {
+    // 创建一个隐藏的克隆节点
+    const clone = element.cloneNode(true);
+    clone.style.visibility = 'hidden';
+    clone.style.position = 'absolute';
+    clone.style.width = `${element.offsetWidth}px`;
+    clone.style.height = 'auto';
+    document.body.appendChild(clone);
+
+    // 获取实际的高度以估算行数
+    const lineHeight = parseInt(getComputedStyle(clone).lineHeight, 10);
+    const cloneHeight = clone.offsetHeight;
+    const lines = Math.max(1, Math.floor(cloneHeight / lineHeight));
+
+    // 移除克隆节点
+    document.body.removeChild(clone);
+
+    return lines;
+}
+
+// 使用示例：
+const myTextElement = document.getElementById('app');
+console.log(getTextLineCount(myTextElement));
+  </script>
+</body>
+</html>
