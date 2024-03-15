@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="./lib/three/three.js"></script>
+    <script src="./lib/three/OrbitControls.js"></script>
+    <style>
+      * {
+        padding: 0;
+        margin: 0;
+      }
+      canvas {
+        height: 100% !important;
+        width: 100% !important;
+      }
+    </style>
+  </head>
+  <body>
+    <script>
+      // 创建一个场景
+      const scene = new THREE.Scene();
+      const clock = new THREE.Clock()
+      // 创建一个相机 视点
+      const camera = new THREE.PerspectiveCamera(
+        45,
+        window.innerWidth / window.innerHeight,
+        1,
+        1000
+      );
+
+      // 设置相机的位置
+      camera.position.set(100, 0, 0)
+      camera.lookAt(new THREE.Vector3(0, 0, 0));
+
+      const controls = new THREE.OrbitControls(camera)
+      controls.minDistance = 1
+      controls.maxDistance = 50
+
+      // 创建一个渲染器
+      const renderer = new THREE.WebGLRenderer();
+      // 设置渲染器的尺寸
+      renderer.setSize(window.innerWidth, window.innerHeight);
+
+      document.body.appendChild(renderer.domElement);
+
+      renderer.setClearColor(0xffffff)
+
+      // 添加灯光
+      const SpotLight = new THREE.SpotLight(0xffffff); // 半球光
+      SpotLight.position.set(2000, 8000, 4000);
+      scene.add(SpotLight);
+
+      // 创建一个立方体
+      const cubeGeometry = new THREE.BoxGeometry(5, 5, 5)
+
+      function getSprite() {
+        const canvas = document.createElement('canvas')
+        canvas.width = 160
+        canvas.height = 160
+
+        const ctx = canvas.getContext('2d')
+        ctx.fillStyle = 'red'
+        ctx.arc(80, 80, 32, 0, Math.PI * 2)
+        ctx.fill()
+
+        const texture = new THREE.Texture(canvas)
+        texture.needsUpdate = true
+        return texture
+      }
+
+      // 立方体贴图是和环境一致，球体跟随当前环境
+      const cubeMaterial = new THREE.MeshBasicMaterial({ map: getSprite() })
+
+      const cube = new THREE.Mesh(cubeGeometry, cubeMaterial)
+      cube.position.x = 5
+
+      scene.add(cube)
+
+      const animation = () => {
+        cube.rotation.x += 0.01
+        cube.rotation.y += 0.01
+
+        controls.update(clock.getDelta())
+        renderer.render(scene, camera);
+        requestAnimationFrame(animation);
+      };
+
+      animation();
+    </script>
+  </body>
+</html>

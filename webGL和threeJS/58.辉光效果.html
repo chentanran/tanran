@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+  <script type="module">
+    import * as THREE from 'https://cdn.skypack.dev/three@v0.129.0'
+    import { OrbitControls } from 'https://cdn.skypack.dev/three@v0.129.0/examples/jsm/controls/OrbitControls.js'
+    import { EffectComposer } from 'https://cdn.skypack.dev/three@v0.129.0/examples/jsm/postprocessing/EffectComposer.js'
+    import { RenderPass } from 'https://cdn.skypack.dev/three@v0.129.0/examples/jsm/postprocessing/RenderPass.js'
+    import { OutlinePass } from 'https://cdn.skypack.dev/three@v0.129.0/examples/jsm/postprocessing/OutlinePass.js'
+
+    // 创建一个场景
+    const scene = new THREE.Scene();
+    // 创建一个相机 视点
+    const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 1000);
+
+    // 设置相机的位置
+    camera.position.set(100, 100, 0)
+    camera.lookAt(new THREE.Vector3(0, 0, 0))
+
+    // 创建一个渲染器
+    const renderer = new THREE.WebGLRenderer()
+    // 设置渲染器的尺寸
+    renderer.setSize(window.innerWidth, window.innerHeight)
+
+    const controls = new OrbitControls(camera, renderer.domElement)
+
+    document.body.appendChild(renderer.domElement)
+
+    
+    // 添加灯光
+    const SpotLight = new THREE.SpotLight(0xffffff) // 半球光
+    SpotLight.position.set(2000, 8000, 4000)
+    scene.add(SpotLight)
+
+    const g1 = new THREE.BoxGeometry(18, 18, 18)
+    const g2 = new THREE.BoxGeometry(18, 18, 18)
+    const m1 = new THREE.MeshBasicMaterial({ color: 0x00ff00 })
+    const m2 = new THREE.MeshBasicMaterial({ color: 0xff0000 })
+
+    const c1 = new THREE.Mesh(g1, m1)
+    c1.position.y = 20
+    
+    const c2 = new THREE.Mesh(g2, m2)
+    c2.position.y = -20
+
+    scene.add(c1)
+    scene.add(c2)
+
+    // 辉光效果
+    // 创建了一个渲染通道，这个通道会渲染场景，不会渲染到屏幕上
+    const renderScene = new RenderPass(scene, camera)
+
+    // 分辨率，场景，相机，当前选中的物体，需要添加辉光效果
+    const outlinePass = new OutlinePass(new THREE.Vector2(window.innerWidth, window.innerHeight), scene, camera, [c1, c2])
+    outlinePass.renderToScreen = true // 渲染到屏幕上
+    outlinePass.edgeStrength = 3 // 尺寸
+    outlinePass.edgeGlow = 2 // 发光强度
+    outlinePass.edgeThickness = 1 // 光晕粗细
+    outlinePass.pulsePeriod = 2 // 闪烁的速度
+
+    // 创建一个组合器对象，添加处理通道
+    const bloom = new EffectComposer(renderer)
+    bloom.setSize(window.innerWidth, window.innerHeight)
+    bloom.addPass(renderScene)
+    bloom.addPass(outlinePass)
+
+    const animation = () => {
+      renderer.render(scene, camera)
+      bloom.render()
+      requestAnimationFrame(animation)
+    }
+
+    animation()
+  </script>
+</body>
+</html>
