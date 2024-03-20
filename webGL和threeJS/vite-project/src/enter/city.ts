@@ -10,11 +10,22 @@ export class City {
   camera: THREE.PerspectiveCamera
   tweenPosition: any
   tweenRotation: any
+  height: { value: number }
+  time: { value: number }
   constructor(scene: Scene, camera: THREE.PerspectiveCamera) {
     this.scene = scene
     this.camera = camera
     this.tweenPosition = null
     this.tweenRotation = null
+    
+    this.height = {
+      value: 5
+    }
+
+    this.time = {
+      value: 0
+    }
+
     this.loadCity()
   }
 
@@ -23,7 +34,7 @@ export class City {
     loadFBX('/src/model/beijing.fbx').then((object: any) => {
       object.traverse((child: any) => {
         if (child.isMesh) {
-          new SurroundLine(this.scene, child)
+          new SurroundLine(this.scene, child, this.height, this.time)
         }
       })
       this.initEffect()
@@ -97,10 +108,17 @@ export class City {
     }
   }
 
-  start() {
+  start(delta: number) {
     if (this.tweenPosition && this.tweenRotation) {
       this.tweenPosition.update()
       this.tweenRotation.update()
+    }
+
+    this.time.value += delta
+
+    this.height.value += 0.4
+    if (this.height.value > 160) {
+      this.height.value = 5
     }
   }
 }

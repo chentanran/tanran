@@ -41,8 +41,10 @@ export const initCity = () => {
   // 创建城市
   const city = new City(scene, camera)
 
+  const clock = new THREE.Clock()
+
   const start = () => {
-    city.start()
+    city.start(clock.getDelta())
     // 渲染场景
     renderer.render(scene, camera)
     requestAnimationFrame(start)
