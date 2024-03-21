@@ -5,6 +5,8 @@ import { Background } from '../effect/background'
 import { Radar } from '../effect/radar'
 import * as THREE from 'three'
 import * as TWEEN from '@tweenjs/tween.js'
+import { Wall } from '../effect/wall'
+import { Circle } from '../effect/circle'
 
 export class City {
   scene: Scene
@@ -46,6 +48,10 @@ export class City {
     new Background(this.scene)
 
     new Radar(this.scene, this.time)
+
+    new Wall(this.scene, this.time);
+
+    new Circle(this.scene, this.time);
 
     this.addClick()
   }
