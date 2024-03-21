@@ -7,6 +7,9 @@ import * as THREE from 'three'
 import * as TWEEN from '@tweenjs/tween.js'
 import { Wall } from '../effect/wall'
 import { Circle } from '../effect/circle'
+import { Ball } from '../effect/ball'
+import { Cone } from '../effect/cone'
+import { Fly } from '../effect/fly'
 
 export class City {
   scene: Scene
@@ -15,6 +18,7 @@ export class City {
   tweenRotation: any
   height: { value: number }
   time: { value: number }
+  top: { value: number }
   constructor(scene: Scene, camera: THREE.PerspectiveCamera) {
     this.scene = scene
     this.camera = camera
@@ -27,6 +31,10 @@ export class City {
 
     this.time = {
       value: 0
+    }
+
+    this.top = {
+      value: 0,
     }
 
     this.loadCity()
@@ -52,6 +60,12 @@ export class City {
     new Wall(this.scene, this.time);
 
     new Circle(this.scene, this.time);
+
+    new Ball(this.scene, this.time);
+
+    new Cone(this.scene, this.top, this.height);
+
+    new Fly(this.scene, this.time);
 
     this.addClick()
   }
