@@ -2,6 +2,7 @@ import { Scene } from 'three'
 import { loadFBX } from '../utils'
 import { SurroundLine } from '../effect/surroundLine'
 import { Background } from '../effect/background'
+import { Radar } from '../effect/radar'
 import * as THREE from 'three'
 import * as TWEEN from '@tweenjs/tween.js'
 
@@ -43,6 +44,8 @@ export class City {
 
   initEffect() {
     new Background(this.scene)
+
+    new Radar(this.scene, this.time)
 
     this.addClick()
   }

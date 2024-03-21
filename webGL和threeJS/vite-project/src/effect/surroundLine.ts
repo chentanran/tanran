@@ -27,7 +27,7 @@ export class SurroundLine {
     const { max, min } = this.child.geometry.boundingBox
 
     const size = max.z - min.z
-    console.log(this.height, '---this.height')
+
     const material = new THREE.ShaderMaterial({
       uniforms: {
         // 当前扫描高度
