@@ -23,6 +23,8 @@ export const initCity = () => {
   // 最近和最远距离
   controls.minDistance = 100
   controls.maxDistance = 2000
+
+  controls.enablePan = true
   
   // 添加灯光
   scene.add(new THREE.AmbientLight(0xadadad))

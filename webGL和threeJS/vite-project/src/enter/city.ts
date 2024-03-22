@@ -10,6 +10,11 @@ import { Circle } from '../effect/circle'
 import { Ball } from '../effect/ball'
 import { Cone } from '../effect/cone'
 import { Fly } from '../effect/fly'
+import { Road } from '../effect/road'
+import { Font } from '../effect/font'
+import { Snow } from '../effect/snow'
+import { Smoke } from '../effect/smoke'
+// import { Rain } from '../effect/rain'
 
 export class City {
   scene: Scene
@@ -19,6 +24,8 @@ export class City {
   height: { value: number }
   time: { value: number }
   top: { value: number }
+  effect: any
+  controls: any
   constructor(scene: Scene, camera: THREE.PerspectiveCamera) {
     this.scene = scene
     this.camera = camera
@@ -36,6 +43,8 @@ export class City {
     this.top = {
       value: 0,
     }
+
+    this.effect = {}
 
     this.loadCity()
   }
@@ -67,7 +76,54 @@ export class City {
 
     new Fly(this.scene, this.time);
 
+    new Road(this.scene, this.time)
+
+    new Font(this.scene)
+
+    this.effect.snow = new Snow(this.scene);
+
+    this.effect.smoke = new Smoke(this.scene)
+
+    // this.effect.rain = new Rain(this.scene)
+
     this.addClick()
+
+    // this.addWheel();
+  }
+
+  // 让场景跟随鼠标的坐标进行缩放
+  addWheel() {
+    const body = document.body;
+    body.onmousewheel = (event) => {
+      const value = 30;
+
+      // 鼠标当前的坐标信息
+      const x = (event.clientX / window.innerWidth) * 2 - 1;
+      const y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+      const vector = new THREE.Vector3(x, y, 0.5);
+
+      vector.unproject(this.camera)
+      vector.sub(this.camera.position).normalize()
+
+      if (event.wheelDelta > 0) {
+        this.camera.position.x += vector.x * value;
+        this.camera.position.y += vector.y * value;
+        this.camera.position.z += vector.z * value;
+
+        this.controls.target.x += vector.x * value;
+        this.controls.target.y += vector.y * value;
+        this.controls.target.z += vector.z * value;
+      } else {
+        this.camera.position.x -= vector.x * value;
+        this.camera.position.y -= vector.y * value;
+        this.camera.position.z -= vector.z * value;
+
+        this.controls.target.x -= vector.x * value;
+        this.controls.target.y -= vector.y * value;
+        this.controls.target.z -= vector.z * value;
+      }
+    }
   }
 
   addClick() {
@@ -132,6 +188,10 @@ export class City {
   }
 
   start(delta: number) {
+    for (const key in this.effect) {
+      this.effect[key] && this.effect[key].animation();
+    }
+
     if (this.tweenPosition && this.tweenRotation) {
       this.tweenPosition.update()
       this.tweenRotation.update()
