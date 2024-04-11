@@ -1,9 +1,9 @@
-import Viewpager from './Viewpager/index'
+import Transition from './Transition/index'
 
 
 export default function App() {
 
   return (
-        <Viewpager></Viewpager>
+        <Transition></Transition>
   )
 }
