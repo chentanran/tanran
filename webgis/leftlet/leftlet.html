@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
+        integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
+        integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
+
+    <style>
+        #map {
+            height: 100vh;
+            width: 100vw;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="map"></div>
+
+    <script>
+        let map = L.map("map", {
+            minZoom: 10,
+            maxZoom: 15,
+            center: [30.50, 114.30],
+            zoom: 11,
+            zoomDelta: 0.5,
+            fullscreenControl: false,
+            zoomControl: false,
+            attributionControl: false
+        });
+
+        //http://map.geoq.cn/ArcGIS/rest/services/ChinaOnlineCommunity/MapServer/tile/{z}/{y}/{x}//arcgis在线地图
+        this.baseLayer = L.tileLayer("http://webrd0{s}.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}", {
+            attribution: '&copy; 高德地图',
+            maxZoom: 15,
+            minZoom: 10,
+            subdomains: "1234"
+        });
+        map.addLayer(this.baseLayer);
+
+        fetch('../data/420117.geoJson').then(res => res.json()).then(data => {
+            console.log(data, 'data')
+            let area = L.geoJSON(data)
+            map.addLayer(area)
+        })
+    </script>
+</body>
+
+</html>
