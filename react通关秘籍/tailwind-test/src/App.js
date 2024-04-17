@@ -1,9 +1,9 @@
-import logo from './logo.svg';
 import './App.css';
 
 function App() {
   return (
-    <div className='text-base p-1 border border-black border-solid'>guang</div>
+    // <div className="text-[14px] bg-red-500 hover:text-[30px] md:bg-blue-500">1111</div>
+    <div className="guang">1111</div>
   );
 }
 
