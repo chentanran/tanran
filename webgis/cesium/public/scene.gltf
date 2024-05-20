@@ -1,0 +1,464 @@
+{
+  "accessors": [
+    {
+      "bufferView": 2,
+      "componentType": 5126,
+      "count": 3648,
+      "max": [
+        23.33011817932129,
+        37.1880989074707,
+        24.649028778076172
+      ],
+      "min": [
+        -23.33011817932129,
+        -36.00999069213867,
+        2.197495222091675
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 43776,
+      "componentType": 5126,
+      "count": 3648,
+      "max": [
+        0.9999619126319885,
+        0.9999985098838806,
+        0.9962793588638306
+      ],
+      "min": [
+        -0.9997890591621399,
+        -0.9989895224571228,
+        -0.9996799826622009
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 1,
+      "componentType": 5126,
+      "count": 3648,
+      "max": [
+        0.9940035939216614,
+        0.9946779608726501
+      ],
+      "min": [
+        0.005322027951478958,
+        0.005497336387634277
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 29184,
+      "componentType": 5126,
+      "count": 3648,
+      "max": [
+        0.9940035939216614,
+        0.9946779608726501
+      ],
+      "min": [
+        0.005322027951478958,
+        0.005497336387634277
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 0,
+      "componentType": 5125,
+      "count": 3648,
+      "type": "SCALAR"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 87552,
+      "componentType": 5126,
+      "count": 3044,
+      "max": [
+        96.43104553222656,
+        160.2578887939453,
+        29.796247482299805
+      ],
+      "min": [
+        -56.78409194946289,
+        -16.698760986328125,
+        -95.98583221435547
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 124080,
+      "componentType": 5126,
+      "count": 3044,
+      "max": [
+        0.9966419339179993,
+        0.9887528419494629,
+        0.998200535774231
+      ],
+      "min": [
+        -0.9950863718986511,
+        -0.9385280609130859,
+        -0.9996806383132935
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 58368,
+      "componentType": 5126,
+      "count": 3044,
+      "max": [
+        0.7242251634597778,
+        0.9946779608726501
+      ],
+      "min": [
+        0.005322027951478958,
+        0.28277575969696045
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 82720,
+      "componentType": 5126,
+      "count": 3044,
+      "max": [
+        0.7242251634597778,
+        0.9946779608726501
+      ],
+      "min": [
+        0.005322027951478958,
+        0.28277575969696045
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 0,
+      "byteOffset": 14592,
+      "componentType": 5125,
+      "count": 3048,
+      "type": "SCALAR"
+    },
+    {
+      "bufferView": 3,
+      "componentType": 5126,
+      "count": 91,
+      "max": [
+        3.0
+      ],
+      "min": [
+        0.0
+      ],
+      "type": "SCALAR"
+    },
+    {
+      "bufferView": 4,
+      "componentType": 5126,
+      "count": 91,
+      "max": [
+        0.3071550726890564,
+        0.21938778460025787,
+        0.326576292514801,
+        0.9470632076263428
+      ],
+      "min": [
+        0.23436717689037323,
+        0.09335282444953918,
+        -0.09952942281961441,
+        0.8889819383621216
+      ],
+      "type": "VEC4"
+    }
+  ],
+  "animations": [
+    {
+      "channels": [
+        {
+          "sampler": 0,
+          "target": {
+            "node": 9,
+            "path": "rotation"
+          }
+        }
+      ],
+      "name": "CINEMA_4D_Main",
+      "samplers": [
+        {
+          "input": 10,
+          "interpolation": "LINEAR",
+          "output": 11
+        }
+      ]
+    }
+  ],
+  "asset": {
+    "extras": {
+      "author": "Zinaida.Kovrova (https://webvrmodel.com/Zinaida.Kovrova)",
+      "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+      "source": "https://webvrmodel.com/3d-models/batterfly-3c2155a7253847d880b88b9921252400",
+      "title": "Batterfly"
+    },
+    "generator": "webvrmodel-12.42.0",
+    "version": "2.0"
+  },
+  "bufferViews": [
+    {
+      "buffer": 0,
+      "byteLength": 26784,
+      "name": "floatBufferViews",
+      "target": 34963
+    },
+    {
+      "buffer": 0,
+      "byteLength": 107072,
+      "byteOffset": 26784,
+      "byteStride": 8,
+      "name": "floatBufferViews",
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 160608,
+      "byteOffset": 133856,
+      "byteStride": 12,
+      "name": "floatBufferViews",
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 364,
+      "byteOffset": 294464,
+      "name": "floatBufferViews"
+    },
+    {
+      "buffer": 0,
+      "byteLength": 1456,
+      "byteOffset": 294828,
+      "byteStride": 16,
+      "name": "floatBufferViews"
+    }
+  ],
+  "buffers": [
+    {
+      "byteLength": 296284,
+      "uri": "scene.bin"
+    }
+  ],
+  "images": [
+    {
+      "uri": "textures/Gold_-_Macro_Scratches_baseColor.png"
+    }
+  ],
+  "materials": [
+    {
+      "doubleSided": true,
+      "emissiveFactor": [
+        0.5005000000000001,
+        0.17517500000000003,
+        0.42459065
+      ],
+      "name": "Gold_-_Macro_Scratches",
+      "pbrMetallicRoughness": {
+        "baseColorTexture": {
+          "index": 0
+        },
+        "metallicFactor": 0.9988584474885845,
+        "roughnessFactor": 0.024
+      }
+    }
+  ],
+  "meshes": [
+    {
+      "name": "batterfly_yellow_Gold - Macro Scratches_0",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 1,
+            "POSITION": 0,
+            "TEXCOORD_0": 2,
+            "TEXCOORD_1": 3
+          },
+          "indices": 4,
+          "material": 0,
+          "mode": 4
+        }
+      ]
+    },
+    {
+      "name": "Mesh_Gold - Macro Scratches_0",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 6,
+            "POSITION": 5,
+            "TEXCOORD_0": 7,
+            "TEXCOORD_1": 8
+          },
+          "indices": 9,
+          "material": 0,
+          "mode": 4
+        }
+      ]
+    }
+  ],
+  "nodes": [
+    {
+      "children": [
+        1
+      ],
+      "matrix": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        2.220446049250313e-16,
+        -1.0,
+        0.0,
+        0.0,
+        1.0,
+        2.220446049250313e-16,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "name": "webvrmodel_model"
+    },
+    {
+      "children": [
+        2
+      ],
+      "matrix": [
+        0.009999999776482582,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.009999999776482582,
+        0.0,
+        0.0,
+        -0.009999999776482582,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "name": "223de1d6c51644db93f6f0360be3309b.fbx"
+    },
+    {
+      "children": [
+        3
+      ],
+      "name": "Object_2"
+    },
+    {
+      "children": [
+        4,
+        6
+      ],
+      "name": "RootNode"
+    },
+    {
+      "children": [
+        5
+      ],
+      "name": "CINEMA_4D_Editor",
+      "rotation": [
+        -0.15606123208999634,
+        0.9106032252311707,
+        -0.06464267522096634,
+        0.3771842122077942
+      ]
+    },
+    {
+      "name": "Object_5"
+    },
+    {
+      "children": [
+        7,
+        9
+      ],
+      "name": "batterfly"
+    },
+    {
+      "children": [
+        8
+      ],
+      "name": "batterfly_yellow",
+      "rotation": [
+        -0.277164489030838,
+        -0.28421562910079956,
+        -0.15667641162872314,
+        0.9043527245521545
+      ],
+      "scale": [
+        1.0199999809265137,
+        1.0199999809265137,
+        1.0199999809265137
+      ],
+      "translation": [
+        0.9536409974098206,
+        -1.0197893381118774,
+        -0.3563719391822815
+      ]
+    },
+    {
+      "mesh": 0,
+      "name": "batterfly_yellow_Gold - Macro Scratches_0"
+    },
+    {
+      "children": [
+        10
+      ],
+      "name": "Mesh",
+      "rotation": [
+        0.26258429884910583,
+        0.1846848428249359,
+        0.03233678266406059,
+        0.9465175867080688
+      ],
+      "scale": [
+        0.6000000238418579,
+        0.6000000238418579,
+        0.6000000238418579
+      ],
+      "translation": [
+        -12.18065071105957,
+        10.3489990234375,
+        9.702879905700684
+      ]
+    },
+    {
+      "mesh": 1,
+      "name": "Mesh_Gold - Macro Scratches_0"
+    }
+  ],
+  "samplers": [
+    {
+      "magFilter": 9729,
+      "minFilter": 9729,
+      "wrapS": 10497,
+      "wrapT": 10497
+    }
+  ],
+  "scene": 0,
+  "scenes": [
+    {
+      "name": "webvrmodel_Scene",
+      "nodes": [
+        0
+      ]
+    }
+  ],
+  "textures": [
+    {
+      "sampler": 0,
+      "source": 0
+    }
+  ]
+}

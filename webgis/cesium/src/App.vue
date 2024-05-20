@@ -7,61 +7,33 @@ console.log(Cesium)
 onMounted(() => {
   Cesium.Ion.defaultAccessToken =
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI4ODVjZTFlMi00ODlkLTQwZjQtYjZkZi1iMWQ0Y2E3YTg3MDgiLCJpZCI6MTk2MzIyLCJpYXQiOjE3MDgzMDc1NTh9.tdD1SV60qoICPlQhnLjPPSSWmkj9Awjck__lvQczyjQ";
-  const viewer = new Cesium.Viewer("cesiumContainer")
-
-  // 创建几何
-  let rectGeometry = new Cesium.RectangleGeometry({
-    rectangle: Cesium.Rectangle.fromDegrees(115.0, 20.0, 135.0, 30.0),
-    height: 0,
-    vertexFormat: Cesium.EllipsoidSurfaceAppearance.VERTEX_FORMAT
+  const viewer = new Cesium.Viewer("cesiumContainer", {
+    shouldAnimate: true, // 动画效果
+    shadows: true // 阴影
   })
 
-  // 创建几何体实例
-  let instance = new Cesium.GeometryInstance({
-    geometry: rectGeometry,
-    attributes: {
-      color: Cesium.ColorGeometryInstanceAttribute.fromColor(
-        Cesium.Color.fromCssColorString("red").withAlpha(0.5)
-      )
+  const position = Cesium.Cartesian3.fromDegrees(
+    114,
+    30,
+    30
+  );
+  // 方向
+  const orientation = Cesium.Transforms.headingPitchRollQuaternion(
+    position,
+    new Cesium.HeadingPitchRoll(0, 0, 0)
+  )
+  //
+  const model = viewer.entities.add({
+    position,
+    orientation,
+    model: {
+      uri: '/Cesium_Air.glb',
+      scale: 1,
+      minimumPixelSize: 20,
+      maximumScale: 200
     }
   })
-
-  // 创建几何
-  let rectGeometry2 = new Cesium.RectangleGeometry({
-    rectangle: Cesium.Rectangle.fromDegrees(145.0, 20.0, 165.0, 30.0),
-    height: 0,
-    vertexFormat: Cesium.EllipsoidSurfaceAppearance.VERTEX_FORMAT
-  })
-
-  // 创建几何体实例
-  let instance2 = new Cesium.GeometryInstance({
-    geometry: rectGeometry2,
-    attributes: {
-      color: Cesium.ColorGeometryInstanceAttribute.fromColor(
-        Cesium.Color.fromCssColorString("red").withAlpha(0.5)
-      )
-    }
-  })
-
-  let material = new Cesium.Material({
-    fabric: {
-      type: "Image",
-      uniforms: {
-        image: '/src/assets/vue.svg'
-      }
-    }
-  })
-
-  let appearance = new Cesium.EllipsoidSurfaceAppearance({
-    material: material
-  })
-
-  let primitive = new Cesium.Primitive({
-    geometryInstances: [instance, instance2],
-    appearance
-  })
-
-  viewer.scene.primitives.add(primitive)
+  viewer.zoomTo(model)
 })
 </script>
 

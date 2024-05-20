@@ -1,0 +1,197 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-language/v0.10.0/mapbox-gl-language.js'></script>
+  <script src="https://api.mapbox.com/mapbox-gl-js/v2.0.0/mapbox-gl.js"></script>
+  <link href="https://api.mapbox.com/mapbox-gl-js/v2.0.0/mapbox-gl.css" rel="stylesheet" />
+  <script src="https://cdn.bootcss.com/Turf.js/5.1.6/turf.min.js"></script>
+  <script src="https://unpkg.com/three@0.106.2/build/three.min.js"></script>
+  <script src="https://unpkg.com/three@0.106.2/examples/js/loaders/GLTFLoader.js"></script>
+  <style>
+    html,body{
+      height: 100%;
+      width: 100%;
+      margin: 0;
+    }
+    .mapbox{
+      width: 100%;
+      height: 800px;
+      box-sizing: border-box;
+    }
+    #app{
+      display: flex;
+    }
+    .setBox img{
+      display: none;
+    }
+    .setBox{
+      width: 100px;
+      height: 100px;
+      background-color: rgba(255,255,255,0);
+      border: none;
+      background-image: url('./static/dongtai.gif');
+      background-repeat: no-repeat;
+      background-size: 100% 100%;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <div class="mapbox" id="mapbox"></div>
+  </div>
+</body>
+<script>
+  var map
+  var centerRedImg
+  var _this
+  var pointList = []
+  var oneIndex = 0
+  var arrowIconTwo = null
+  var frameCount = 5;
+  var currentImage = 0;
+  new Vue({
+    el: '#app',
+    data() {
+      return {
+        map: null,
+        count: 1,
+        polygonArr: [],
+        allImg: [],
+        bgImage: []
+      }
+    },
+    mounted() {
+      this.initMap('mapbox')
+      _this = this
+      map.on('load', () => {
+        this.lineFn()   // 一条线
+      })
+    },
+    methods: {
+      // 一条线绘制 线颜色渐变
+      lineFn() {
+        if (map.getSource('lineOne')) {
+          map.removeLayer('lineOne');
+          map.removeSource('lineOne');
+        }
+        var routeGeoJson = {
+          'type': 'Feature',
+          'geometry': {
+            'type': 'LineString',
+            'coordinates': [[108.839734, 19.045513], [108.9096,19.087778], [109.033196,19.139681], [109.11913,19.255433]]
+          },
+          'properties': {}
+        }
+        // 添加数据源
+        map.addSource('lineOne', {
+          'type': 'geojson',
+          'lineMetrics': true,    // 线渐变必须条件
+          'data': {
+            'type': 'Feature',
+            'geometry': {
+              'type': 'LineString',
+              'coordinates': [[108.839734, 19.045513], [108.9096,19.087778], [109.033196,19.139681], [109.11913,19.255433]]
+            },
+            'properties': {}
+          }
+        });
+        // 添加一条线
+        map.addLayer({
+          'id': 'lineOne',
+          'source': 'lineOne',
+          'type': 'line',
+          'layout': {
+            'visibility': 'visible',
+            'line-join': 'round',
+            'line-cap': 'round'
+          },
+          'paint': {
+            'line-color': '#fff',
+            'line-width': 15,
+            // 'line-gradient': ['interpolate',['linear'],['line-progress'],0,'blue',0.1,'royalblue',0.3,'cyan',0.5,'lime',0.7,'yellow',1,'red']
+          }
+        });
+        // 线滚动显示效果
+        var totalTime1 = 0
+        var totalTime2 = 5
+		// 创建一条线
+        var lineCount = turf.lineString([[108.839734, 19.045513], [108.9096,19.087778], [109.033196,19.139681], [109.11913,19.255433]]);
+        // 分割线段
+		var chunk = turf.lineChunk(lineCount, 1, {units: 'miles'});
+        console.log('一条线分割成多段：', chunk)
+        var colorNum = 0
+        var colorList = ['red', 'rgba(255,255,255,0)', 'blue', 'rgba(255,255,255,0)', 'green', 'rgba(255,255,255,0)']
+        for (let i = 0; i < chunk.features.length; i++) {
+          var oneMarker = chunk.features[i].geometry.coordinates
+          console.log('分割的线段'+oneMarker)
+          var pageNum = i % 6
+          var lineName = 'lineAllCount_' + i
+		  // 绘制渐变的线
+          _this.addAllLineFn(lineName, chunk.features[i], colorList[pageNum])
+        }
+		//定时器动态修改线的颜色
+        setInterval(() => {
+          colorNum++
+          for (let i = 0; i < chunk.features.length; i++) {
+            var oneMarker = chunk.features[i].geometry.coordinates
+            var countNumShow = colorNum % 6
+            var pageNum = i % 6
+            var lineName = 'lineAllCount_' + i
+            var totalNum = pageNum - countNumShow
+            if (totalNum <= 0) {
+              map.setPaintProperty(lineName, 'line-color', colorList[5 - Math.abs(totalNum)])
+            }
+            if (totalNum > 0) {
+              map.setPaintProperty(lineName, 'line-color', colorList[totalNum - 1])
+            }
+          }
+		  // 触发一个显示框的渲染。使用自定义图层时，当图层发生改变，使用此方法去重渲染。 
+		  // 在下一个显示框渲染前多次调用此方法也只会渲染一次
+          map.triggerRepaint();
+        }, 300);
+      },
+      initMap(box) {
+        mapboxgl.accessToken = 'pk.eyJ1IjoidHd0aW1lcyIsImEiOiJjanl4c2tkdnYwenVuM210YXhjdGg3OTljIn0.4hACBWooh6zXxfUFoOo1jw'
+        mapboxgl.setRTLTextPlugin('https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-rtl-text/v0.2.0/mapbox-gl-rtl-text.js');
+        map = new mapboxgl.Map({
+          container: box,
+          style: 'mapbox://styles/mapbox/dark-v9',
+          // style: 'http://114.115.163.246/mapbox/style/style.json',
+          center: [109.033196,19.139681],
+          zoom: 10,
+        })
+        // this.three3D()
+        // this.map = map
+      },
+      addAllLineFn(name, source, color) {
+        // 添加数据源
+        map.addSource(name, {
+          'type': 'geojson',
+          'lineMetrics': true,    // 线渐变必须条件
+          'data': source
+        });
+        // 添加一条线
+        map.addLayer({
+          'id': name,
+          'source': name,
+          'type': 'line',
+          'layout': {
+            'visibility': 'visible',
+            'line-join': 'round',
+            'line-cap': 'round'
+          },
+          'paint': {
+            'line-color': color,
+            'line-width': 6,
+          }
+        });
+      },
+    },
+  })
+</script>
+</html>
