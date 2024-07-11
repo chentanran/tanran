@@ -6,7 +6,7 @@ const message = {
   // 封装 open 函数
   open(params: MessageParams) {
     const dom = document.createElement('div');
-    const body = document.querySelector('body') as HTMLBaseElement;
+    const body = document.querySelector('body') as HTMLBodyElement;
 
     let duration: number | undefined = params.duration;
     if (duration === undefined) {
