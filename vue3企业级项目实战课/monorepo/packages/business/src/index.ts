@@ -1,3 +1,4 @@
 import Counter from './counter/index';
+import Drag from './drag';
 
-export { Counter };
+export { Counter, Drag };
