@@ -1,0 +1,12 @@
+{
+  "name": "monorepo",
+  "private": true,
+  "scripts": {
+    "dev": "pnpm -F portal dev",
+    "build": "pnpm -F portal build",
+    "preview": "pnpm -F portal preview"
+  },
+  "dependencies": {
+    "common": "workspace:^"
+  }
+}
