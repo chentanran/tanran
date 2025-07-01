@@ -90,14 +90,11 @@ export class UserService {
   }
 
   async login(loginUserDto: UserLoginDto) {
-    const user = await this.entityManager.findOne(User, {
-      where: {
-        username: loginUserDto.username,
-      },
-      relations: {
-        roles: true,
-      },
-    });
+    const user = await this.entityManager
+      .createQueryBuilder(User, 'user')
+      .leftJoinAndSelect('user.roles', 'role')
+      .where('user.username = :username', { username: loginUserDto.username })
+      .getOne();
 
     if (!user) {
       throw new HttpException('用户不存在', HttpStatus.ACCEPTED);
@@ -111,12 +108,11 @@ export class UserService {
   }
 
   async findRolesByIds(roleIds: number[]) {
-    return this.entityManager.find(Role, {
-      where: { id: In(roleIds) },
-      relations: {
-        permissions: true,
-      },
-    });
+    return this.entityManager
+      .createQueryBuilder(Role, 'role')
+      .leftJoinAndSelect('role.permissions', 'permission')
+      .where('role.id IN (:...ids)', { ids: roleIds })
+      .getMany();
   }
 
   create(createUserDto: CreateUserDto) {
